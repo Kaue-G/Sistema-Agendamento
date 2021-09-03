@@ -3,7 +3,7 @@ package br.pedro.demofc.dtos;
 import br.pedro.demofc.entities.Chair;
 
 public class ChairDTO {
-    private Integer id;
+    private Long id;
     private String local;
     private boolean isAvailable;
     private Integer office_id;
@@ -18,11 +18,11 @@ public class ChairDTO {
     public ChairDTO() {
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

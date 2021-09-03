@@ -2,6 +2,8 @@ package br.pedro.demofc.repositories;
 
 import br.pedro.demofc.entities.Disponibility;
 import br.pedro.demofc.entities.DisponibilityPK;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -17,4 +19,10 @@ public interface DisponibilityRepository extends JpaRepository<Disponibility, Di
 
     @Query("SELECT disp FROM Disponibility disp INNER JOIN disp.bookings books WHERE books.id = :id")
     List<Disponibility> findByBookingId(Integer id);
+
+    // Forma normal conjuntiva
+    @Query("SELECT disp FROM Disponibility disp WHERE disp.office.id = :id AND " +
+            "(:data IS NULL OR :data = disp.id.moment) AND " +
+            "(:bool IS NULL OR disp.isAvailable = :bool)")
+    Page<Disponibility> findAllByOffice(Pageable pageable, Integer id, LocalDate data, Boolean bool);
 }

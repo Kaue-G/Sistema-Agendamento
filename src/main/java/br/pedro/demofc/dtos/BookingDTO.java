@@ -6,7 +6,7 @@ import java.time.LocalDate;
 public class BookingDTO {
 
     private Integer id;
-    private Integer chair;
+    private Long chair;
     private LocalDate moment;
     private int begin;
     private int end;
@@ -24,7 +24,7 @@ public class BookingDTO {
         this.id = booking.getId();
     }
 
-    public BookingDTO(Integer id, Integer chair, LocalDate moment, int begin, int end, String employee_id) {
+    public BookingDTO(Integer id, Long chair, LocalDate moment, int begin, int end, String employee_id) {
         this.id = id;
         this.chair = chair;
         this.moment = moment;
@@ -41,11 +41,11 @@ public class BookingDTO {
         this.id = id;
     }
 
-    public Integer getChair() {
+    public Long getChair() {
         return chair;
     }
 
-    public void setChair(Integer chair) {
+    public void setChair(Long chair) {
         this.chair = chair;
     }
 

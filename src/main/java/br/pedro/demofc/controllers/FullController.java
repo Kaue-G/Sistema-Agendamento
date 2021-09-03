@@ -5,14 +5,19 @@ import br.pedro.demofc.dtos.ChairDTO;
 import br.pedro.demofc.dtos.DisponibilityDTO;
 import br.pedro.demofc.services.FullService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 @RestController
+@RequestMapping("/offices")
 public class FullController {
 
     private final FullService service;
@@ -22,14 +27,26 @@ public class FullController {
         this.service = service;
     }
 
-    @GetMapping(value = "/disps")
-    public ResponseEntity<List<DisponibilityDTO>> findAll(){
-        List<DisponibilityDTO> dtos = service.findDisponibilities();
+    @GetMapping(value = "/{id}/chairs")
+    public ResponseEntity<Page<ChairDTO>> findChairsPaged(Pageable pageable, @PathVariable Long id){
+        Page<ChairDTO> dtos = service.findChairsPaged(pageable,id);
+        return ResponseEntity.ok(dtos);
+    }
+
+    @GetMapping(value = "/{id}/disps")
+    public ResponseEntity<Page<DisponibilityDTO>> findAllDispsPaged (
+            Pageable pageable, @PathVariable Integer id,
+            @RequestParam(value = "date",defaultValue = "null") String date,
+            @RequestParam(value = "onlyTrue",defaultValue = "null") String onlyTrue) throws DateTimeParseException {
+
+        Boolean b = !onlyTrue.equals("null") ? true : null;
+        LocalDate d = !date.equals("null") ? LocalDate.parse(date) : null;
+        Page<DisponibilityDTO> dtos = service.findDisponibilities(pageable,id,d,b);
         return ResponseEntity.ok(dtos);
     }
 
     @GetMapping(value = "/chairs")
-    public ResponseEntity<List<ChairDTO>> findAllChairs(){
+    public ResponseEntity<List<ChairDTO>> findAllChairs() throws Exception{
         List<ChairDTO> dtos = service.findChairs();
         return  ResponseEntity.ok(dtos);
     }

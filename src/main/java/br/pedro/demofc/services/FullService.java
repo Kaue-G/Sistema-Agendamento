@@ -11,9 +11,12 @@ import br.pedro.demofc.repositories.ChairRepository;
 import br.pedro.demofc.repositories.DisponibilityRepository;
 import br.pedro.demofc.repositories.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,10 +38,16 @@ public class FullService {
     }
 
     @Transactional(readOnly = true)
-    public List<DisponibilityDTO> findDisponibilities(){
-        List<Disponibility> disponibilities = disponibilityRepository.findAll();
+    public Page<ChairDTO> findChairsPaged(Pageable pageable, Long id){
+        Page<Chair> chairs = chairRepository.findAll(pageable);
+        return chairs.map(ChairDTO::new);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<DisponibilityDTO> findDisponibilities(Pageable pageable, Integer id, LocalDate date, Boolean bool){
+        Page<Disponibility> disponibilities = disponibilityRepository.findAllByOffice(pageable,id,date,bool);
         disponibilities.forEach(Disponibility::tryAvailable);
-        return disponibilities.stream().map(DisponibilityDTO::new).collect(Collectors.toList());
+        return disponibilities.map(DisponibilityDTO::new);
     }
 
     @Transactional(readOnly = true)
@@ -84,4 +93,6 @@ public class FullService {
         d.forEach(x -> x.getBookings().remove(b));
         bookingRepository.deleteById(b.getId());
     }
+
+    //Post or update
 }

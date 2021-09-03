@@ -1,9 +1,15 @@
 package br.pedro.demofc.repositories;
 
 import br.pedro.demofc.entities.Chair;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ChairRepository extends JpaRepository<Chair, Integer> {
+public interface ChairRepository extends JpaRepository<Chair, Long> {
+
+    @Query("SELECT chair FROM Chair chair INNER JOIN chair.office office WHERE office.id = :id")
+    Page<Chair> findByOffice(Pageable pageable, Integer id);
 }
