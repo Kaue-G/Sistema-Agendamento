@@ -28,7 +28,7 @@ public class FullController {
     }
 
     @GetMapping(value = "/{id}/chairs")
-    public ResponseEntity<Page<ChairDTO>> findChairsPaged(Pageable pageable, @PathVariable Long id){
+    public ResponseEntity<Page<ChairDTO>> findChairsPaged(Pageable pageable, @PathVariable Integer id){
         Page<ChairDTO> dtos = service.findChairsPaged(pageable,id);
         return ResponseEntity.ok(dtos);
     }
@@ -45,15 +45,9 @@ public class FullController {
         return ResponseEntity.ok(dtos);
     }
 
-    @GetMapping(value = "/chairs")
-    public ResponseEntity<List<ChairDTO>> findAllChairs() throws Exception{
-        List<ChairDTO> dtos = service.findChairs();
-        return  ResponseEntity.ok(dtos);
-    }
-
-    @PostMapping(value = "/bookings")
-    public ResponseEntity<BookingDTO> insert(@RequestBody BookingDTO body){
-        body = service.insert(body);
+    @PostMapping(value = "/{id}/bookings")
+    public ResponseEntity<BookingDTO> insert(@RequestBody BookingDTO body, @PathVariable Integer id){
+        body = service.insertSingleBooking(body,id);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(body.getId()).toUri();
         return ResponseEntity.created(uri).body(body);
     }

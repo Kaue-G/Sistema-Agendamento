@@ -6,7 +6,7 @@ INSERT INTO Disponibility(moment_pk, begin_pk, office_id, is_available) VALUES (
 
 INSERT INTO Booking(chair_id, moment, begin, end, employee_id) VALUES (1,'2021-07-21', 8, 10, '123'), (1,'2021-07-21', 8, 12, '456'), (1,'2021-07-21', 11, 13, '786'); --(1,'2021-07-21', 11, 13, '123');
 
-INSERT INTO Disponibility(moment_pk, begin_pk, office_id, is_available) VALUES ('2020-07-22',8,2,true)
+INSERT INTO Disponibility(moment_pk, begin_pk, office_id, is_available) VALUES ('2020-07-21',16,2,true)
 INSERT INTO Disponibility(moment_pk, begin_pk, office_id, is_available) VALUES ('2020-07-22',9,1,false)
 INSERT INTO Disponibility(moment_pk, begin_pk, office_id, is_available) VALUES ('2020-07-22',10,1,false)
 

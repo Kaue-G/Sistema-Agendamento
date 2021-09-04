@@ -3,6 +3,7 @@ package br.pedro.demofc.services;
 import br.pedro.demofc.dtos.BookingDTO;
 import br.pedro.demofc.dtos.ChairDTO;
 import br.pedro.demofc.dtos.DisponibilityDTO;
+import br.pedro.demofc.dtos.Type;
 import br.pedro.demofc.entities.Booking;
 import br.pedro.demofc.entities.Chair;
 import br.pedro.demofc.entities.Disponibility;
@@ -18,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class FullService {
@@ -38,8 +38,8 @@ public class FullService {
     }
 
     @Transactional(readOnly = true)
-    public Page<ChairDTO> findChairsPaged(Pageable pageable, Long id){
-        Page<Chair> chairs = chairRepository.findAll(pageable);
+    public Page<ChairDTO> findChairsPaged(Pageable pageable, Integer id){
+        Page<Chair> chairs = chairRepository.findByOffice(pageable,id);
         return chairs.map(ChairDTO::new);
     }
 
@@ -50,40 +50,58 @@ public class FullService {
         return disponibilities.map(DisponibilityDTO::new);
     }
 
-    @Transactional(readOnly = true)
-    public List<ChairDTO> findChairs(){
-        List<Chair> chairs = chairRepository.findAll();
-        return chairs.stream().map(ChairDTO::new).collect(Collectors.toList());
+    @Transactional
+    public BookingDTO insertSingleBooking(BookingDTO dto, Integer id){
+        Booking booking = new Booking();
+
+        if(dto.getType() == Type.DAY){
+            booking.setBegin(8);
+            booking.setEnd(18);
+        } else {
+            booking.setBegin(dto.getBegin());
+            booking.setEnd(dto.getEnd());
+        }
+
+        List<Disponibility> disponibilities = disponibilityRepository.findByEndAndBegin(dto.getMoment(),booking.getBegin(),booking.getEnd(),id);
+        if(disponibilities.isEmpty()){
+            throw new ServiceViolationException("This data is not in system: " + dto.getMoment());
+        }
+
+        dtoToEntity(dto,booking);
+        Booking persisted = bookingRepository.save(booking);
+        chairRepository.getById(dto.getChair()).setAvailable(false);
+
+        disponibilities.forEach(disp -> disp.getBookings().add(persisted));
+
+        return new BookingDTO(booking,dto.getMoment(),dto.getType(),dto.getChair());
     }
 
     private void dtoToEntity (BookingDTO dto, Booking booking){
-        booking.setMoment(dto.getMoment()); // Campo inútil
-        booking.setBegin(dto.getBegin());
-        booking.setEnd(dto.getEnd());
+        booking.setMoment(dto.getMoment());
         booking.setEmployee(employeeRepository.getById(dto.getEmployee_id()));
         booking.setChair(chairRepository.getById(dto.getChair()));
     }
 
-    @Transactional
-    public BookingDTO insert(BookingDTO dto) {
-        Booking booking = new Booking();
-        dtoToEntity(dto,booking);
-
-        booking = bookingRepository.save(booking);
-
-        Chair c = chairRepository.getById(dto.getChair());
-        c.setAvailable(false);
-
-        List<Disponibility> disponibilities = disponibilityRepository.findByEndAndBegin(booking.getMoment(), booking.getBegin(), booking.getEnd());
-
-        Booking finalBooking = booking;
-
-        disponibilities.forEach(disp -> {
-            disp.getBookings().add(finalBooking);
-        });
-
-        return new BookingDTO(booking);
-    }
+//    @Transactional
+//    public BookingDTO insert(BookingDTO dto) {
+//        Booking booking = new Booking();
+//        dtoToEntity(dto,booking);
+//
+//        booking = bookingRepository.save(booking);
+//
+//        Chair c = chairRepository.getById(dto.getChair());
+//        c.setAvailable(false);
+//
+//        List<Disponibility> disponibilities = disponibilityRepository.findByEndAndBegin(booking.getMoment(), booking.getBegin(), booking.getEnd());
+//
+//        Booking finalBooking = booking;
+//
+//        disponibilities.forEach(disp -> {
+//            disp.getBookings().add(finalBooking);
+//        });
+//
+//        return new BookingDTO(booking);
+//    }
 
     @Transactional
     public void delete(Integer id){

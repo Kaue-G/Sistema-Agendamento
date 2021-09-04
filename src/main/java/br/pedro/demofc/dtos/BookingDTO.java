@@ -1,16 +1,23 @@
 package br.pedro.demofc.dtos;
 
 import br.pedro.demofc.entities.Booking;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 import java.time.LocalDate;
 
+@JsonInclude(Include.NON_NULL)
 public class BookingDTO {
 
     private Integer id;
+    private Type type;
     private Long chair;
     private LocalDate moment;
-    private int begin;
-    private int end;
     private String employee_id;
+
+    private Integer begin;
+    private Integer end;
 
     public BookingDTO() {
     }
@@ -24,13 +31,16 @@ public class BookingDTO {
         this.id = booking.getId();
     }
 
-    public BookingDTO(Integer id, Long chair, LocalDate moment, int begin, int end, String employee_id) {
-        this.id = id;
-        this.chair = chair;
-        this.moment = moment;
-        this.begin = begin;
-        this.end = end;
-        this.employee_id = employee_id;
+    public BookingDTO(Booking booking, LocalDate date, Type type, Long chair_id){
+        this.id = booking.getId();
+        this.employee_id = booking.getEmployee().getCpf();
+        this.type = type;
+        this.moment = date;
+        this.chair = chair_id;
+        if(type == Type.HOUR){
+            this.begin = booking.getBegin();
+            this.end = booking.getEnd();
+        }
     }
 
     public Integer getId() {
@@ -39,6 +49,14 @@ public class BookingDTO {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
     }
 
     public Long getChair() {
@@ -57,27 +75,27 @@ public class BookingDTO {
         this.moment = moment;
     }
 
-    public int getBegin() {
-        return begin;
-    }
-
-    public void setBegin(int begin) {
-        this.begin = begin;
-    }
-
-    public int getEnd() {
-        return end;
-    }
-
-    public void setEnd(int end) {
-        this.end = end;
-    }
-
     public String getEmployee_id() {
         return employee_id;
     }
 
     public void setEmployee_id(String employee_id) {
         this.employee_id = employee_id;
+    }
+
+    public Integer getBegin() {
+        return begin;
+    }
+
+    public void setBegin(Integer begin) {
+        this.begin = begin;
+    }
+
+    public Integer getEnd() {
+        return end;
+    }
+
+    public void setEnd(Integer end) {
+        this.end = end;
     }
 }
