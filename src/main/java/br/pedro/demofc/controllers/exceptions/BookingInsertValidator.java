@@ -2,8 +2,12 @@ package br.pedro.demofc.controllers.exceptions;
 
 import br.pedro.demofc.dtos.BookingDTO;
 import br.pedro.demofc.dtos.Type;
+import br.pedro.demofc.entities.Booking;
 import br.pedro.demofc.entities.Disponibility;
+import br.pedro.demofc.entities.Employee;
+import br.pedro.demofc.repositories.BookingRepository;
 import br.pedro.demofc.repositories.DisponibilityRepository;
+import br.pedro.demofc.repositories.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.HandlerMapping;
@@ -14,6 +18,7 @@ import javax.validation.ConstraintValidatorContext;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class BookingInsertValidator implements ConstraintValidator<BookingValid, BookingDTO> {
@@ -23,6 +28,12 @@ public class BookingInsertValidator implements ConstraintValidator<BookingValid,
 
     @Autowired
     private DisponibilityRepository repository;
+
+    @Autowired
+    private EmployeeRepository eRepository;
+
+    @Autowired
+    private BookingRepository bRepository;
 
     private List<Disponibility> findUnavailable(BookingDTO dto, Integer id){
 
@@ -50,6 +61,17 @@ public class BookingInsertValidator implements ConstraintValidator<BookingValid,
 //        }
 
         List<FieldMessage> errors = new ArrayList<>();
+
+        Optional<Employee> e = eRepository.findById(dto.getEmployee_id());
+
+        if(e.isEmpty()){
+            errors.add(new FieldMessage("employee_id","This user does not exist"));
+        } else {
+            Booking b = bRepository.findByEmployeeAndMoment(e.get(),dto.getMoment());
+            if(b != null){
+                errors.add(new FieldMessage("moment","You already made a reservation on: " + dto.getMoment() + ", USER: " + dto.getEmployee_id()));
+            }
+        }
 
         if(dto.getType() != Type.DAY && dto.getBegin() < 8){
             errors.add(new FieldMessage("begin","Begin must be greater than 8"));

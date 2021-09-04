@@ -68,18 +68,18 @@ public class FullService {
             throw new ServiceViolationException("[404] This data is not in system: " + dto.getMoment());
         }
 
-        try {
+
             dtoToEntity(dto,booking);
             Booking persisted = bookingRepository.save(booking);
             chairRepository.getById(dto.getChair()).setAvailable(false);
 
-            disponibilities.forEach(disp -> disp.getBookings().add(persisted));
+            disponibilities.forEach(disp -> {
+                disp.getBookings().add(persisted);
+                disp.tryAvailable();
+            });
 
             return new BookingDTO(booking,dto.getMoment(),dto.getType(),dto.getChair());
-
-        } catch (RuntimeException e) {
-            throw new ServiceViolationException("[400] You already made a reservation on: " + dto.getMoment() + ", ID: " + dto.getEmployee_id());
-        } // Tratar isso durante ciclo de validação
+            // Tratar isso durante ciclo de validação
     }
 
     private void dtoToEntity (BookingDTO dto, Booking booking){

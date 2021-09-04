@@ -1,7 +1,11 @@
 package br.pedro.demofc.controllers.exceptions;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 import java.time.LocalDate;
 
+@JsonInclude(Include.NON_NULL)
 public class StandardError {
     private LocalDate date;
     private Integer status;
