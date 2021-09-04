@@ -3,13 +3,15 @@ package br.pedro.demofc.entities;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Chair")
+@Table(name = "chair")
 public class Chair {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String local;
+
+    @Column(name = "is_available")
     private boolean isAvailable;
 
     @ManyToOne

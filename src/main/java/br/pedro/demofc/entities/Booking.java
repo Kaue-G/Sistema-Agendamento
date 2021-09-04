@@ -21,6 +21,7 @@ public class Booking {
 
     private int begin;
 
+    @Column(name = "end_time")
     private int end;
 
     @ManyToOne

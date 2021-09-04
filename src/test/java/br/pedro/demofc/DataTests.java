@@ -1,11 +1,10 @@
 package br.pedro.demofc;
 
-import br.pedro.demofc.dtos.BookingDTO;
-import br.pedro.demofc.dtos.Type;
 import br.pedro.demofc.entities.Chair;
 import br.pedro.demofc.entities.Disponibility;
 import br.pedro.demofc.repositories.ChairRepository;
 import br.pedro.demofc.repositories.DisponibilityRepository;
+import br.pedro.demofc.repositories.EmployeeRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,6 +24,9 @@ public class DataTests {
 
     @Autowired
     private DisponibilityRepository dRepository;
+
+    @Autowired
+    private EmployeeRepository eRepository;
 
     private int validOffice;
     private int invalidOffice;
@@ -59,7 +61,7 @@ public class DataTests {
     @Test
     void findDisponibilitiesByOfficeShouldReturnPagedWhenOfficeIdExists(){
         PageRequest request = PageRequest.of(0,10, Sort.by("id.moment"));
-        Page<Disponibility> disponibilities = dRepository.findAllByOffice(request,validOffice,null,null);
+        Page<Disponibility> disponibilities = dRepository.findAllByOffice(request,null,validOffice,null);
 
         disponibilities.forEach(disp -> System.out.println(disp.getId().getMoment()));
 
@@ -70,7 +72,7 @@ public class DataTests {
     @Test
     void findDisponibilitiesByOfficeShouldReturnEmptyWhenOfficeNonExistent(){
         PageRequest request = PageRequest.of(0,5, Sort.by("id.moment"));
-        Page<Disponibility> disponibilities = dRepository.findAllByOffice(request,invalidOffice,null,null);
+        Page<Disponibility> disponibilities = dRepository.findAllByOffice(request,null,invalidOffice,null);
 
         Assertions.assertTrue(disponibilities.isEmpty());
     }
@@ -78,7 +80,7 @@ public class DataTests {
     @Test
     void findDisponibilitiesByOfficeShouldFilterByDate(){
         PageRequest request = PageRequest.of(0,5, Sort.by("id.moment"));
-        Page<Disponibility> disponibilities = dRepository.findAllByOffice(request,invalidOffice,validDate,null);
+        Page<Disponibility> disponibilities = dRepository.findAllByOffice(request, validDate, invalidOffice,null);
 
         disponibilities.forEach(disp -> Assertions.assertEquals(disp.getId().getMoment(),validDate));
     }
@@ -86,7 +88,7 @@ public class DataTests {
     @Test
     void findDisponibilitiesByOfficeShouldFilterByAvailable(){
         PageRequest request = PageRequest.of(0,5, Sort.by("id.moment"));
-        Page<Disponibility> disponibilities = dRepository.findAllByOffice(request,invalidOffice,null,true);
+        Page<Disponibility> disponibilities = dRepository.findAllByOffice(request,null,validOffice,true);
 
         disponibilities.forEach(disp -> Assertions.assertTrue(disp.isAvailable()));
     }

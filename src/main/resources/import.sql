@@ -116,8 +116,7 @@ INSERT INTO Disponibility(moment_pk, begin_pk, office_pk, is_available) VALUES (
 INSERT INTO Disponibility(moment_pk, begin_pk, office_pk, is_available) VALUES ('2021-09-08',18,2,true);
 
 -- Booking - Terça feira
-INSERT INTO Booking(chair_id, moment, begin, end, employee_id) VALUES (3,'2021-09-07', 8, 12, '123');
-
+INSERT INTO Booking(chair_id, moment, begin, end_time, employee_id) VALUES (3,'2021-09-07', 8, 12, '123');
 
 -- Disp X Booking
 INSERT INTO TB_DISP_BOOKING(begin_id, moment_id, office_id, booking_id) VALUES (8,'2021-09-07',1,1);

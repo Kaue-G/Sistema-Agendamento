@@ -3,7 +3,6 @@ package br.pedro.demofc.entities;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -11,7 +10,7 @@ import java.util.Objects;
 @Embeddable
 public class DisponibilityPK implements Serializable {
 
-    @Column(name = "moment_pk",columnDefinition = "DATETIME")
+    @Column(name = "moment_pk")
     private LocalDate moment;
 
     @Column(name = "begin_pk")

@@ -17,6 +17,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
+import java.time.ZoneId;
+import java.util.Date;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -39,13 +42,14 @@ public class FullService {
 
     @Transactional(readOnly = true)
     public Page<ChairDTO> findChairsPaged(Pageable pageable, Integer id){
+        System.out.println(id);
         Page<Chair> chairs = chairRepository.findByOffice(pageable,id);
         return chairs.map(ChairDTO::new);
     }
 
     @Transactional(readOnly = true)
     public Page<DisponibilityDTO> findDisponibilities(Pageable pageable, Integer id, LocalDate date, Boolean bool){
-        Page<Disponibility> disponibilities = disponibilityRepository.findAllByOffice(pageable,id,date,bool);
+        Page<Disponibility> disponibilities = disponibilityRepository.findAllByOffice(pageable,date,id,bool);
         disponibilities.forEach(Disponibility::tryAvailable);
         return disponibilities.map(DisponibilityDTO::new);
     }

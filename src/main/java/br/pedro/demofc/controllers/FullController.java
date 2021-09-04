@@ -15,7 +15,6 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
-import java.util.List;
 
 @RestController
 @RequestMapping("/offices")
@@ -42,7 +41,7 @@ public class FullController {
 
         Boolean b = !onlyTrue.equals("null") ? true : null;
         LocalDate d = !date.equals("null") ? LocalDate.parse(date) : null;
-        Page<DisponibilityDTO> dtos = service.findDisponibilities(pageable,id,d,b);
+        Page<DisponibilityDTO> dtos = service.findDisponibilities(pageable,id, d,b);
         return ResponseEntity.ok(dtos);
     }
 
