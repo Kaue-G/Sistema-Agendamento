@@ -2,6 +2,8 @@ package br.pedro.demofc.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -14,6 +16,9 @@ public class DisponibilityPK implements Serializable {
 
     @Column(name = "begin_pk")
     private Integer beginHour;
+
+    @JoinColumn(name = "office_pk")
+    private Integer office_id;
 
     public DisponibilityPK() {
     }
@@ -37,6 +42,14 @@ public class DisponibilityPK implements Serializable {
 
     public void setBeginHour(Integer beginHour) {
         this.beginHour = beginHour;
+    }
+
+    public Integer getOffice_id() {
+        return office_id;
+    }
+
+    public void setOffice_id(Integer office_id) {
+        this.office_id = office_id;
     }
 
     @Override

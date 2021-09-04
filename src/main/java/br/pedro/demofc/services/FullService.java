@@ -69,17 +69,16 @@ public class FullService {
         }
 
 
-            dtoToEntity(dto,booking);
-            Booking persisted = bookingRepository.save(booking);
-            chairRepository.getById(dto.getChair()).setAvailable(false);
+        dtoToEntity(dto,booking);
+        Booking persisted = bookingRepository.save(booking);
+        chairRepository.getById(dto.getChair()).setAvailable(false);
 
-            disponibilities.forEach(disp -> {
-                disp.getBookings().add(persisted);
-                disp.tryAvailable();
-            });
+        disponibilities.forEach(disp -> {
+            disp.getBookings().add(persisted);
+            disp.tryAvailable();
+        });
 
-            return new BookingDTO(booking,dto.getMoment(),dto.getType(),dto.getChair());
-            // Tratar isso durante ciclo de validação
+        return new BookingDTO(booking,dto.getMoment(),dto.getType(),dto.getChair());
     }
 
     private void dtoToEntity (BookingDTO dto, Booking booking){

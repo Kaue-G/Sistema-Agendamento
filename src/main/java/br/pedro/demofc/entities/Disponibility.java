@@ -11,15 +11,20 @@ public class Disponibility {
     @EmbeddedId
     private DisponibilityPK id;
 
+//    @ManyToOne
+//    @JoinColumn(name = "office_id")
+//    private Office office;
+
     @ManyToOne
-    @JoinColumn(name = "office_id")
+    @MapsId ("office_id")
+    @JoinColumn (name = "office_pk")
     private Office office;
 
     private boolean isAvailable;
 
     @ManyToMany
     @JoinTable(name = "tb_disp_booking",
-            joinColumns = {@JoinColumn (name = "begin_id"), @JoinColumn (name = "moment_id")},
+            joinColumns = {@JoinColumn (name = "begin_id"), @JoinColumn (name = "moment_id"), @JoinColumn (name = "office_id")},
             inverseJoinColumns = @JoinColumn(name = "booking_id"))
     private final Set<Booking> bookings = new HashSet<>();
 
@@ -30,7 +35,7 @@ public class Disponibility {
     }
 
     public void tryAvailable(){
-        this.isAvailable = bookings.size() < office.getLimit();
+        this.isAvailable = bookings.size() < this.getOffice().getLimit();
     }
 
     public DisponibilityPK getId() {
