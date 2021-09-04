@@ -25,6 +25,15 @@ public class BookingDTO {
     public BookingDTO() {
     }
 
+    public BookingDTO(Type type, Long chair, LocalDate moment, String employee_id, Integer begin, Integer end) {
+        this.type = type;
+        this.chair = chair;
+        this.moment = moment;
+        this.employee_id = employee_id;
+        this.begin = begin;
+        this.end = end;
+    }
+
     public BookingDTO(Booking booking, LocalDate date, Type type, Long chair_id){
         this.id = booking.getId();
         this.employee_id = booking.getEmployee().getCpf();

@@ -3,9 +3,11 @@ package br.pedro.demofc.controllers.exceptions;
 import br.pedro.demofc.dtos.BookingDTO;
 import br.pedro.demofc.dtos.Type;
 import br.pedro.demofc.entities.Booking;
+import br.pedro.demofc.entities.Chair;
 import br.pedro.demofc.entities.Disponibility;
 import br.pedro.demofc.entities.Employee;
 import br.pedro.demofc.repositories.BookingRepository;
+import br.pedro.demofc.repositories.ChairRepository;
 import br.pedro.demofc.repositories.DisponibilityRepository;
 import br.pedro.demofc.repositories.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +36,9 @@ public class BookingInsertValidator implements ConstraintValidator<BookingValid,
 
     @Autowired
     private BookingRepository bRepository;
+
+    @Autowired
+    private ChairRepository cRepository;
 
     private List<Disponibility> findUnavailable(BookingDTO dto, Integer id){
 
@@ -79,6 +84,11 @@ public class BookingInsertValidator implements ConstraintValidator<BookingValid,
 
         if(dto.getType() != Type.DAY && dto.getEnd() <= dto.getBegin()){
             errors.add(new FieldMessage("end","End time must be greater than begin time"));
+        }
+
+        Optional<Chair> c = cRepository.findById(dto.getChair());
+        if(c.isPresent() && !c.get().isAvailable()){
+            errors.add(new FieldMessage("chair","This chair is already taken. Pick another"));
         }
 
         List<Disponibility> notAvailable = findUnavailable(dto,id);
