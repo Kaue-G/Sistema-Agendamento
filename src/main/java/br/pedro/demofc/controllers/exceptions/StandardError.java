@@ -1,4 +1,4 @@
-package br.pedro.demofc.controllers;
+package br.pedro.demofc.controllers.exceptions;
 
 import java.time.LocalDate;
 
@@ -51,4 +51,6 @@ public class StandardError {
     public void setPath(String path) {
         this.path = path;
     }
+
+    public void addError(String fieldName, String message){}
 }

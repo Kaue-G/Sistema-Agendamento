@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
@@ -46,7 +47,7 @@ public class FullController {
     }
 
     @PostMapping(value = "/{id}/bookings")
-    public ResponseEntity<BookingDTO> insert(@RequestBody BookingDTO body, @PathVariable Integer id){
+    public ResponseEntity<BookingDTO> insert(@Valid @RequestBody BookingDTO body, @PathVariable Integer id){
         body = service.insertSingleBooking(body,id);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(body.getId()).toUri();
         return ResponseEntity.created(uri).body(body);

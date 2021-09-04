@@ -17,7 +17,7 @@ public class Disponibility {
 
     private boolean isAvailable;
 
-    @ManyToMany()
+    @ManyToMany
     @JoinTable(name = "tb_disp_booking",
             joinColumns = {@JoinColumn (name = "begin_id"), @JoinColumn (name = "moment_id")},
             inverseJoinColumns = @JoinColumn(name = "booking_id"))
@@ -50,6 +50,7 @@ public class Disponibility {
     }
 
     public boolean isAvailable() {
+        tryAvailable();
         return isAvailable;
     }
 

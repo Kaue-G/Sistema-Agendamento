@@ -1,34 +1,28 @@
 package br.pedro.demofc.dtos;
 
+import br.pedro.demofc.controllers.exceptions.BookingValid;
 import br.pedro.demofc.entities.Booking;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
 
 @JsonInclude(Include.NON_NULL)
+@BookingValid
 public class BookingDTO {
 
     private Integer id;
     private Type type;
     private Long chair;
-    private LocalDate moment;
-    private String employee_id;
 
+    private LocalDate moment;
+
+    private String employee_id;
     private Integer begin;
     private Integer end;
 
     public BookingDTO() {
-    }
-
-    public BookingDTO(Booking booking) {
-        this.begin = booking.getBegin();
-        this.end = booking.getEnd();
-        this.moment = booking.getMoment();
-        this.chair = booking.getChair().getId();
-        this.employee_id = booking.getEmployee().getCpf();
-        this.id = booking.getId();
     }
 
     public BookingDTO(Booking booking, LocalDate date, Type type, Long chair_id){
