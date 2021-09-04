@@ -62,18 +62,24 @@ public class FullService {
             booking.setEnd(dto.getEnd());
         }
 
+
         List<Disponibility> disponibilities = disponibilityRepository.findByEndAndBegin(dto.getMoment(),booking.getBegin(),booking.getEnd(),id);
         if(disponibilities.isEmpty()){
-            throw new ServiceViolationException("This data is not in system: " + dto.getMoment());
+            throw new ServiceViolationException("[404] This data is not in system: " + dto.getMoment());
         }
 
-        dtoToEntity(dto,booking);
-        Booking persisted = bookingRepository.save(booking);
-        chairRepository.getById(dto.getChair()).setAvailable(false);
+        try {
+            dtoToEntity(dto,booking);
+            Booking persisted = bookingRepository.save(booking);
+            chairRepository.getById(dto.getChair()).setAvailable(false);
 
-        disponibilities.forEach(disp -> disp.getBookings().add(persisted));
+            disponibilities.forEach(disp -> disp.getBookings().add(persisted));
 
-        return new BookingDTO(booking,dto.getMoment(),dto.getType(),dto.getChair());
+            return new BookingDTO(booking,dto.getMoment(),dto.getType(),dto.getChair());
+
+        } catch (RuntimeException e) {
+            throw new ServiceViolationException("[400] You already made a reservation on: " + dto.getMoment() + ", ID: " + dto.getEmployee_id());
+        } // Tratar isso durante ciclo de validação
     }
 
     private void dtoToEntity (BookingDTO dto, Booking booking){
@@ -82,35 +88,12 @@ public class FullService {
         booking.setChair(chairRepository.getById(dto.getChair()));
     }
 
-//    @Transactional
-//    public BookingDTO insert(BookingDTO dto) {
-//        Booking booking = new Booking();
-//        dtoToEntity(dto,booking);
-//
-//        booking = bookingRepository.save(booking);
-//
-//        Chair c = chairRepository.getById(dto.getChair());
-//        c.setAvailable(false);
-//
-//        List<Disponibility> disponibilities = disponibilityRepository.findByEndAndBegin(booking.getMoment(), booking.getBegin(), booking.getEnd());
-//
-//        Booking finalBooking = booking;
-//
-//        disponibilities.forEach(disp -> {
-//            disp.getBookings().add(finalBooking);
-//        });
-//
-//        return new BookingDTO(booking);
-//    }
-
     @Transactional
     public void delete(Integer id){
-        Booking b = bookingRepository.findById(id).orElseThrow(() -> new RuntimeException("Not Found!"));
-        b.getChair().setAvailable(true);
-        List<Disponibility> d = disponibilityRepository.findByBookingId(id);
-        d.forEach(x -> x.getBookings().remove(b));
-        bookingRepository.deleteById(b.getId());
+        Booking booking = bookingRepository.findById(id).orElseThrow(() -> new ServiceViolationException("[404] Entity not Found"));
+        booking.getChair().setAvailable(true);
+        List<Disponibility> disp = disponibilityRepository.findByBookingId(id);
+        disp.forEach(x -> x.getBookings().remove(booking));
+        bookingRepository.delete(booking);
     }
-
-    //Post or update
 }
