@@ -4,8 +4,8 @@ import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "booking", uniqueConstraints = {
-        @UniqueConstraint(name = "uniqueMomentAndEmployee", columnNames = {"moment","employee_id"})
+@Table(name = "Booking", uniqueConstraints = {
+        @UniqueConstraint(name = "uniqueMomentAndEmployee", columnNames = {"MOMENT","EMPLOYEE_ID"})
 })
 public class Booking {
 
@@ -14,17 +14,19 @@ public class Booking {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "chair_id")
+    @JoinColumn(name = "CHAIR_ID")
     private Chair chair;
 
     private LocalDate moment;
+
+    @Column(name = "BEGIN_TIME")
     private int begin;
 
-    @Column(name = "end_time")
+    @Column(name = "END_TIME")
     private int end;
 
     @ManyToOne
-    @JoinColumn(name = "employee_id")
+    @JoinColumn(name = "EMPLOYEE_ID")
     private Employee employee;
 
     public Booking() {

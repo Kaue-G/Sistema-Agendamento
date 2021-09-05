@@ -1,7 +1,5 @@
 package br.pedro.demofc.entities;
 
-import org.springframework.beans.factory.annotation.Value;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,14 +13,13 @@ public class Office {
     private Integer id;
 
     private String name;
-
     private int capacity;
 
     @OneToMany(mappedBy = "office")
-    private final List<Chair> chairs = new ArrayList<>();
+    private final List<Disponibility> disponibilities = new ArrayList<>();
 
     @OneToMany(mappedBy = "office")
-    private final List<Disponibility> disponibilities = new ArrayList<>();
+    private final List<Chair> chairs = new ArrayList<>();
 
     public Office() {
     }

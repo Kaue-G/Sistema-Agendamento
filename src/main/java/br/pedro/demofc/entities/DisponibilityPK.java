@@ -10,13 +10,13 @@ import java.util.Objects;
 @Embeddable
 public class DisponibilityPK implements Serializable {
 
-    @Column(name = "moment_pk")
+    @Column(name = "MOMENT_PK")
     private LocalDate moment;
 
-    @Column(name = "begin_pk")
+    @Column(name = "BEGIN_PK")
     private Integer beginHour;
 
-    @JoinColumn(name = "office_pk")
+    @JoinColumn(name = "OFFICE_PK")
     private Integer office_id;
 
     public DisponibilityPK() {

@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 public class BookingInsertValidator implements ConstraintValidator<BookingValid, BookingDTO> {
@@ -46,15 +47,15 @@ public class BookingInsertValidator implements ConstraintValidator<BookingValid,
 
     private List<Disponibility> findUnavailable(BookingDTO dto, Integer id){
 
-        List<Disponibility> notAvailable;
+        List<Disponibility> disponibilities;
         if(dto.getType() != Type.DAY)
-            notAvailable = repository.findByEndAndBegin(dto.getMoment(),dto.getBegin(),dto.getEnd(),id);
+            disponibilities = repository.findByEndAndBegin(dto.getMoment(),dto.getBegin(),dto.getEnd(),id);
          else
-            notAvailable = repository.findByEndAndBegin(dto.getMoment(),constraints.getBEGIN(),constraints.getEND(),id);
+            disponibilities = repository.findByEndAndBegin(dto.getMoment(),constraints.getBEGIN(),constraints.getEND(),id);
 
-        notAvailable = notAvailable.stream().filter(disp -> !disp.isAvailable()).collect(Collectors.toList());
+        //notAvailable = notAvailable.stream().filter(disp -> !disp.isAvailable()).collect(Collectors.toList());
 
-        return notAvailable;
+        return disponibilities;
     }
 
     @Override
@@ -90,12 +91,27 @@ public class BookingInsertValidator implements ConstraintValidator<BookingValid,
             errors.add(new FieldMessage("end","End time must be greater than begin time"));
         }
 
-        Chair c = cRepository.findByIdAndOffice(dto.getChair(),id);
-        if(c != null && !c.isAvailable()){
-            errors.add(new FieldMessage("chair","This chair is already taken. Pick another"));
+        // Buscar a data, o begin, end, id da cadeira
+
+        List<Disponibility> disponibilities = findUnavailable(dto,id);
+
+        Chair c =  cRepository.findByIdAndOffice(dto.getChair(),id);
+        if(c == null){
+            errors.add(new FieldMessage("chair", "This chair does not count on database"));
+        } else {
+            boolean isOccupied = disponibilities.stream().anyMatch(disp -> disp.getChairs().contains(c));
+            if(isOccupied){
+                errors.add(new FieldMessage("chair","This chair is already taken for another person"));
+            }
         }
 
-        List<Disponibility> notAvailable = findUnavailable(dto,id);
+//        Chair c = cRepository.findByIdAndOffice(dto.getChair(),id);
+//        if(c != null && !c.isAvailable()){
+//            errors.add(new FieldMessage("chair","This chair is already taken. Pick another"));
+//        }
+
+        List<Disponibility> notAvailable = findUnavailable(dto,id).stream().filter(disp -> !disp.isAvailable()).collect(Collectors.toList());;
+
         if(!notAvailable.isEmpty()){
             errors.add(new FieldMessage("begin","There is to many people between " +
                     notAvailable.get(0).getId().getBeginHour() + " hours and " +

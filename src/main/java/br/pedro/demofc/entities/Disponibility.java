@@ -13,16 +13,22 @@ public class Disponibility {
 
     @ManyToOne
     @MapsId ("office_id")
-    @JoinColumn (name = "office_pk")
+    @JoinColumn (name = "OFFICE_PK")
     private Office office;
 
     private boolean isAvailable;
 
     @ManyToMany
-    @JoinTable(name = "tb_disp_booking",
-            joinColumns = {@JoinColumn (name = "begin_id"), @JoinColumn (name = "moment_id"), @JoinColumn (name = "office_id")},
-            inverseJoinColumns = @JoinColumn(name = "booking_id"))
+    @JoinTable(name = "Disponibility_Booking",
+            joinColumns = {@JoinColumn (name = "BEGIN_ID"), @JoinColumn (name = "MOMENT_ID"), @JoinColumn (name = "OFFICE_ID")},
+            inverseJoinColumns = @JoinColumn(name = "BOOKING_ID"))
     private final Set<Booking> bookings = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(name = "Disponibility_Chair",
+            joinColumns = {@JoinColumn (name = "BEGIN_ID"), @JoinColumn (name = "MOMENT_ID"), @JoinColumn (name = "OFFICE_ID")},
+            inverseJoinColumns = @JoinColumn(name = "CHAIR_ID"))
+    private final Set<Chair> chairs = new HashSet<>();
 
 //    @ManyToMany(mappedBy = "disponibilities", cascade = CascadeType.ALL)
 //    private final Set<Booking> bookings = new HashSet<>();
@@ -32,6 +38,10 @@ public class Disponibility {
 
     public void tryAvailable(float percentage){
         this.isAvailable = bookings.size() < this.getOffice().getCapacity() * (percentage/100);
+    }
+
+    public Set<Chair> getChairs() {
+        return chairs;
     }
 
     public DisponibilityPK getId() {

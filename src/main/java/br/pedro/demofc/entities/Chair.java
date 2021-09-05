@@ -11,11 +11,8 @@ public class Chair {
     private Long id;
     private String local;
 
-    @Column(name = "is_available")
-    private boolean isAvailable;
-
     @ManyToOne
-    @JoinColumn(name = "office_id")
+    @JoinColumn(name = "OFFICE_ID")
     private Office office;
 
     public Chair() {
@@ -35,14 +32,6 @@ public class Chair {
 
     public void setLocal(String local) {
         this.local = local;
-    }
-
-    public boolean isAvailable() {
-        return isAvailable;
-    }
-
-    public void setAvailable(boolean available) {
-        isAvailable = available;
     }
 
     public Office getOffice() {

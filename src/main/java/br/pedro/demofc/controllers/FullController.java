@@ -30,8 +30,16 @@ public class FullController {
     }
 
     @GetMapping(value = "/{id}/chairs")
-    public ResponseEntity<Page<ChairDTO>> findChairsPaged(Pageable pageable, @PathVariable Integer id){
-        Page<ChairDTO> dtos = service.findChairsPaged(pageable,id);
+    public ResponseEntity<Page<ChairDTO>> findChairsPaged(
+            Pageable pageable,
+            @PathVariable Integer id,
+            @RequestParam(value = "date", defaultValue = "null") String date,
+            @RequestParam(value = "begin",defaultValue = "8") Integer begin,
+            @RequestParam(value = "end", defaultValue = "18") Integer end
+            ){
+
+        LocalDate d = !date.equals("null") ? LocalDate.parse(date) : null;
+        Page<ChairDTO> dtos = service.findChairsPaged(pageable,id,d,begin,end);
         return ResponseEntity.ok(dtos);
     }
 

@@ -3,15 +3,15 @@ INSERT INTO Office(name,capacity) VALUES ('MATRIZ - Rua Bela Cintra, 986 - 2º a
 INSERT INTO Office(name,capacity) VALUES ('FILIAL - Praça Dos Expedicionários, 192º andar, Gonzaga, Santos - SP',10);
 
 -- Cadeiras
-INSERT INTO Chair(local, is_available,office_id) VALUES ('Sala 3, piso 1',true,1);
-INSERT INTO Chair(local, is_available,office_id) VALUES ('Sala 2, piso 1',true,1);
-INSERT INTO Chair(local, is_available,office_id) VALUES ('Sala 7, piso 2',true,1);
-INSERT INTO Chair(local, is_available,office_id) VALUES ('Sala de reunião',true,1);
-INSERT INTO Chair(local, is_available,office_id) VALUES ('Área de alimentação',true,1);
-INSERT INTO Chair(local, is_available,office_id) VALUES ('Sala 31, piso 4',true,2);
-INSERT INTO Chair(local, is_available,office_id) VALUES ('Sala 5, piso 4',true,2);
-INSERT INTO Chair(local, is_available,office_id) VALUES ('Sala 14, piso 3',true,2);
-INSERT INTO Chair(local, is_available,office_id) VALUES ('Sala 2, piso 3',true,2);
+INSERT INTO Chair(local,office_id) VALUES ('Sala 3, piso 1',1);
+INSERT INTO Chair(local,office_id) VALUES ('Sala 2, piso 1',1);
+INSERT INTO Chair(local,office_id) VALUES ('Sala 7, piso 2',1);
+INSERT INTO Chair(local,office_id) VALUES ('Sala de reunião',1);
+INSERT INTO Chair(local,office_id) VALUES ('Área de alimentação',1);
+INSERT INTO Chair(local,office_id) VALUES ('Sala 31, piso 4',2);
+INSERT INTO Chair(local,office_id) VALUES ('Sala 5, piso 4',2);
+INSERT INTO Chair(local,office_id) VALUES ('Sala 14, piso 3',2);
+INSERT INTO Chair(local,office_id) VALUES ('Sala 2, piso 3',2);
 
 -- Funcionários
 
@@ -116,11 +116,11 @@ INSERT INTO Disponibility(moment_pk, begin_pk, office_pk, is_available) VALUES (
 INSERT INTO Disponibility(moment_pk, begin_pk, office_pk, is_available) VALUES ('2021-09-08',18,2,true);
 
 -- Booking - Terça feira
-INSERT INTO Booking(chair_id, moment, begin, end_time, employee_id) VALUES (3,'2021-09-07', 8, 12, '123');
-
--- Disp X Booking
-INSERT INTO TB_DISP_BOOKING(begin_id, moment_id, office_id, booking_id) VALUES (8,'2021-09-07',1,1);
-INSERT INTO TB_DISP_BOOKING(begin_id, moment_id, office_id, booking_id) VALUES (9,'2021-09-07',1,1);
-INSERT INTO TB_DISP_BOOKING(begin_id, moment_id, office_id, booking_id) VALUES (10,'2021-09-07',1,1);
-INSERT INTO TB_DISP_BOOKING(begin_id, moment_id, office_id, booking_id) VALUES (11,'2021-09-07',1,1);
-INSERT INTO TB_DISP_BOOKING(begin_id, moment_id, office_id, booking_id) VALUES (12,'2021-09-07',1,1);
+-- INSERT INTO Booking(chair_id, moment, begin, end_time, employee_id) VALUES (3,'2021-09-07', 8, 12, '123');
+--
+-- -- Disp X Booking
+-- INSERT INTO TB_DISP_BOOKING(begin_id, moment_id, office_id, booking_id) VALUES (8,'2021-09-07',1,1);
+-- INSERT INTO TB_DISP_BOOKING(begin_id, moment_id, office_id, booking_id) VALUES (9,'2021-09-07',1,1);
+-- INSERT INTO TB_DISP_BOOKING(begin_id, moment_id, office_id, booking_id) VALUES (10,'2021-09-07',1,1);
+-- INSERT INTO TB_DISP_BOOKING(begin_id, moment_id, office_id, booking_id) VALUES (11,'2021-09-07',1,1);
+-- INSERT INTO TB_DISP_BOOKING(begin_id, moment_id, office_id, booking_id) VALUES (12,'2021-09-07',1,1);

@@ -40,9 +40,43 @@ public class FullService {
     }
 
     @Transactional(readOnly = true)
-    public Page<ChairDTO> findChairsPaged(Pageable pageable, Integer id){
-        Page<Chair> chairs = chairRepository.findByOffice(pageable,id);
-        return chairs.map(ChairDTO::new);
+    public Page<ChairDTO> findChairsPaged(Pageable pageable, Integer id, LocalDate when, Integer begin, Integer end){
+        // Pegando todas as disponibilidades nessa data, começo e fim
+        List<Disponibility> disponibilities = disponibilityRepository.findByEndAndBegin(when,begin,end,id);
+        //disponibilities.forEach(d -> System.out.println("Office: " + d.getOffice().getId()));
+//        disponibilities.forEach(d -> {
+//            System.out.println(d.getId().getBeginHour() + ":  ");
+//            for(Chair c : d.getChairs()){
+//                System.out.println("[CADEIRA]" + c.getId());
+//            }
+//        });
+
+        // Disponibilidade das 8h
+        Disponibility d = disponibilities.get(0);
+
+        // DIsponibilidade das 18h
+        Disponibility f = disponibilities.get(disponibilities.size() - 1);
+
+
+        // Busca de todas as cadeiras
+        Page<Chair> allChairs = chairRepository.findByOffice(pageable, id);
+
+        //allChairs.forEach(c -> System.out.println(c.getOffice().getId() + "," + c.getId()));
+
+
+        return allChairs.map(chair -> {
+            // Para cada cadeira testar os horários em q contém ela
+            boolean isOccupied =  true;
+            for(Disponibility disp : disponibilities){
+                if(disp.getChairs().contains(chair)){
+                    isOccupied = false;
+                }
+            }
+            return new ChairDTO(chair, isOccupied);
+//            boolean occupied;
+//            occupied = !d.getChairs().contains(chair) || !f.getChairs().contains(chair);
+//            return new ChairDTO(chair, occupied);
+        });
     }
 
     @Transactional(readOnly = true)
@@ -70,21 +104,23 @@ public class FullService {
         }
 
         List<Disponibility> disponibilities = disponibilityRepository.findByEndAndBegin(dto.getMoment(),booking.getBegin(),booking.getEnd(),id);
+
         if(disponibilities.isEmpty()){
             throw new ServiceViolationException("[404] This data is not in system: " + dto.getMoment());
         }
 
         dtoToEntity(dto,booking);
+
         Chair c = chairRepository.findByIdAndOffice(dto.getChair(),id);
         if(c == null){
             throw new ServiceViolationException("[404] This chair does not count on data base or office area");
-        } else {
-            c.setAvailable(false);
         }
+
         Booking persisted = bookingRepository.save(booking);
 
         disponibilities.forEach(disp -> {
             disp.getBookings().add(persisted);
+            disp.getChairs().add(c);
             disp.tryAvailable(constraints.getPERCENTAGE());
         });
 
@@ -100,9 +136,16 @@ public class FullService {
     @Transactional
     public void delete(Integer id){
         Booking booking = bookingRepository.findById(id).orElseThrow(() -> new ServiceViolationException("[404] Entity not Found"));
-        booking.getChair().setAvailable(true);
         List<Disponibility> disp = disponibilityRepository.findByBookingId(id);
-        disp.forEach(x -> x.getBookings().remove(booking));
+        System.out.println(booking.getChair().getId());
+
+        Chair chair = booking.getChair();
+        disp.forEach(x -> {
+            x.getBookings().remove(booking);
+            x.getChairs().remove(chair);
+            //x.getChairs().forEach(ch -> System.out.println(ch.getId()));
+        });
+
         bookingRepository.delete(booking);
     }
 }

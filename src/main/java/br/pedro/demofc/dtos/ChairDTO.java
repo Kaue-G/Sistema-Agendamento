@@ -8,11 +8,11 @@ public class ChairDTO {
     private boolean isAvailable;
     private Integer office_id;
 
-    public ChairDTO(Chair chair){
+    public ChairDTO(Chair chair, boolean isAvailable){
         this.id = chair.getId();
         this.local = chair.getLocal();
         this.office_id = chair.getOffice().getId();
-        this.isAvailable = chair.isAvailable();
+        this.isAvailable = isAvailable;
     }
 
     public ChairDTO() {
