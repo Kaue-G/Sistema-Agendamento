@@ -1,5 +1,6 @@
 package br.pedro.demofc.controllers.exceptions;
 
+import br.pedro.demofc.config.Constraints;
 import br.pedro.demofc.dtos.BookingDTO;
 import br.pedro.demofc.dtos.Type;
 import br.pedro.demofc.entities.Booking;
@@ -40,13 +41,16 @@ public class BookingInsertValidator implements ConstraintValidator<BookingValid,
     @Autowired
     private ChairRepository cRepository;
 
+    @Autowired
+    private Constraints constraints;
+
     private List<Disponibility> findUnavailable(BookingDTO dto, Integer id){
 
         List<Disponibility> notAvailable;
         if(dto.getType() != Type.DAY)
             notAvailable = repository.findByEndAndBegin(dto.getMoment(),dto.getBegin(),dto.getEnd(),id);
          else
-            notAvailable = repository.findByEndAndBegin(dto.getMoment(),8,18,id);
+            notAvailable = repository.findByEndAndBegin(dto.getMoment(),constraints.getBEGIN(),constraints.getEND(),id);
 
         notAvailable = notAvailable.stream().filter(disp -> !disp.isAvailable()).collect(Collectors.toList());
 
@@ -78,8 +82,8 @@ public class BookingInsertValidator implements ConstraintValidator<BookingValid,
             }
         }
 
-        if(dto.getType() != Type.DAY && dto.getBegin() < 8){
-            errors.add(new FieldMessage("begin","Begin must be greater than 8"));
+        if(dto.getType() != Type.DAY && dto.getBegin() < constraints.getBEGIN()){
+            errors.add(new FieldMessage("begin","Begin must be greater than " + constraints.getBEGIN()));
         }
 
         if(dto.getType() != Type.DAY && dto.getEnd() <= dto.getBegin()){

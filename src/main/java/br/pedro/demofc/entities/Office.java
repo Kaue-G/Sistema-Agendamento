@@ -40,10 +40,6 @@ public class Office {
         this.capacity = capacity;
     }
 
-    protected int getLimit() {
-        return 4;
-    }
-
     public Integer getId() {
         return id;
     }

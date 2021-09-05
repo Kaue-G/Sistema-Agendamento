@@ -30,8 +30,8 @@ public class Disponibility {
     public Disponibility() {
     }
 
-    public void tryAvailable(){
-        this.isAvailable = bookings.size() < this.getOffice().getLimit();
+    public void tryAvailable(float percentage){
+        this.isAvailable = bookings.size() < this.getOffice().getCapacity() * (percentage/100);
     }
 
     public DisponibilityPK getId() {
@@ -51,7 +51,6 @@ public class Disponibility {
     }
 
     public boolean isAvailable() {
-        tryAvailable();
         return isAvailable;
     }
 

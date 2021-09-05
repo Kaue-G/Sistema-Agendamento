@@ -1,5 +1,6 @@
 package br.pedro.demofc.services;
 
+import br.pedro.demofc.config.Constraints;
 import br.pedro.demofc.dtos.BookingDTO;
 import br.pedro.demofc.dtos.ChairDTO;
 import br.pedro.demofc.dtos.DisponibilityDTO;
@@ -22,6 +23,7 @@ import java.util.List;
 
 @Service
 public class FullService {
+    private final Constraints constraints;
 
     private final BookingRepository bookingRepository;
     private final DisponibilityRepository disponibilityRepository;
@@ -30,11 +32,14 @@ public class FullService {
 
     @Autowired
     FullService(BookingRepository bookingRepository, DisponibilityRepository disponibilityRepository,
-                ChairRepository chairRepository, EmployeeRepository employeeRepository){
+                ChairRepository chairRepository, EmployeeRepository employeeRepository,
+                Constraints constraints){
         this.bookingRepository = bookingRepository;
         this.disponibilityRepository = disponibilityRepository;
         this.chairRepository = chairRepository;
         this.employeeRepository = employeeRepository;
+
+        this.constraints = constraints;
     }
 
     @Transactional(readOnly = true)
@@ -47,7 +52,7 @@ public class FullService {
     @Transactional(readOnly = true)
     public Page<DisponibilityDTO> findDisponibilities(Pageable pageable, Integer id, LocalDate date, Boolean bool){
         Page<Disponibility> disponibilities = disponibilityRepository.findAllByOffice(pageable,date,id,bool);
-        disponibilities.forEach(Disponibility::tryAvailable);
+        disponibilities.forEach(disp -> disp.tryAvailable(constraints.getPERCENTAGE()));
         return disponibilities.map(DisponibilityDTO::new);
     }
 
@@ -56,8 +61,8 @@ public class FullService {
         Booking booking = new Booking();
 
         if(dto.getType() == Type.DAY){
-            booking.setBegin(8);
-            booking.setEnd(18);
+            booking.setBegin(constraints.getBEGIN());
+            booking.setEnd(constraints.getEND());
         } else {
             booking.setBegin(dto.getBegin());
             booking.setEnd(dto.getEnd());
@@ -79,7 +84,7 @@ public class FullService {
 
         disponibilities.forEach(disp -> {
             disp.getBookings().add(persisted);
-            disp.tryAvailable();
+            disp.tryAvailable(constraints.getPERCENTAGE());
         });
 
         return new BookingDTO(booking,dto.getMoment(),dto.getType(),dto.getChair());
