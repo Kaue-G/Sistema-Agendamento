@@ -11,5 +11,4 @@ import java.time.LocalDate;
 public interface BookingRepository extends JpaRepository<Booking,Integer> {
 
     Booking findByEmployeeAndMoment(Employee e, LocalDate date);
-
 }

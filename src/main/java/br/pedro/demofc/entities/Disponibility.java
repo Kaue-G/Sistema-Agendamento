@@ -1,21 +1,15 @@
 package br.pedro.demofc.entities;
 
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "disponibility")
+@Table(name = "Disponibility")
 public class Disponibility {
 
     @EmbeddedId
     private DisponibilityPK id;
-
-//    @ManyToOne
-//    @JoinColumn(name = "office_id")
-//    private Office office;
 
     @ManyToOne
     @MapsId ("office_id")

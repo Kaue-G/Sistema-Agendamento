@@ -17,9 +17,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Instant;
-import java.time.ZoneId;
-import java.util.Date;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -66,16 +63,19 @@ public class FullService {
             booking.setEnd(dto.getEnd());
         }
 
-
         List<Disponibility> disponibilities = disponibilityRepository.findByEndAndBegin(dto.getMoment(),booking.getBegin(),booking.getEnd(),id);
         if(disponibilities.isEmpty()){
             throw new ServiceViolationException("[404] This data is not in system: " + dto.getMoment());
         }
 
-
         dtoToEntity(dto,booking);
+        Chair c = chairRepository.findByIdAndOffice(dto.getChair(),id);
+        if(c == null){
+            throw new ServiceViolationException("[404] This chair does not count on data base or office area");
+        } else {
+            c.setAvailable(false);
+        }
         Booking persisted = bookingRepository.save(booking);
-        chairRepository.getById(dto.getChair()).setAvailable(false);
 
         disponibilities.forEach(disp -> {
             disp.getBookings().add(persisted);

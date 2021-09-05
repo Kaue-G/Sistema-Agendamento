@@ -1,11 +1,13 @@
 package br.pedro.demofc.entities;
 
+import org.springframework.beans.factory.annotation.Value;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "OFFICE")
+@Table(name = "Office")
 public class Office {
 
     @Id
@@ -13,6 +15,8 @@ public class Office {
     private Integer id;
 
     private String name;
+
+    private int capacity;
 
     @OneToMany(mappedBy = "office")
     private final List<Chair> chairs = new ArrayList<>();
@@ -28,7 +32,15 @@ public class Office {
         this.name = name;
     }
 
-    public int getLimit() {
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
+    protected int getLimit() {
         return 4;
     }
 

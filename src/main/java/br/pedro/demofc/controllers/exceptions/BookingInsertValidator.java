@@ -86,8 +86,8 @@ public class BookingInsertValidator implements ConstraintValidator<BookingValid,
             errors.add(new FieldMessage("end","End time must be greater than begin time"));
         }
 
-        Optional<Chair> c = cRepository.findById(dto.getChair());
-        if(c.isPresent() && !c.get().isAvailable()){
+        Chair c = cRepository.findByIdAndOffice(dto.getChair(),id);
+        if(c != null && !c.isAvailable()){
             errors.add(new FieldMessage("chair","This chair is already taken. Pick another"));
         }
 

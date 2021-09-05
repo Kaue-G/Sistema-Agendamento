@@ -18,7 +18,6 @@ public class Booking {
     private Chair chair;
 
     private LocalDate moment;
-
     private int begin;
 
     @Column(name = "end_time")

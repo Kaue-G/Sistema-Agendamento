@@ -1,6 +1,6 @@
 -- Escritórios
-INSERT INTO Office(name) VALUES ('MATRIZ - Rua Bela Cintra, 986 - 2º andar, Consolação, São Paulo - SP');
-INSERT INTO Office(name) VALUES ('FILIAL - Praça Dos Expedicionários, 192º andar, Gonzaga, Santos - SP');
+INSERT INTO Office(name,capacity) VALUES ('MATRIZ - Rua Bela Cintra, 986 - 2º andar, Consolação, São Paulo - SP',10);
+INSERT INTO Office(name,capacity) VALUES ('FILIAL - Praça Dos Expedicionários, 192º andar, Gonzaga, Santos - SP',10);
 
 -- Cadeiras
 INSERT INTO Chair(local, is_available,office_id) VALUES ('Sala 3, piso 1',true,1);

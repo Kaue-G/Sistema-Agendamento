@@ -3,7 +3,7 @@ package br.pedro.demofc.entities;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "chair")
+@Table(name = "Chair")
 public class Chair {
 
     @Id
