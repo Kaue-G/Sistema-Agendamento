@@ -1,10 +1,7 @@
 package br.pedro.demofc.services;
 
 import br.pedro.demofc.config.Constraints;
-import br.pedro.demofc.dtos.BookingDTO;
-import br.pedro.demofc.dtos.ChairDTO;
-import br.pedro.demofc.dtos.DisponibilityDTO;
-import br.pedro.demofc.dtos.Type;
+import br.pedro.demofc.dtos.*;
 import br.pedro.demofc.entities.Booking;
 import br.pedro.demofc.entities.Chair;
 import br.pedro.demofc.entities.Disponibility;
@@ -44,7 +41,6 @@ public class FullService {
 
     @Transactional(readOnly = true)
     public Page<ChairDTO> findChairsPaged(Pageable pageable, Integer id){
-        System.out.println(id);
         Page<Chair> chairs = chairRepository.findByOffice(pageable,id);
         return chairs.map(ChairDTO::new);
     }
@@ -54,6 +50,11 @@ public class FullService {
         Page<Disponibility> disponibilities = disponibilityRepository.findAllByOffice(pageable,date,id,bool);
         disponibilities.forEach(disp -> disp.tryAvailable(constraints.getPERCENTAGE()));
         return disponibilities.map(DisponibilityDTO::new);
+    }
+
+    @Transactional(readOnly = true)
+    public List<DayDTO> findByDays(Integer id){
+        return disponibilityRepository.findDaysOfDisponibilities(id);
     }
 
     @Transactional

@@ -1,5 +1,6 @@
 package br.pedro.demofc.repositories;
 
+import br.pedro.demofc.dtos.DayDTO;
 import br.pedro.demofc.entities.Disponibility;
 import br.pedro.demofc.entities.DisponibilityPK;
 import org.apache.tomcat.jni.Local;
@@ -32,4 +33,7 @@ public interface DisponibilityRepository extends JpaRepository<Disponibility, Di
     @Query("SELECT disp FROM Disponibility disp WHERE disp.office.id = :id AND :data = disp.id.moment AND " +
             "(COALESCE(:bool) IS NULL OR disp.isAvailable = :bool)")
     Page<Disponibility> findAllByOffice(Pageable pageable, LocalDate data, Integer id, Boolean bool);
+
+    @Query("SELECT new br.pedro.demofc.dtos.DayDTO(disp.id.moment) FROM Disponibility disp WHERE disp.office.id = :id GROUP BY disp.id.moment")
+    List<DayDTO> findDaysOfDisponibilities(Integer id);
 }

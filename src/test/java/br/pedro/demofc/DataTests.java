@@ -1,5 +1,6 @@
 package br.pedro.demofc;
 
+import br.pedro.demofc.dtos.DayDTO;
 import br.pedro.demofc.entities.Chair;
 import br.pedro.demofc.entities.Disponibility;
 import br.pedro.demofc.repositories.ChairRepository;
@@ -15,6 +16,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @DataJpaTest
 public class DataTests {
@@ -36,7 +38,7 @@ public class DataTests {
     void setUp(){
         validOffice = 1;
         invalidOffice = 10;
-        validDate = LocalDate.of(2020,7,21);
+        validDate = LocalDate.of(2021,9,8);
     }
 
 
@@ -60,8 +62,8 @@ public class DataTests {
 
     @Test
     void findDisponibilitiesByOfficeShouldReturnPagedWhenOfficeIdExists(){
-        PageRequest request = PageRequest.of(0,10, Sort.by("id.moment"));
-        Page<Disponibility> disponibilities = dRepository.findAllByOffice(request,null,validOffice,null);
+        PageRequest request = PageRequest.of(0,11, Sort.by("id.moment"));
+        Page<Disponibility> disponibilities = dRepository.findAllByOffice(request,validDate,validOffice,null);
 
         disponibilities.forEach(disp -> System.out.println(disp.getId().getMoment()));
 
@@ -91,5 +93,19 @@ public class DataTests {
         Page<Disponibility> disponibilities = dRepository.findAllByOffice(request,null,validOffice,true);
 
         disponibilities.forEach(disp -> Assertions.assertTrue(disp.isAvailable()));
+    }
+
+    @Test
+    void findByDayShouldReturnList(){
+        List<DayDTO> dto = dRepository.findDaysOfDisponibilities(validOffice);
+
+        dto.forEach(day -> System.out.println(day.getDay() + ": " + day.getVerbose() + ":" + day.getDate() +" ID:" + validOffice));
+
+        List<DayDTO> dto2 = dRepository.findDaysOfDisponibilities(2);
+
+        dto2.forEach(day -> System.out.println(day.getDay() + ": " + day.getVerbose() + ":" + day.getDate() +" ID:" + 2));
+
+        List<DayDTO> dto3 = dRepository.findDaysOfDisponibilities(invalidOffice);
+        Assertions.assertTrue(dto3.isEmpty());
     }
 }

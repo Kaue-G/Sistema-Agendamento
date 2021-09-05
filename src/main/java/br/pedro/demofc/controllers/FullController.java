@@ -2,6 +2,7 @@ package br.pedro.demofc.controllers;
 
 import br.pedro.demofc.dtos.BookingDTO;
 import br.pedro.demofc.dtos.ChairDTO;
+import br.pedro.demofc.dtos.DayDTO;
 import br.pedro.demofc.dtos.DisponibilityDTO;
 import br.pedro.demofc.services.FullService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/offices")
@@ -44,6 +46,13 @@ public class FullController {
         Page<DisponibilityDTO> dtos = service.findDisponibilities(pageable,id, d,b);
         return ResponseEntity.ok(dtos);
     }
+
+    @GetMapping(value = "/{id}/days")
+    public ResponseEntity<List<DayDTO>> findDays(@PathVariable Integer id){
+        List<DayDTO> dtos = service.findByDays(id);
+        return ResponseEntity.ok(dtos);
+    }
+
 
     @PostMapping(value = "/{id}/bookings")
     public ResponseEntity<BookingDTO> insert(@Valid @RequestBody BookingDTO body, @PathVariable Integer id){
