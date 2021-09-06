@@ -29,6 +29,14 @@ public class Office {
         this.name = name;
     }
 
+    public List<Disponibility> getDisponibilities() {
+        return disponibilities;
+    }
+
+    public List<Chair> getChairs() {
+        return chairs;
+    }
+
     public int getCapacity() {
         return capacity;
     }

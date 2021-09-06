@@ -1,7 +1,7 @@
-package br.pedro.demofc.dtos;
+package br.pedro.demofc.entities;
 
 public enum Type {
-    REUNION(1),DAY(2),HOUR(3);
+    REUNION(1),DAY(2);
 
     private final int value;
 

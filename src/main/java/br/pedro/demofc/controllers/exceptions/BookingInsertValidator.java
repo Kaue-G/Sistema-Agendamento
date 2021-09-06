@@ -2,7 +2,7 @@ package br.pedro.demofc.controllers.exceptions;
 
 import br.pedro.demofc.config.Constraints;
 import br.pedro.demofc.dtos.BookingDTO;
-import br.pedro.demofc.dtos.Type;
+import br.pedro.demofc.entities.Type;
 import br.pedro.demofc.entities.Booking;
 import br.pedro.demofc.entities.Chair;
 import br.pedro.demofc.entities.Disponibility;
@@ -87,7 +87,6 @@ public class BookingInsertValidator implements ConstraintValidator<BookingValid,
         if(dto.getType() != Type.DAY && dto.getEnd() <= dto.getBegin()){
             errors.add(new FieldMessage("end","End time must be greater than begin time"));
         }
-
 
         List<Disponibility> disponibilities = findUnavailable(dto,id);
 

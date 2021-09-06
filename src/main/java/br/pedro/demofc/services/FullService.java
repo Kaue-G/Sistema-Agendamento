@@ -2,13 +2,8 @@ package br.pedro.demofc.services;
 
 import br.pedro.demofc.config.Constraints;
 import br.pedro.demofc.dtos.*;
-import br.pedro.demofc.entities.Booking;
-import br.pedro.demofc.entities.Chair;
-import br.pedro.demofc.entities.Disponibility;
-import br.pedro.demofc.repositories.BookingRepository;
-import br.pedro.demofc.repositories.ChairRepository;
-import br.pedro.demofc.repositories.DisponibilityRepository;
-import br.pedro.demofc.repositories.EmployeeRepository;
+import br.pedro.demofc.entities.*;
+import br.pedro.demofc.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.stream.Collectors;
 
 @Service
 public class FullService {
@@ -26,17 +23,50 @@ public class FullService {
     private final DisponibilityRepository disponibilityRepository;
     private final ChairRepository chairRepository;
     private final EmployeeRepository employeeRepository;
+    private final OfficeRepository oRepository;
 
     @Autowired
     FullService(BookingRepository bookingRepository, DisponibilityRepository disponibilityRepository,
-                ChairRepository chairRepository, EmployeeRepository employeeRepository,
+                ChairRepository chairRepository, EmployeeRepository employeeRepository, OfficeRepository oRepository,
                 Constraints constraints){
         this.bookingRepository = bookingRepository;
         this.disponibilityRepository = disponibilityRepository;
         this.chairRepository = chairRepository;
         this.employeeRepository = employeeRepository;
+        this.oRepository = oRepository;
 
         this.constraints = constraints;
+    }
+
+    @Transactional
+    public List<OfficeDTO> findOfficeStateByDate(LocalDate date){
+        if(date == null){
+            throw new ServiceViolationException("[404] Date can not be null");
+        }
+        List<Office> offices = oRepository.findAll();
+        return offices.stream().map(o -> {
+            List<Chair> chairs = chairRepository.findByTypeAndOffice(Type.DAY,o);
+
+            List<Chair> rooms = chairRepository.findByTypeAndOffice(Type.REUNION,o);
+
+            List<Disponibility> disponibilities = disponibilityRepository.findByEndAndBegin(date,constraints.getBEGIN(),constraints.getEND(),o.getId());
+            AtomicLong chairsOccupied = new AtomicLong(0L);
+            AtomicLong roomsOccupied = new AtomicLong(0L);
+
+            chairs.forEach(chair -> {
+                if(disponibilities.stream().anyMatch(disp -> disp.getChairs().contains(chair))){
+                    chairsOccupied.getAndIncrement();
+                }
+            });
+
+            rooms.forEach(room -> {
+                if(disponibilities.stream().anyMatch(disp -> disp.getChairs().contains(room))){
+                    roomsOccupied.getAndIncrement();
+                }
+            });
+
+             return new OfficeDTO(o.getId(), o.getName(),roomsOccupied.get(), chairsOccupied.get(),chairs.size(),rooms.size());
+        }).collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)

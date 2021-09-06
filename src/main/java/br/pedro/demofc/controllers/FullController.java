@@ -1,9 +1,6 @@
 package br.pedro.demofc.controllers;
 
-import br.pedro.demofc.dtos.BookingDTO;
-import br.pedro.demofc.dtos.ChairDTO;
-import br.pedro.demofc.dtos.DayDTO;
-import br.pedro.demofc.dtos.DisponibilityDTO;
+import br.pedro.demofc.dtos.*;
 import br.pedro.demofc.services.FullService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -58,6 +55,13 @@ public class FullController {
     @GetMapping(value = "/{id}/days")
     public ResponseEntity<List<DayDTO>> findDays(@PathVariable Integer id){
         List<DayDTO> dtos = service.findByDays(id);
+        return ResponseEntity.ok(dtos);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<OfficeDTO>> findOfficesByState(@RequestParam(value = "date", defaultValue = "null") String date){
+        LocalDate d = !date.equals("null") ? LocalDate.parse(date) : null;
+        List<OfficeDTO> dtos = service.findOfficeStateByDate(d);
         return ResponseEntity.ok(dtos);
     }
 

@@ -2,10 +2,10 @@ package br.pedro.demofc.dtos;
 
 import br.pedro.demofc.controllers.exceptions.BookingValid;
 import br.pedro.demofc.entities.Booking;
+import br.pedro.demofc.entities.Type;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
-import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
 
 @JsonInclude(Include.NON_NULL)
@@ -40,7 +40,7 @@ public class BookingDTO {
         this.type = type;
         this.moment = date;
         this.chair = chair_id;
-        if(type == Type.HOUR){
+        if(type == Type.REUNION){
             this.begin = booking.getBegin();
             this.end = booking.getEnd();
         }

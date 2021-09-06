@@ -1,6 +1,7 @@
 package br.pedro.demofc;
 
 import br.pedro.demofc.dtos.DayDTO;
+import br.pedro.demofc.dtos.OfficeDTO;
 import br.pedro.demofc.entities.Chair;
 import br.pedro.demofc.entities.Disponibility;
 import br.pedro.demofc.repositories.ChairRepository;
@@ -40,6 +41,7 @@ public class DataTests {
         invalidOffice = 10;
         validDate = LocalDate.of(2021,9,8);
     }
+
 
 
     @Test
