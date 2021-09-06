@@ -41,41 +41,23 @@ public class FullService {
 
     @Transactional(readOnly = true)
     public Page<ChairDTO> findChairsPaged(Pageable pageable, Integer id, LocalDate when, Integer begin, Integer end){
-        // Pegando todas as disponibilidades nessa data, começo e fim
+        if(when == null){
+            throw new ServiceViolationException("[404] Date can not be null");
+        }
+
         List<Disponibility> disponibilities = disponibilityRepository.findByEndAndBegin(when,begin,end,id);
-        //disponibilities.forEach(d -> System.out.println("Office: " + d.getOffice().getId()));
-//        disponibilities.forEach(d -> {
-//            System.out.println(d.getId().getBeginHour() + ":  ");
-//            for(Chair c : d.getChairs()){
-//                System.out.println("[CADEIRA]" + c.getId());
-//            }
-//        });
 
-        // Disponibilidade das 8h
-        Disponibility d = disponibilities.get(0);
-
-        // DIsponibilidade das 18h
-        Disponibility f = disponibilities.get(disponibilities.size() - 1);
-
-
-        // Busca de todas as cadeiras
         Page<Chair> allChairs = chairRepository.findByOffice(pageable, id);
 
-        //allChairs.forEach(c -> System.out.println(c.getOffice().getId() + "," + c.getId()));
-
-
         return allChairs.map(chair -> {
-            // Para cada cadeira testar os horários em q contém ela
             boolean isOccupied =  true;
             for(Disponibility disp : disponibilities){
-                if(disp.getChairs().contains(chair)){
+                if (disp.getChairs().contains(chair)) {
                     isOccupied = false;
+                    break;
                 }
             }
             return new ChairDTO(chair, isOccupied);
-//            boolean occupied;
-//            occupied = !d.getChairs().contains(chair) || !f.getChairs().contains(chair);
-//            return new ChairDTO(chair, occupied);
         });
     }
 
@@ -137,13 +119,11 @@ public class FullService {
     public void delete(Integer id){
         Booking booking = bookingRepository.findById(id).orElseThrow(() -> new ServiceViolationException("[404] Entity not Found"));
         List<Disponibility> disp = disponibilityRepository.findByBookingId(id);
-        System.out.println(booking.getChair().getId());
 
         Chair chair = booking.getChair();
         disp.forEach(x -> {
             x.getBookings().remove(booking);
             x.getChairs().remove(chair);
-            //x.getChairs().forEach(ch -> System.out.println(ch.getId()));
         });
 
         bookingRepository.delete(booking);

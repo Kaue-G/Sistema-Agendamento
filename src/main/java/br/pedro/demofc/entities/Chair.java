@@ -11,6 +11,8 @@ public class Chair {
     private Long id;
     private String local;
 
+    private String name;
+
     @ManyToOne
     @JoinColumn(name = "OFFICE_ID")
     private Office office;
@@ -40,5 +42,13 @@ public class Chair {
 
     public void setOffice(Office office) {
         this.office = office;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

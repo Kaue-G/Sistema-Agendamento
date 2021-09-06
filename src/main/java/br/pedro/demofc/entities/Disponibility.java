@@ -16,17 +16,18 @@ public class Disponibility {
     @JoinColumn (name = "OFFICE_PK")
     private Office office;
 
+    @Column(name = "IS_AVAILABLE")
     private boolean isAvailable;
 
     @ManyToMany
     @JoinTable(name = "Disponibility_Booking",
-            joinColumns = {@JoinColumn (name = "BEGIN_ID"), @JoinColumn (name = "MOMENT_ID"), @JoinColumn (name = "OFFICE_ID")},
+            joinColumns = {@JoinColumn (name = "HOUR_ID"), @JoinColumn (name = "MOMENT_ID"), @JoinColumn (name = "OFFICE_ID")},
             inverseJoinColumns = @JoinColumn(name = "BOOKING_ID"))
     private final Set<Booking> bookings = new HashSet<>();
 
     @ManyToMany
     @JoinTable(name = "Disponibility_Chair",
-            joinColumns = {@JoinColumn (name = "BEGIN_ID"), @JoinColumn (name = "MOMENT_ID"), @JoinColumn (name = "OFFICE_ID")},
+            joinColumns = {@JoinColumn (name = "HOUR_ID"), @JoinColumn (name = "MOMENT_ID"), @JoinColumn (name = "OFFICE_ID")},
             inverseJoinColumns = @JoinColumn(name = "CHAIR_ID"))
     private final Set<Chair> chairs = new HashSet<>();
 

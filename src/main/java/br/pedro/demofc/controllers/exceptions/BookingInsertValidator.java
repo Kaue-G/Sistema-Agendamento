@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 public class BookingInsertValidator implements ConstraintValidator<BookingValid, BookingDTO> {
@@ -52,8 +51,6 @@ public class BookingInsertValidator implements ConstraintValidator<BookingValid,
             disponibilities = repository.findByEndAndBegin(dto.getMoment(),dto.getBegin(),dto.getEnd(),id);
          else
             disponibilities = repository.findByEndAndBegin(dto.getMoment(),constraints.getBEGIN(),constraints.getEND(),id);
-
-        //notAvailable = notAvailable.stream().filter(disp -> !disp.isAvailable()).collect(Collectors.toList());
 
         return disponibilities;
     }
@@ -91,7 +88,6 @@ public class BookingInsertValidator implements ConstraintValidator<BookingValid,
             errors.add(new FieldMessage("end","End time must be greater than begin time"));
         }
 
-        // Buscar a data, o begin, end, id da cadeira
 
         List<Disponibility> disponibilities = findUnavailable(dto,id);
 
@@ -104,11 +100,6 @@ public class BookingInsertValidator implements ConstraintValidator<BookingValid,
                 errors.add(new FieldMessage("chair","This chair is already taken for another person"));
             }
         }
-
-//        Chair c = cRepository.findByIdAndOffice(dto.getChair(),id);
-//        if(c != null && !c.isAvailable()){
-//            errors.add(new FieldMessage("chair","This chair is already taken. Pick another"));
-//        }
 
         List<Disponibility> notAvailable = findUnavailable(dto,id).stream().filter(disp -> !disp.isAvailable()).collect(Collectors.toList());;
 

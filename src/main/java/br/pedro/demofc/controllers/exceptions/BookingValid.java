@@ -1,7 +1,5 @@
 package br.pedro.demofc.controllers.exceptions;
 
-import br.pedro.demofc.dtos.BookingDTO;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

@@ -7,12 +7,14 @@ public class ChairDTO {
     private String local;
     private boolean isAvailable;
     private Integer office_id;
+    private String name;
 
     public ChairDTO(Chair chair, boolean isAvailable){
         this.id = chair.getId();
         this.local = chair.getLocal();
         this.office_id = chair.getOffice().getId();
         this.isAvailable = isAvailable;
+        this.name = chair.getName();
     }
 
     public ChairDTO() {

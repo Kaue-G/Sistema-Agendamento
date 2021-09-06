@@ -34,8 +34,8 @@ public class FullController {
             Pageable pageable,
             @PathVariable Integer id,
             @RequestParam(value = "date", defaultValue = "null") String date,
-            @RequestParam(value = "begin",defaultValue = "8") Integer begin,
-            @RequestParam(value = "end", defaultValue = "18") Integer end
+            @RequestParam(value = "begin",defaultValue = "8") Integer begin, // Arrumar depois
+            @RequestParam(value = "end", defaultValue = "18") Integer end // Arrumar depois
             ){
 
         LocalDate d = !date.equals("null") ? LocalDate.parse(date) : null;

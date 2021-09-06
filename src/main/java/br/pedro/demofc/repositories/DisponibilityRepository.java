@@ -26,7 +26,7 @@ public interface DisponibilityRepository extends JpaRepository<Disponibility, Di
 
 // FORMA NORMAL CONJUNTIVA
 //    @Query("SELECT disp FROM Disponibility disp WHERE disp.office.id = :id AND " +
-//            "(:data IS NULL OR disp.id.moment IS NULL) AND " +
+//            "(:data IS NULL OR disp.id.moment = :data) AND " +
 //            "(:bool IS NULL OR disp.isAvailable = :bool)")
 //    Page<Disponibility> findAllByOffice(Pageable pageable, LocalDate data, Integer id, Boolean bool);
 
