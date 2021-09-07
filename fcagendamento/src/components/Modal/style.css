@@ -1,0 +1,36 @@
+.modalBackground {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 90;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modalArea {
+  background-color: #FFF;
+  padding:10px;
+  width: 587px;
+  height: 462px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 20px;
+  align-items: center;
+}
+
+.images{
+  display: flex;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.msg {
+  font-size: 22px;
+}
