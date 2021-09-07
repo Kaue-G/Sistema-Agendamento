@@ -18,8 +18,17 @@ function CardHome () {
                         </div>
                     </div>
                     <div className="selecionar-data flex">
-                        <h3>selecione a data</h3>
-                        <div></div>
+                        <h3 className="titulo flex">selecione a data</h3>
+                        <div className="seletor flex">
+                            
+                            <select className="btn" name="cars" id="cars">
+                                <option value="volvo">XX/XX/XXX</option>
+                                <option value="saab">Saab</option>
+                                <option value="opel">Opel</option>
+                                <option value="audi">Audi</option>
+                            </select>
+                              
+                        </div>
                     </div>
                     <div className="disponivel ">
                         <div className="estacao-esquerdo flex">
@@ -32,8 +41,8 @@ function CardHome () {
                         </div>
                     </div>
                 </div>
-                <div className="btn-agendamento">
-                    <h2>Agendar local</h2>
+                <div className="btn-agendamento flex">
+                    <button className="btn">Agendar</button>
                 </div>
             </div>
         </div>
