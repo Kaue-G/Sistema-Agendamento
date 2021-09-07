@@ -11,6 +11,8 @@ public class Employee {
     @Id
     private String cpf;
     private String email;
+
+    @Column(name = "BUSINESS_UNIT")
     private String businessUnit;
 
     @OneToMany(mappedBy = "employee")

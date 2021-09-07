@@ -14,7 +14,7 @@ public class Booking {
     private Integer id;
 
     //@ManyToOne
-    @JoinColumn(name = "CHAIR_ID")
+    @Column(name = "CHAIR_ID")
     private Long chair;
 
     private LocalDate moment;
