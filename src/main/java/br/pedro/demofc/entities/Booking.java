@@ -13,9 +13,9 @@ public class Booking {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne
+    //@ManyToOne
     @JoinColumn(name = "CHAIR_ID")
-    private Chair chair;
+    private Long chair;
 
     private LocalDate moment;
 
@@ -40,11 +40,11 @@ public class Booking {
         this.id = id;
     }
 
-    public Chair getChair() {
+    public Long getChair() {
         return chair;
     }
 
-    public void setChair(Chair chair) {
+    public void setChair(Long chair) {
         this.chair = chair;
     }
 

@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
@@ -38,10 +39,6 @@ public class FullService {
         this.constraints = constraints;
     }
 
-    public Constraints getConstraints() {
-        return constraints;
-    }
-
     @Transactional
     public List<OfficeDTO> findOfficeStateByDate(LocalDate date){
         List<Office> offices = oRepository.findAll();
@@ -51,6 +48,8 @@ public class FullService {
             List<Chair> rooms = chairRepository.findByTypeAndOffice(Type.REUNION,o);
 
             List<Disponibility> disponibilities = disponibilityRepository.findByEndAndBegin(date,constraints.getBEGIN(),constraints.getEND(),o.getId());
+
+
             AtomicLong chairsOccupied = new AtomicLong(0L);
             AtomicLong roomsOccupied = new AtomicLong(0L);
 
@@ -141,7 +140,7 @@ public class FullService {
     private void dtoToEntity (BookingDTO dto, Booking booking){
         booking.setMoment(dto.getMoment());
         booking.setEmployee(employeeRepository.getById(dto.getEmployee_id()));
-        booking.setChair(chairRepository.getById(dto.getChair()));
+        booking.setChair(dto.getChair());
     }
 
     @Transactional
@@ -149,10 +148,15 @@ public class FullService {
         Booking booking = bookingRepository.findById(id).orElseThrow(() -> new ServiceViolationException("[404] Entity not Found"));
         List<Disponibility> disp = disponibilityRepository.findByBookingId(id);
 
-        Chair chair = booking.getChair();
+        Optional<Chair> chair = chairRepository.findById(booking.getChair());
+
+        if(chair.isEmpty()){
+            throw new ServiceViolationException(("[404] CADEIRA NAO ENCONTRADA"));
+        }
+
         disp.forEach(x -> {
             x.getBookings().remove(booking);
-            x.getChairs().remove(chair);
+            x.getChairs().remove(chair.get());
         });
 
         bookingRepository.delete(booking);
