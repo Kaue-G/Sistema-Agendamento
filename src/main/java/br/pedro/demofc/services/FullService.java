@@ -41,14 +41,11 @@ public class FullService {
 
     @Transactional
     public List<OfficeDTO> findOfficeStateByDate(LocalDate date){
-        List<Office> offices = oRepository.findAll();
+        List<Office> offices = oRepository.findAllOffices();
         return offices.stream().map(o -> {
-            List<Chair> chairs = chairRepository.findByTypeAndOffice(Type.DAY,o);
-
-            List<Chair> rooms = chairRepository.findByTypeAndOffice(Type.REUNION,o);
-
+            List<Chair> chairs = o.getChairs().stream().filter(chair -> chair.getType().equals(Type.DAY)).collect(Collectors.toList());
+            List<Chair> rooms = o.getChairs().stream().filter(chair -> chair.getType().equals(Type.REUNION)).collect(Collectors.toList());
             List<Disponibility> disponibilities = disponibilityRepository.findByEndAndBegin(date,constraints.getBEGIN(),constraints.getEND(),o.getId());
-
 
             AtomicLong chairsOccupied = new AtomicLong(0L);
             AtomicLong roomsOccupied = new AtomicLong(0L);
@@ -151,8 +148,9 @@ public class FullService {
         Optional<Chair> chair = chairRepository.findById(booking.getChair());
 
         if(chair.isEmpty()){
-            throw new ServiceViolationException(("[404] CADEIRA NAO ENCONTRADA"));
+            throw new ServiceViolationException(("[404] Chair not found"));
         }
+
 
         disp.forEach(x -> {
             x.getBookings().remove(booking);
