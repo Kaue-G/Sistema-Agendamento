@@ -1,9 +1,13 @@
-.container{ background: tomato;
+.flex{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.container{ background: peru;
     width: 354px;
     height: 434px;
-
-    display: block;
-    text-align: center;
 }
 
 .escritorio-nome{
@@ -17,10 +21,65 @@
 }
 
 .card{
-    background: #4e4e4e;
     width: 100%;
     height: 90%;
 
-    /* background: #F9F8F8; */
+    background: #F9F8F8;
     border-radius: 30px;
+}
+
+.info{
+    width: 100%;
+    height: 80%;
+    margin: 1rem;
+
+    background: #E2E2E2;
+    border-radius: 50px;
+}
+
+.quantidade{
+    width: 100%;
+    height: 33%;
+    display: flex;
+}
+
+.contador, .titulo{
+    width: 100%;
+    height: 50%;
+    background: crimson;
+}
+
+.contador{
+    color: #fff;
+    background: gray;
+    border-radius: 50px;
+    
+    margin: 0 30px 10px 30px;
+    height: 40px;
+}
+
+.titulo{
+    
+}
+
+.estacao-esquerdo{
+    width: 50%;
+    
+    background: chocolate;
+}
+
+.sala-direito{
+    width: 50%;
+    border-left: 1.5px dotted;
+    background: cornflowerblue;
+}
+
+.selecionar-data{
+    height: 33%;
+    background: #C4C4C4;
+}
+
+.disponivel{
+    height: 33%;
+    display: flex;
 }
