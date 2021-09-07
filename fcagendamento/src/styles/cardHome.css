@@ -1,0 +1,26 @@
+.container{ background: tomato;
+    width: 354px;
+    height: 434px;
+
+    display: block;
+    text-align: center;
+}
+
+.escritorio-nome{
+    width: 100%;
+    height: 10%;
+
+    
+    font-style: normal;
+    font-weight: bold;
+    font-size: 26px;
+}
+
+.card{
+    background: #4e4e4e;
+    width: 100%;
+    height: 90%;
+
+    /* background: #F9F8F8; */
+    border-radius: 30px;
+}
