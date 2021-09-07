@@ -3,6 +3,9 @@ package br.pedro.demofc.controllers;
 import br.pedro.demofc.dtos.*;
 import br.pedro.demofc.entities.Type;
 import br.pedro.demofc.services.FullService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,7 +18,6 @@ import java.net.URI;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.List;
-import java.util.Locale;
 
 @RestController
 @RequestMapping("/offices")
@@ -29,57 +31,70 @@ public class FullController {
     }
 
     @GetMapping(value = "/{id}/chairs")
+    @ApiOperation(value = "Retorna uma página de locais para trabalho", produces = "application/json")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Retorna página de locais para trabalho"),
+            @ApiResponse(code = 400, message = "Data inválida"),
+    })
     public ResponseEntity<Page<ChairDTO>> findChairsPaged(
             Pageable pageable,
             @PathVariable Integer id,
-            @RequestParam(value = "date", defaultValue = "null") String date,
-            @RequestParam(value = "begin",defaultValue = "0") Integer begin,
-            @RequestParam(value = "end", defaultValue = "0") Integer end,
+            @RequestParam(value = "date") String date,
+            @RequestParam(value = "begin",defaultValue = "${begin.service}") Integer begin,
+            @RequestParam(value = "end", defaultValue = "${end.service}") Integer end,
             @RequestParam(value = "type", defaultValue = "null") String type
-            ){
-
-
-        if (begin == 0){
-            begin = service.getConstraints().getBEGIN();
-        }
-
-        if(end == 0){
-            end = service.getConstraints().getEND();
-        }
+            ) throws DateTimeParseException {
 
         Type t = !type.equals("null") ? Type.valueOf(type.toUpperCase()) : null;
-        LocalDate d = !date.equals("null") ? LocalDate.parse(date) : null;
-        Page<ChairDTO> dtos = service.findChairsPaged(pageable,id,d,begin,end,t);
+        Page<ChairDTO> dtos = service.findChairsPaged(pageable,id,LocalDate.parse(date),begin,end,t);
         return ResponseEntity.ok(dtos);
     }
 
     @GetMapping(value = "/{id}/disps")
+    @ApiOperation(value = "Retorna uma página de horários com a quantidade de pessoas naquele momento", produces = "application/json")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Retorna página de horários"),
+            @ApiResponse(code = 400, message = "Data inválida"),
+    })
     public ResponseEntity<Page<DisponibilityDTO>> findAllDispsPaged (
             Pageable pageable, @PathVariable Integer id,
-            @RequestParam(value = "date",defaultValue = "null") String date,
-            @RequestParam(value = "onlyTrue",defaultValue = "null") String onlyTrue) throws DateTimeParseException {
+            @RequestParam(value = "date") String date,
+            @RequestParam(value = "onlyTrue",defaultValue = "false") Boolean onlyTrue) throws DateTimeParseException {
 
-        Boolean b = !onlyTrue.equals("null") ? true : null;
-        LocalDate d = !date.equals("null") ? LocalDate.parse(date) : null;
-        Page<DisponibilityDTO> dtos = service.findDisponibilities(pageable,id, d,b);
+        Page<DisponibilityDTO> dtos = service.findDisponibilities(pageable,id,LocalDate.parse(date),onlyTrue);
         return ResponseEntity.ok(dtos);
     }
 
     @GetMapping(value = "/{id}/days")
+    @ApiOperation(value = "Retorna uma lista com os dias disponíveis para agendamento de um escritório", produces = "application/json")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Retorna dias disponíveis para agendamento"),
+    })
     public ResponseEntity<List<DayDTO>> findDays(@PathVariable Integer id){
         List<DayDTO> dtos = service.findByDays(id);
         return ResponseEntity.ok(dtos);
     }
 
     @GetMapping
-    public ResponseEntity<List<OfficeDTO>> findOfficesByState(@RequestParam(value = "date", defaultValue = "null") String date){
-        LocalDate d = !date.equals("null") ? LocalDate.parse(date) : null;
-        List<OfficeDTO> dtos = service.findOfficeStateByDate(d);
+    @ApiOperation(value = "Retorna uma lista de escritórios e seus estados de lotação em determinada data", produces = "application/json")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Retorna informações do estado dos escritórios"),
+            @ApiResponse(code = 400, message = "Formato inválido para data"),
+    })
+    public ResponseEntity<List<OfficeDTO>> findOfficesByState(@RequestParam(value = "date") String date){
+        List<OfficeDTO> dtos = service.findOfficeStateByDate(LocalDate.parse(date));
         return ResponseEntity.ok(dtos);
     }
 
 
     @PostMapping(value = "/{id}/bookings")
+    @ApiOperation(value = "Insere um novo agendamento no escritório", produces = "application/json")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Agendamento cadastrado no sistema"),
+            @ApiResponse(code = 404, message = "Data não consta no sistema"),
+            @ApiResponse(code = 400, message = "Formato inválido de data"),
+            @ApiResponse(code = 422, message = "Falha no cadastro devido a critérios de validação")
+    })
     public ResponseEntity<BookingDTO> insert(@Valid @RequestBody BookingDTO body, @PathVariable Integer id){
         body = service.insertSingleBooking(body,id);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(body.getId()).toUri();
@@ -87,6 +102,11 @@ public class FullController {
     }
 
     @DeleteMapping(value = "/bookings/{id}")
+    @ApiOperation(value = "Remove o agendamento dado o ID", produces = "application/json")
+    @ApiResponses(value = {
+            @ApiResponse(code = 204, message = "Reserva removida"),
+            @ApiResponse(code = 404, message = "ID da reserva não encontrado"),
+    })
     public ResponseEntity<Void> remove (@PathVariable Integer id){
         service.delete(id);
         return  ResponseEntity.noContent().build();

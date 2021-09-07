@@ -44,9 +44,6 @@ public class FullService {
 
     @Transactional
     public List<OfficeDTO> findOfficeStateByDate(LocalDate date){
-        if(date == null){
-            throw new ServiceViolationException("[404] Date can not be null");
-        }
         List<Office> offices = oRepository.findAll();
         return offices.stream().map(o -> {
             List<Chair> chairs = chairRepository.findByTypeAndOffice(Type.DAY,o);
@@ -75,9 +72,6 @@ public class FullService {
 
     @Transactional(readOnly = true)
     public Page<ChairDTO> findChairsPaged(Pageable pageable, Integer id, LocalDate when, Integer begin, Integer end, Type type){
-        if(when == null){
-            throw new ServiceViolationException("[404] Date can not be null");
-        }
 
         List<Disponibility> disponibilities = disponibilityRepository.findByEndAndBegin(when,begin,end,id);
 

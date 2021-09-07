@@ -100,7 +100,9 @@ public class BookingInsertValidator implements ConstraintValidator<BookingValid,
             }
         }
 
-        List<Disponibility> notAvailable = findUnavailable(dto,id).stream().filter(disp -> !disp.isAvailable()).collect(Collectors.toList());;
+        List<Disponibility> notAvailable = findUnavailable(dto,id);
+        notAvailable.forEach(disp -> disp.tryAvailable(constraints.getPERCENTAGE()));
+        notAvailable = findUnavailable(dto,id).stream().filter(disp -> !disp.isAvailable()).collect(Collectors.toList());
 
         if(!notAvailable.isEmpty()){
             errors.add(new FieldMessage("begin","There is to many people between " +

@@ -5,21 +5,36 @@ import br.pedro.demofc.entities.Booking;
 import br.pedro.demofc.entities.Type;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiParam;
 
 import java.time.LocalDate;
 
 @JsonInclude(Include.NON_NULL)
 @BookingValid
+@ApiModel(value = "Booking", description = "Agendamento")
 public class BookingDTO {
 
+    @ApiModelProperty(value = "Identificador do agendamento")
     private Integer id;
+
+    @ApiModelProperty(value = "Tipo do agendamento para definir entre dia completo 'DAY' ou intervalo de horário 'REUNION'")
     private Type type;
+
+    @ApiModelProperty(value = "Local de trabalho", required = true)
     private Long chair;
 
+    @ApiModelProperty(value = "Data do agendamento", required = true)
     private LocalDate moment;
 
+    @ApiModelProperty(value = "Usuário relacionado ao agendamento", required = true)
     private String employee_id;
+
+    @ApiModelProperty(value = "Horário de início do agendamento")
     private Integer begin;
+
+    @ApiModelProperty(value = "Horário de término do agendamento")
     private Integer end;
 
     public BookingDTO() {

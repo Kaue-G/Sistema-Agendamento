@@ -1,12 +1,27 @@
 package br.pedro.demofc.dtos;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel(value = "Office", description = "Estado do escritório")
 public class OfficeDTO {
 
+    @ApiModelProperty(value = "Identificador")
     private Integer officeId;
+
+    @ApiModelProperty(value = "Nome do escritório")
     private String name;
+
+    @ApiModelProperty(value = "Salas ocupadas")
     private Long roomsOccupied;
+
+    @ApiModelProperty(value = "Cadeiras ocupadas")
     private Long chairsOccupied;
+
+    @ApiModelProperty(value = "Total de salas disponíveis")
     private Integer totalRooms;
+
+    @ApiModelProperty(value = "Total de cadeiras disponíveis")
     private Integer totalChairs;
 
     public OfficeDTO() {
@@ -19,6 +34,15 @@ public class OfficeDTO {
         this.chairsOccupied = chairsOccupied;
         this.totalRooms = totalRooms;
         this.totalChairs = totalChairs;
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Integer getOfficeId() {

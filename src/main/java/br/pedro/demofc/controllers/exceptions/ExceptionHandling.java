@@ -4,6 +4,7 @@ import br.pedro.demofc.services.ServiceViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -25,6 +26,18 @@ public class ExceptionHandling {
         error.setStatus(Integer.parseInt(htmlCod));
         error.setError("Service violation exception");
         error.setMessage(e.getMessage().substring(6));
+        error.setPath(request.getRequestURI());
+
+        return ResponseEntity.status(error.getStatus()).body(error);
+    }
+
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    public ResponseEntity<StandardError> missingParameter(HttpServletRequest request, MissingServletRequestParameterException e){
+        StandardError error = new StandardError();
+        error.setDate(LocalDate.now());
+        error.setStatus(HttpStatus.BAD_REQUEST.value());
+        error.setError("Missing parameter exeception");
+        error.setMessage("The parameter '" + e.getParameterName() + "' is missing");
         error.setPath(request.getRequestURI());
 
         return ResponseEntity.status(error.getStatus()).body(error);

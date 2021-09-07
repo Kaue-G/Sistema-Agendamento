@@ -1,15 +1,27 @@
 package br.pedro.demofc.dtos;
 
 import br.pedro.demofc.entities.Disponibility;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.time.LocalDate;
 
+@ApiModel(value = "Disponibility", description = "Disponibilidade de horário em determinada data")
 public class DisponibilityDTO {
 
+    @ApiModelProperty(value = "Escritório a qual pertence a disponibilidade")
     private Integer office_id;
-    private boolean isAvailable;
+
+    @ApiModelProperty(value = "Verificação de disponibilidade do horário")
+    private boolean available;
+
+    @ApiModelProperty(value = "Quantidade de reservas no horário")
     private int amount;
+
+    @ApiModelProperty(value = "Data referente ao horário")
     private LocalDate moment;
+
+    @ApiModelProperty(value = "Horário")
     private Integer beginHour;
 
     public DisponibilityDTO() {
@@ -19,7 +31,7 @@ public class DisponibilityDTO {
         this.moment = disponibility.getId().getMoment();
         this.beginHour = disponibility.getId().getBeginHour();
         this.amount = disponibility.getAmount();
-        this.isAvailable = disponibility.isAvailable();
+        this.available = disponibility.isAvailable();
         this.office_id = disponibility.getOffice().getId();
     }
 
@@ -32,11 +44,11 @@ public class DisponibilityDTO {
     }
 
     public boolean isAvailable() {
-        return isAvailable;
+        return available;
     }
 
     public void setAvailable(boolean available) {
-        isAvailable = available;
+        this.available = available;
     }
 
     public int getAmount() {

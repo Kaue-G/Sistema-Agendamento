@@ -1,7 +1,10 @@
 package br.pedro.demofc.dtos;
 
+import io.swagger.annotations.ApiModel;
+
 import java.time.LocalDate;
 
+@ApiModel(value = "Day", description = "Dias disponíveis no banco para agendamentos")
 public class DayDTO {
 
     private int day;
