@@ -38,6 +38,10 @@ public class FullService {
         this.constraints = constraints;
     }
 
+    public Constraints getConstraints() {
+        return constraints;
+    }
+
     @Transactional
     public List<OfficeDTO> findOfficeStateByDate(LocalDate date){
         if(date == null){
@@ -70,14 +74,14 @@ public class FullService {
     }
 
     @Transactional(readOnly = true)
-    public Page<ChairDTO> findChairsPaged(Pageable pageable, Integer id, LocalDate when, Integer begin, Integer end){
+    public Page<ChairDTO> findChairsPaged(Pageable pageable, Integer id, LocalDate when, Integer begin, Integer end, Type type){
         if(when == null){
             throw new ServiceViolationException("[404] Date can not be null");
         }
 
         List<Disponibility> disponibilities = disponibilityRepository.findByEndAndBegin(when,begin,end,id);
 
-        Page<Chair> allChairs = chairRepository.findByOffice(pageable, id);
+        Page<Chair> allChairs = chairRepository.findByOffice(pageable, id, type);
 
         return allChairs.map(chair -> {
             boolean isOccupied =  true;
@@ -94,6 +98,7 @@ public class FullService {
     @Transactional(readOnly = true)
     public Page<DisponibilityDTO> findDisponibilities(Pageable pageable, Integer id, LocalDate date, Boolean bool){
         Page<Disponibility> disponibilities = disponibilityRepository.findAllByOffice(pageable,date,id,bool);
+
         disponibilities.forEach(disp -> disp.tryAvailable(constraints.getPERCENTAGE()));
         return disponibilities.map(DisponibilityDTO::new);
     }

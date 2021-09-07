@@ -15,8 +15,9 @@ import java.util.List;
 @Repository
 public interface ChairRepository extends JpaRepository<Chair, Long> {
 
-    @Query("SELECT chair FROM Chair chair INNER JOIN chair.office office WHERE office.id = :id")
-    Page<Chair> findByOffice(Pageable pageable, Integer id);
+    @Query("SELECT chair FROM Chair chair INNER JOIN chair.office office WHERE office.id = :id AND " +
+            "(COALESCE(:type) IS NULL OR chair.type = :type)")
+    Page<Chair> findByOffice(Pageable pageable, Integer id, Type type);
 
     @Query("SELECT chair FROM Chair chair WHERE chair.id = :id AND chair.office.id = :office")
     Chair findByIdAndOffice(Long id, Integer office);

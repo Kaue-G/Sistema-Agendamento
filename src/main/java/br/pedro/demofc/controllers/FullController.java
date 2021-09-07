@@ -1,6 +1,7 @@
 package br.pedro.demofc.controllers;
 
 import br.pedro.demofc.dtos.*;
+import br.pedro.demofc.entities.Type;
 import br.pedro.demofc.services.FullService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,6 +15,7 @@ import java.net.URI;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.List;
+import java.util.Locale;
 
 @RestController
 @RequestMapping("/offices")
@@ -31,12 +33,23 @@ public class FullController {
             Pageable pageable,
             @PathVariable Integer id,
             @RequestParam(value = "date", defaultValue = "null") String date,
-            @RequestParam(value = "begin",defaultValue = "8") Integer begin, // Arrumar depois
-            @RequestParam(value = "end", defaultValue = "18") Integer end // Arrumar depois
+            @RequestParam(value = "begin",defaultValue = "0") Integer begin,
+            @RequestParam(value = "end", defaultValue = "0") Integer end,
+            @RequestParam(value = "type", defaultValue = "null") String type
             ){
 
+
+        if (begin == 0){
+            begin = service.getConstraints().getBEGIN();
+        }
+
+        if(end == 0){
+            end = service.getConstraints().getEND();
+        }
+
+        Type t = !type.equals("null") ? Type.valueOf(type.toUpperCase()) : null;
         LocalDate d = !date.equals("null") ? LocalDate.parse(date) : null;
-        Page<ChairDTO> dtos = service.findChairsPaged(pageable,id,d,begin,end);
+        Page<ChairDTO> dtos = service.findChairsPaged(pageable,id,d,begin,end,t);
         return ResponseEntity.ok(dtos);
     }
 

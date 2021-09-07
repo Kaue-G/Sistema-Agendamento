@@ -26,7 +26,6 @@ public class SwaggerConfig {
         builder.title("REST API - Agendamento FCamara");
         builder.description("Uma API Rest capaz de realizar agendamentos por dia ou por intervalo de horas em um dado período");
         builder.version("0.1");
-
         return builder.build();
     }
 }
