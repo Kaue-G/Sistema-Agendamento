@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 function Modal({ visible, setVisible, city }) {
 
   const handleBackgroundClick = () => {
+    console.log('passou')
     setVisible(false);
   }
 

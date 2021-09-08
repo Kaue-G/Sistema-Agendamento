@@ -1,7 +1,18 @@
+import './style.css'
+import Aside from '../../components/Aside';
 
 function MeetSP() {
   return (
-    <h1>Agendamento sala de reunião São Paulo</h1>
+    <>
+      <main>
+        <Aside city='saoPaulo' />
+        <div className='central'>
+          <h1>Olá consultor!</h1>
+
+        </div>
+
+      </main>
+    </>
   )
 }
 
