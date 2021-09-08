@@ -1,0 +1,8 @@
+ main {
+   width: 1234px;
+   height: 745px;
+   background-color: white;
+   margin: 60px auto;
+   display: flex;
+   border-radius: 20px;
+ }
