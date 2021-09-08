@@ -45,7 +45,9 @@ public class FullService {
 
         return offices.stream().map(of -> {
             List<DayDTO> days = disponibilityRepository.findDaysOfDisponibilities(of.getId());
-            return new OfficeDTO(of.getId(),of.getName(),days);
+            int chairs = (int) of.getChairs().stream().filter(chair -> chair.getType().equals(Type.DAY)).count();
+            int rooms = (int) of.getChairs().stream().filter(chair -> chair.getType().equals(Type.REUNION)).count();
+            return new OfficeDTO(of.getId(),of.getName(),days,chairs,rooms);
         }).collect(Collectors.toList());
 
     }

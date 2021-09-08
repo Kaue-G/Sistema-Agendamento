@@ -10,13 +10,34 @@ public class OfficeDTO {
 
     private final List<DayDTO> days = new ArrayList<>();
 
+    private int totalChairs;
+    private int totalRooms;
+
     public OfficeDTO() {
     }
 
-    public OfficeDTO(Integer id, String name, List<DayDTO> days){
+    public OfficeDTO(Integer id, String name, List<DayDTO> days, int totalChairs, int totalRooms){
         this.id = id;
         this.name = name;
         this.days.addAll(days);
+        this.totalChairs = totalChairs;
+        this.totalRooms = totalRooms;
+    }
+
+    public int getTotalChairs() {
+        return totalChairs;
+    }
+
+    public void setTotalChairs(int totalChairs) {
+        this.totalChairs = totalChairs;
+    }
+
+    public int getTotalRooms() {
+        return totalRooms;
+    }
+
+    public void setTotalRooms(int totalRooms) {
+        this.totalRooms = totalRooms;
     }
 
     public Integer getId() {
