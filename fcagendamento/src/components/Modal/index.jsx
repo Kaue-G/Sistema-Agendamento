@@ -2,7 +2,7 @@ import './style.css';
 import { Link } from 'react-router-dom';
 
 
-function Modal({ visible, setVisible, city }) {
+function Modal({ visible, setVisible, office }) {
 
   const handleBackgroundClick = () => {
     console.log('passou')
@@ -20,13 +20,13 @@ function Modal({ visible, setVisible, city }) {
 
             <div className='images'>
               <div className='office'>
-                <Link to={`/${city}/office`}>
-                  <img src='office.svg' alt='' />
+                <Link to={`/office/${office.id}/chair`}>
+                  <img src='/office.svg' alt='' />
                 </Link>
               </div>
               <div className='meet'>
-                <Link to={`/${city}/meet`}>
-                  <img src='meet.svg' alt='' />
+                <Link to={`/office/${office.id}/meet`}>
+                  <img src='/meet.svg' alt='' />
                 </Link>
               </div>
             </div>

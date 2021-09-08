@@ -1,30 +1,29 @@
 import './style.css';
 import { Link } from 'react-router-dom';
+import { getOffices } from '../../services/offices';
 
-function Disponibility(props) {
+function Disponibility() {
+
+  const offices = getOffices();
+
   return (
     <>
-      <div className='containerSP'>
-        <div className='box'>
-          <p>Agendamento</p>
-          <button>
-            <Link to='/saoPaulo'>
-              São Paulo
-            </Link>
-          </button>
-        </div>
-      </div>
+      {offices.map((office) => {
+        return (
+          <div className='container'>
+            <div className='box'>
+              <p>Agendamento</p>
+              <button>
+                <Link to={`/office/${office.id}`}>
+                  {office.name}
+                </Link>
+              </button>
+            </div>
+          </div>
+        )
+      })}
 
-      <div className='containerST'>
-        <div className='box'>
-          <p>Agendamento</p>
-          <button>
-            <Link to='/santos'>
-              Santos
-            </Link>
-          </button>
-        </div>
-      </div>
+
     </>
   )
 }

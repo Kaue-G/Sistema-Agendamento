@@ -1,4 +1,4 @@
-.sao-paulo-page {
+.office-page {
    width: 1234px;
    height: 745px;
    background-color: white;
@@ -7,7 +7,7 @@
    border-radius: 20px;
  }
 
- .sao-paulo-page div .central {
+ .office-page div .central {
    display: flex;
    flex-direction: column;
    /* justify-content: space-between; */
@@ -16,12 +16,12 @@
    padding: 30px;
  }
  
- .sao-paulo-page p {
+ .office-page p {
    font-size: 25px;
    line-height: 35px;
 }
 
- .sao-paulo-page span {
+ .office-page span {
    font-size: 20px;
   }
 
