@@ -1,0 +1,25 @@
+.nav-menu {
+  width: 120px;
+  height: 100%;
+  background-color: #7D7D7D;
+  border-radius: 20px 0px 0px 20px;
+  padding-top: 96px;
+  padding-left: 37px;
+}
+
+.main-menu {
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.active {
+  path[stroke] {
+    stroke: white;
+  }
+
+  path[fill] {
+    fill: white;
+  }
+}
