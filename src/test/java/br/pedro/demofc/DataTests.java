@@ -1,23 +1,13 @@
 package br.pedro.demofc;
 
-import br.pedro.demofc.dtos.DayDTO;
-import br.pedro.demofc.dtos.OfficeDTO;
-import br.pedro.demofc.entities.Chair;
-import br.pedro.demofc.entities.Disponibility;
 import br.pedro.demofc.repositories.ChairRepository;
 import br.pedro.demofc.repositories.DisponibilityRepository;
 import br.pedro.demofc.repositories.EmployeeRepository;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @DataJpaTest
 public class DataTests {

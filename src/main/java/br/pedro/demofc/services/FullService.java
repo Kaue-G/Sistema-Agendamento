@@ -39,31 +39,30 @@ public class FullService {
         this.constraints = constraints;
     }
 
-    @Transactional
-    public List<OfficeDTO> findOfficeStateByDate(LocalDate date){
-        List<Office> offices = oRepository.findAllOffices();
-        return offices.stream().map(o -> {
-            List<Chair> chairs = o.getChairs().stream().filter(chair -> chair.getType().equals(Type.DAY)).collect(Collectors.toList());
-            List<Chair> rooms = o.getChairs().stream().filter(chair -> chair.getType().equals(Type.REUNION)).collect(Collectors.toList());
-            List<Disponibility> disponibilities = disponibilityRepository.findByEndAndBegin(date,constraints.getBEGIN(),constraints.getEND(),o.getId());
+    @Transactional(readOnly = true)
+    public List<OfficeDTO> findOffices(){
+        List<Office> offices = oRepository.findAll();
 
-            AtomicLong chairsOccupied = new AtomicLong(0L);
-            AtomicLong roomsOccupied = new AtomicLong(0L);
-
-            chairs.forEach(chair -> {
-                if(disponibilities.stream().anyMatch(disp -> disp.getChairs().contains(chair))){
-                    chairsOccupied.getAndIncrement();
-                }
-            });
-
-            rooms.forEach(room -> {
-                if(disponibilities.stream().anyMatch(disp -> disp.getChairs().contains(room))){
-                    roomsOccupied.getAndIncrement();
-                }
-            });
-
-             return new OfficeDTO(o.getId(), o.getName(),roomsOccupied.get(), chairsOccupied.get(),chairs.size(),rooms.size());
+        return offices.stream().map(of -> {
+            List<DayDTO> days = disponibilityRepository.findDaysOfDisponibilities(of.getId());
+            return new OfficeDTO(of.getId(),of.getName(),days);
         }).collect(Collectors.toList());
+
+    }
+
+    @Transactional
+    public OfficeStateDTO findOfficeStateByDate(Integer id, LocalDate date){
+        Office office = oRepository.findById(id).orElseThrow(() -> new ServiceViolationException("[404] Office not found"));
+        List<Chair> chairs = office.getChairs().stream().filter(chair -> chair.getType().equals(Type.DAY)).collect(Collectors.toList());
+        List<Chair> rooms = office.getChairs().stream().filter(chair -> chair.getType().equals(Type.REUNION)).collect(Collectors.toList());
+        List<Disponibility> disponibilities = disponibilityRepository.findByEndAndBegin(date,constraints.getBEGIN(),constraints.getEND(),office.getId());
+
+        int chairsOccupied;
+        int roomsOccupied;
+
+        chairsOccupied = (int) chairs.stream().filter(chair -> disponibilities.stream().anyMatch(disp -> disp.getChairs().contains(chair))).count();
+        roomsOccupied = (int) rooms.stream().filter(room -> disponibilities.stream().anyMatch(disp -> disp.getChairs().contains(room))).count();
+        return new OfficeStateDTO(office.getId(),roomsOccupied, chairsOccupied,chairs.size(),rooms.size());
     }
 
     @Transactional(readOnly = true)

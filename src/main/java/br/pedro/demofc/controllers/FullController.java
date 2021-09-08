@@ -50,6 +50,12 @@ public class FullController {
         return ResponseEntity.ok(dtos);
     }
 
+    @GetMapping
+    public ResponseEntity<List<OfficeDTO>> findOffices(){
+        List<OfficeDTO> offices = service.findOffices();
+        return ResponseEntity.ok(offices);
+    }
+
     @GetMapping(value = "/{id}/disps")
     @ApiOperation(value = "Retorna uma página de horários com a quantidade de pessoas naquele momento", produces = "application/json")
     @ApiResponses(value = {
@@ -65,24 +71,14 @@ public class FullController {
         return ResponseEntity.ok(dtos);
     }
 
-    @GetMapping(value = "/{id}/days")
-    @ApiOperation(value = "Retorna uma lista com os dias disponíveis para agendamento de um escritório", produces = "application/json")
+    @GetMapping(value = "/{id}")
+    @ApiOperation(value = "Retorna o estado do escritório em uma determinada data", produces = "application/json")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Retorna dias disponíveis para agendamento"),
-    })
-    public ResponseEntity<List<DayDTO>> findDays(@PathVariable Integer id){
-        List<DayDTO> dtos = service.findByDays(id);
-        return ResponseEntity.ok(dtos);
-    }
-
-    @GetMapping
-    @ApiOperation(value = "Retorna uma lista de escritórios e seus estados de lotação em determinada data", produces = "application/json")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Retorna informações do estado dos escritórios"),
+            @ApiResponse(code = 200, message = "Retorna informações do estado do escritório"),
             @ApiResponse(code = 400, message = "Formato inválido para data"),
     })
-    public ResponseEntity<List<OfficeDTO>> findOfficesByState(@RequestParam(value = "date") String date){
-        List<OfficeDTO> dtos = service.findOfficeStateByDate(LocalDate.parse(date));
+    public ResponseEntity<OfficeStateDTO> findOfficeByState(@PathVariable Integer id, @RequestParam(value = "date") String date){
+        OfficeStateDTO dtos = service.findOfficeStateByDate(id,LocalDate.parse(date));
         return ResponseEntity.ok(dtos);
     }
 

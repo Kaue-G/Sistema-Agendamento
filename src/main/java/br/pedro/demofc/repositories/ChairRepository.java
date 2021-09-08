@@ -1,6 +1,5 @@
 package br.pedro.demofc.repositories;
 
-import br.pedro.demofc.dtos.OfficeDTO;
 import br.pedro.demofc.entities.Chair;
 import br.pedro.demofc.entities.Office;
 import br.pedro.demofc.entities.Type;
