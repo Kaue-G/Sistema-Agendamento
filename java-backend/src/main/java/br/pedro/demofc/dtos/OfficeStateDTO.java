@@ -1,35 +1,27 @@
 package br.pedro.demofc.dtos;
 
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 
-@ApiModel(value = "OfficeState", description = "Estado do escritório")
+@ApiModel(value = "OfficeState", description = "Estado do escritório em uma data")
 public class OfficeStateDTO {
 
-    @ApiModelProperty(value = "Identificador")
     private Integer officeId;
 
-    @ApiModelProperty(value = "Salas ocupadas")
-    private int roomsOccupied;
+    private int restrictedCapacity;
+    private int totalEmployees;
 
-    @ApiModelProperty(value = "Cadeiras ocupadas")
-    private int chairsOccupied;
-
-    @ApiModelProperty(value = "Total de salas disponíveis")
     private int totalRooms;
-
-    @ApiModelProperty(value = "Total de cadeiras disponíveis")
-    private int totalChairs;
+    private int occupiedRooms;
 
     public OfficeStateDTO() {
     }
 
-    public OfficeStateDTO(Integer officeId, int roomsOccupied, int chairsOccupied, int totalRooms, int totalChairs) {
+    public OfficeStateDTO(Integer officeId, int restrictedCapacity, int totalEmployees, int totalRooms, int occupiedRooms) {
         this.officeId = officeId;
-        this.roomsOccupied = roomsOccupied;
-        this.chairsOccupied = chairsOccupied;
+        this.restrictedCapacity = restrictedCapacity;
+        this.totalEmployees = totalEmployees;
         this.totalRooms = totalRooms;
-        this.totalChairs = totalChairs;
+        this.occupiedRooms = occupiedRooms;
     }
 
     public Integer getOfficeId() {
@@ -40,20 +32,20 @@ public class OfficeStateDTO {
         this.officeId = officeId;
     }
 
-    public int getRoomsOccupied() {
-        return roomsOccupied;
+    public int getRestrictedCapacity() {
+        return restrictedCapacity;
     }
 
-    public void setRoomsOccupied(int roomsOccupied) {
-        this.roomsOccupied = roomsOccupied;
+    public void setRestrictedCapacity(int restrictedCapacity) {
+        this.restrictedCapacity = restrictedCapacity;
     }
 
-    public int getChairsOccupied() {
-        return chairsOccupied;
+    public int getTotalEmployees() {
+        return totalEmployees;
     }
 
-    public void setChairsOccupied(int chairsOccupied) {
-        this.chairsOccupied = chairsOccupied;
+    public void setTotalEmployees(int totalEmployees) {
+        this.totalEmployees = totalEmployees;
     }
 
     public int getTotalRooms() {
@@ -64,11 +56,11 @@ public class OfficeStateDTO {
         this.totalRooms = totalRooms;
     }
 
-    public int getTotalChairs() {
-        return totalChairs;
+    public int getOccupiedRooms() {
+        return occupiedRooms;
     }
 
-    public void setTotalChairs(int totalChairs) {
-        this.totalChairs = totalChairs;
+    public void setOccupiedRooms(int occupiedRooms) {
+        this.occupiedRooms = occupiedRooms;
     }
 }

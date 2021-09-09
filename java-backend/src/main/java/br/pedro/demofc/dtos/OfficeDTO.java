@@ -7,37 +7,23 @@ public class OfficeDTO {
 
     private Integer id;
     private String name;
+    private String address;
+
+    private int totalRooms;
+    private int restrictedCapacity;
 
     private final List<DayDTO> days = new ArrayList<>();
-
-    private int totalChairs;
-    private int totalRooms;
 
     public OfficeDTO() {
     }
 
-    public OfficeDTO(Integer id, String name, List<DayDTO> days, int totalChairs, int totalRooms){
+    public OfficeDTO(Integer id, String name, String address, int totalRooms, int restrictedCapacity, List<DayDTO> days) {
         this.id = id;
         this.name = name;
+        this.address = address;
+        this.totalRooms = totalRooms;
+        this.restrictedCapacity = restrictedCapacity;
         this.days.addAll(days);
-        this.totalChairs = totalChairs;
-        this.totalRooms = totalRooms;
-    }
-
-    public int getTotalChairs() {
-        return totalChairs;
-    }
-
-    public void setTotalChairs(int totalChairs) {
-        this.totalChairs = totalChairs;
-    }
-
-    public int getTotalRooms() {
-        return totalRooms;
-    }
-
-    public void setTotalRooms(int totalRooms) {
-        this.totalRooms = totalRooms;
     }
 
     public Integer getId() {
@@ -54,6 +40,30 @@ public class OfficeDTO {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public int getTotalRooms() {
+        return totalRooms;
+    }
+
+    public void setTotalRooms(int totalRooms) {
+        this.totalRooms = totalRooms;
+    }
+
+    public int getRestrictedCapacity() {
+        return restrictedCapacity;
+    }
+
+    public void setRestrictedCapacity(int restrictedCapacity) {
+        this.restrictedCapacity = restrictedCapacity;
     }
 
     public List<DayDTO> getDays() {

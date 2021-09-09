@@ -47,6 +47,7 @@ public class BookingInsertValidator implements ConstraintValidator<BookingValid,
     private List<Disponibility> findUnavailable(BookingDTO dto, Integer id){
 
         List<Disponibility> disponibilities;
+
         if(dto.getType() != Type.DAY)
             disponibilities = repository.findByEndAndBegin(dto.getMoment(),dto.getBegin(),dto.getEnd(),id);
          else
@@ -58,6 +59,7 @@ public class BookingInsertValidator implements ConstraintValidator<BookingValid,
     @Override
     @Transactional(readOnly = true)
     public boolean isValid(BookingDTO dto, ConstraintValidatorContext context) {
+        List<FieldMessage> errors = new ArrayList<>();
 
         @SuppressWarnings("unchecked")
         var uriVars = (Map<String,String>) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
@@ -66,8 +68,6 @@ public class BookingInsertValidator implements ConstraintValidator<BookingValid,
 //        for(String var : uriVars.keySet()){
 //            System.out.println(var + ":" + uriVars.get(var));
 //        }
-
-        List<FieldMessage> errors = new ArrayList<>();
 
         Optional<Employee> e = eRepository.findById(dto.getEmployee_id());
 
@@ -80,29 +80,29 @@ public class BookingInsertValidator implements ConstraintValidator<BookingValid,
             }
         }
 
-        if(dto.getType() != Type.DAY && dto.getBegin() < constraints.getBEGIN()){
-            errors.add(new FieldMessage("begin","Begin must be greater than " + constraints.getBEGIN()));
-        }
-
-        if(dto.getType() != Type.DAY && dto.getEnd() <= dto.getBegin()){
-            errors.add(new FieldMessage("end","End time must be greater than begin time"));
-        }
 
         List<Disponibility> disponibilities = findUnavailable(dto,id);
+        if(dto.getType() != Type.DAY){ // Caso seja REUNION
+            if(dto.getBegin() < constraints.getBEGIN()){
+                errors.add(new FieldMessage("begin","Begin must be greater than " + constraints.getBEGIN()));
+            }
+            if(dto.getEnd() <= dto.getBegin()){
+                errors.add(new FieldMessage("end","End time must be greater than begin time"));
+            }
 
-        Chair c =  cRepository.findByIdAndOffice(dto.getChair(),id);
-        if(c == null){
-            errors.add(new FieldMessage("chair", "This chair does not count on database"));
-        } else {
-            boolean isOccupied = disponibilities.stream().anyMatch(disp -> disp.getChairs().contains(c));
-            if(isOccupied){
-                errors.add(new FieldMessage("chair","This chair is already taken for another person"));
+            Chair c =  cRepository.findByIdAndOffice(dto.getChair(),id);
+            if(c == null){
+                errors.add(new FieldMessage("chair", "This chair does not count on database"));
+            } else {
+                boolean isOccupied = disponibilities.stream().anyMatch(disp -> disp.getChairs().contains(c));
+                if (isOccupied) {
+                    errors.add(new FieldMessage("chair", "This chair is already taken for another person"));
+                }
             }
         }
 
-        List<Disponibility> notAvailable = findUnavailable(dto,id);
-        notAvailable.forEach(disp -> disp.tryAvailable(constraints.getPERCENTAGE()));
-        notAvailable = findUnavailable(dto,id).stream().filter(disp -> !disp.isAvailable()).collect(Collectors.toList());
+        disponibilities.forEach(disp -> disp.tryAvailable(constraints.getPERCENTAGE()));
+        List<Disponibility> notAvailable = disponibilities.stream().filter(disp -> !disp.isAvailable()).collect(Collectors.toList());
 
         if(!notAvailable.isEmpty()){
             errors.add(new FieldMessage("begin","There is to many people between " +

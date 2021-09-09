@@ -18,7 +18,17 @@ public class Chair {
     @JoinColumn(name = "OFFICE_ID")
     private Office office;
 
+    private int capacity;
+
     public Chair() {
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
     }
 
     public Type getType() {

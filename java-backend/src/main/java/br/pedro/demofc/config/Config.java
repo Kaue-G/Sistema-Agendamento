@@ -11,3 +11,4 @@ public class Config implements WebMvcConfigurer {
         registry.addMapping("/**").allowedMethods("*");
     }
 }
+
