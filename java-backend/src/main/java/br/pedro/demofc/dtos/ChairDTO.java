@@ -25,13 +25,13 @@ public class ChairDTO {
 
     private int bookingAmount;
 
-    public ChairDTO(Chair chair, boolean isAvailable){
+    public ChairDTO(Chair chair, boolean isAvailable, int bookingAmount){
         this.id = chair.getId();
         this.type = chair.getType();
         this.office_id = chair.getOffice().getId();
         this.isAvailable = isAvailable;
         this.name = chair.getName();
-        //this.bookingAmount = chair.getBookingAmount();
+        this.bookingAmount = bookingAmount;
     }
 
     public ChairDTO() {

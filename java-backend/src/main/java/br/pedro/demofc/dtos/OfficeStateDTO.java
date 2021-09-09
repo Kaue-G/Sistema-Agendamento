@@ -11,17 +11,15 @@ public class OfficeStateDTO {
     private int totalEmployees;
 
     private int totalRooms;
-    private int occupiedRooms;
 
     public OfficeStateDTO() {
     }
 
-    public OfficeStateDTO(Integer officeId, int restrictedCapacity, int totalEmployees, int totalRooms, int occupiedRooms) {
+    public OfficeStateDTO(Integer officeId, int restrictedCapacity, int totalEmployees, int totalRooms) {
         this.officeId = officeId;
         this.restrictedCapacity = restrictedCapacity;
         this.totalEmployees = totalEmployees;
         this.totalRooms = totalRooms;
-        this.occupiedRooms = occupiedRooms;
     }
 
     public Integer getOfficeId() {
@@ -54,13 +52,5 @@ public class OfficeStateDTO {
 
     public void setTotalRooms(int totalRooms) {
         this.totalRooms = totalRooms;
-    }
-
-    public int getOccupiedRooms() {
-        return occupiedRooms;
-    }
-
-    public void setOccupiedRooms(int occupiedRooms) {
-        this.occupiedRooms = occupiedRooms;
     }
 }

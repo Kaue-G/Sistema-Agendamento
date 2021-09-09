@@ -2,7 +2,7 @@ package br.pedro.demofc.repositories;
 
 import br.pedro.demofc.dtos.DayDTO;
 import br.pedro.demofc.entities.Disponibility;
-import br.pedro.demofc.entities.DisponibilityPK;
+import br.pedro.demofc.entities.pk.DisponibilityPK;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
@@ -19,7 +19,6 @@ public interface DisponibilityRepository extends JpaRepository<Disponibility, Di
     @EntityGraph(
             type = EntityGraph.EntityGraphType.LOAD,
             attributePaths = {
-                    "chairs",
                     "office",
                     "bookings"
             }

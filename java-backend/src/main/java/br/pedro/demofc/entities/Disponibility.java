@@ -1,5 +1,7 @@
 package br.pedro.demofc.entities;
 
+import br.pedro.demofc.entities.pk.DisponibilityPK;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -25,12 +27,6 @@ public class Disponibility {
             inverseJoinColumns = @JoinColumn(name = "BOOKING_ID"))
     private final Set<Booking> bookings = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "Disponibility_Chair",
-            joinColumns = {@JoinColumn (name = "HOUR_ID"), @JoinColumn (name = "MOMENT_ID"), @JoinColumn (name = "OFFICE_ID")},
-            inverseJoinColumns = @JoinColumn(name = "CHAIR_ID"))
-    private final Set<Chair> chairs = new HashSet<>();
-
 //    @ManyToMany(mappedBy = "disponibilities", cascade = CascadeType.ALL)
 //    private final Set<Booking> bookings = new HashSet<>();
 
@@ -39,10 +35,6 @@ public class Disponibility {
 
     public void tryAvailable(float percentage){
         this.isAvailable = bookings.size() < this.getOffice().getCapacity() * (percentage/100);
-    }
-
-    public Set<Chair> getChairs() {
-        return chairs;
     }
 
     public DisponibilityPK getId() {

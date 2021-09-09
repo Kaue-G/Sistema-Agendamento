@@ -13,7 +13,6 @@ public class Booking {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    //@ManyToOne
     @Column(name = "CHAIR_ID")
     private Long chair;
 
@@ -29,7 +28,17 @@ public class Booking {
     @JoinColumn(name = "EMPLOYEE_ID")
     private Employee employee;
 
+    private Integer weight;
+
     public Booking() {
+    }
+
+    public Integer getWeight() {
+        return weight;
+    }
+
+    public void setWeight(Integer weight) {
+        this.weight = weight;
     }
 
     public Integer getId() {

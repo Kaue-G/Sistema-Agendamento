@@ -37,16 +37,17 @@ public class BookingDTO {
     @ApiModelProperty(value = "Horário de término do agendamento")
     private Integer end;
 
+    private Integer weight;
+
     public BookingDTO() {
     }
 
-    public BookingDTO(Type type, Long chair, LocalDate moment, String employee_id, Integer begin, Integer end) {
-        this.type = type;
-        this.chair = chair;
-        this.moment = moment;
-        this.employee_id = employee_id;
-        this.begin = begin;
-        this.end = end;
+    public Integer getWeight() {
+        return weight;
+    }
+
+    public void setWeight(Integer weight) {
+        this.weight = weight;
     }
 
     public BookingDTO(Booking booking, LocalDate date, Type type, Long chair_id){

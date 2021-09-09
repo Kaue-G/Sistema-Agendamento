@@ -2,15 +2,9 @@ package br.pedro.demofc.controllers.exceptions;
 
 import br.pedro.demofc.config.Constraints;
 import br.pedro.demofc.dtos.BookingDTO;
-import br.pedro.demofc.entities.Type;
-import br.pedro.demofc.entities.Booking;
-import br.pedro.demofc.entities.Chair;
-import br.pedro.demofc.entities.Disponibility;
-import br.pedro.demofc.entities.Employee;
-import br.pedro.demofc.repositories.BookingRepository;
-import br.pedro.demofc.repositories.ChairRepository;
-import br.pedro.demofc.repositories.DisponibilityRepository;
-import br.pedro.demofc.repositories.EmployeeRepository;
+import br.pedro.demofc.entities.*;
+import br.pedro.demofc.entities.pk.DisponibilityRoomPK;
+import br.pedro.demofc.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.HandlerMapping;
@@ -18,10 +12,7 @@ import org.springframework.web.servlet.HandlerMapping;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class BookingInsertValidator implements ConstraintValidator<BookingValid, BookingDTO> {
@@ -40,6 +31,9 @@ public class BookingInsertValidator implements ConstraintValidator<BookingValid,
 
     @Autowired
     private ChairRepository cRepository;
+
+    @Autowired
+    private DisponibilityRoomRepository drRepository;
 
     @Autowired
     private Constraints constraints;
@@ -80,8 +74,16 @@ public class BookingInsertValidator implements ConstraintValidator<BookingValid,
             }
         }
 
-
         List<Disponibility> disponibilities = findUnavailable(dto,id);
+        disponibilities.forEach(disp -> disp.tryAvailable(constraints.getPERCENTAGE()));
+        List<Disponibility> notAvailable = disponibilities.stream().filter(disp -> !disp.isAvailable()).collect(Collectors.toList());
+
+        if(!notAvailable.isEmpty()){
+            errors.add(new FieldMessage("begin","There is to many people between " +
+                    notAvailable.get(0).getId().getBeginHour() + " hours and " +
+                    notAvailable.get(notAvailable.size()-1).getId().getBeginHour() + " hours"));
+        }
+
         if(dto.getType() != Type.DAY){ // Caso seja REUNION
             if(dto.getBegin() < constraints.getBEGIN()){
                 errors.add(new FieldMessage("begin","Begin must be greater than " + constraints.getBEGIN()));
@@ -94,20 +96,22 @@ public class BookingInsertValidator implements ConstraintValidator<BookingValid,
             if(c == null){
                 errors.add(new FieldMessage("chair", "This chair does not count on database"));
             } else {
-                boolean isOccupied = disponibilities.stream().anyMatch(disp -> disp.getChairs().contains(c));
-                if (isOccupied) {
-                    errors.add(new FieldMessage("chair", "This chair is already taken for another person"));
+
+                List<DisponibilityRoom> dRooms = disponibilities.stream().map(disp -> {
+                    DisponibilityRoomPK pk = new DisponibilityRoomPK(disp.getId(),c.getId());
+                    Optional<DisponibilityRoom> optionalRoom = drRepository.findById(pk);
+                    return optionalRoom.orElse(null);
+                }).filter(Objects::nonNull).collect(Collectors.toList());
+
+                if(dRooms.isEmpty()){
+                    System.out.println("VAZIO");
+                } else {
+                    dRooms.forEach(System.out::println);
+                }
+                if(!dRooms.isEmpty() && dRooms.stream().anyMatch(droom -> droom.getCapacity() >= c.getCapacity())){
+                    errors.add(new FieldMessage("chair", "This chair has already taken for another group of people"));
                 }
             }
-        }
-
-        disponibilities.forEach(disp -> disp.tryAvailable(constraints.getPERCENTAGE()));
-        List<Disponibility> notAvailable = disponibilities.stream().filter(disp -> !disp.isAvailable()).collect(Collectors.toList());
-
-        if(!notAvailable.isEmpty()){
-            errors.add(new FieldMessage("begin","There is to many people between " +
-                    notAvailable.get(0).getId().getBeginHour() + " hours and " +
-                    notAvailable.get(notAvailable.size()-1).getId().getBeginHour() + " hours"));
         }
 
         for(FieldMessage f : errors){

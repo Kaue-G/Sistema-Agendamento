@@ -3,6 +3,7 @@ package br.pedro.demofc.services;
 import br.pedro.demofc.config.Constraints;
 import br.pedro.demofc.dtos.*;
 import br.pedro.demofc.entities.*;
+import br.pedro.demofc.entities.pk.DisponibilityRoomPK;
 import br.pedro.demofc.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,16 +25,19 @@ public class FullService {
     private final ChairRepository chairRepository;
     private final EmployeeRepository employeeRepository;
     private final OfficeRepository oRepository;
+    private final DisponibilityRoomRepository drRepository;
 
     @Autowired
     FullService(BookingRepository bookingRepository, DisponibilityRepository disponibilityRepository,
                 ChairRepository chairRepository, EmployeeRepository employeeRepository, OfficeRepository oRepository,
+                DisponibilityRoomRepository drRepository,
                 Constraints constraints){
         this.bookingRepository = bookingRepository;
         this.disponibilityRepository = disponibilityRepository;
         this.chairRepository = chairRepository;
         this.employeeRepository = employeeRepository;
         this.oRepository = oRepository;
+        this.drRepository = drRepository;
 
         this.constraints = constraints;
     }
@@ -58,10 +62,9 @@ public class FullService {
         List<Chair> chairs = office.getChairs();
 
         int maxValue = disponibilities.stream().mapToInt(disp -> disp.getBookings().size()).max().orElse(0);
-        int occupiedRooms = (int) chairs.stream().filter(chair -> disponibilities.stream().anyMatch(disp -> disp.getChairs().contains(chair))).count();
         int restrictedCapacity = (int) Math.ceil(office.getCapacity() * (constraints.getPERCENTAGE()) / 100);
 
-        return new OfficeStateDTO(office.getId(), restrictedCapacity, maxValue, chairs.size(), occupiedRooms);
+        return new OfficeStateDTO(office.getId(), restrictedCapacity, maxValue, chairs.size());
     }
 
     @Transactional(readOnly = true)
@@ -73,13 +76,19 @@ public class FullService {
 
         return allChairs.map(chair -> {
             boolean isOccupied =  true;
+            int occupiedAmount = 0;
             for(Disponibility disp : disponibilities){
-                if (disp.getChairs().contains(chair)) {
-                    isOccupied = false;
-                    break;
+                DisponibilityRoomPK pk = new DisponibilityRoomPK(disp.getId(),chair.getId());
+                Optional<DisponibilityRoom> optionalRoom = drRepository.findById(pk);
+
+                if(optionalRoom.isPresent()){
+                    if(optionalRoom.get().getCapacity() >= chair.getCapacity()){
+                        isOccupied = false;
+                    }
+                    occupiedAmount = optionalRoom.get().getCapacity();
                 }
             }
-            return new ChairDTO(chair, isOccupied);
+            return new ChairDTO(chair, isOccupied, occupiedAmount);
         });
     }
 
@@ -122,11 +131,24 @@ public class FullService {
                 disp.tryAvailable(constraints.getPERCENTAGE());
             });
         } else {
+            // Ficaria aqui
+
             Chair c = chairRepository.findByIdAndOffice(dto.getChair(),id);
 
             disponibilities.forEach(disp -> {
+                DisponibilityRoom newDr = new DisponibilityRoom(disp,c);
+                Optional<DisponibilityRoom> dRoom = drRepository.findById(newDr.getPrimaryKey());
+
+                dRoom.ifPresent(disponibilityRoom -> {
+                    disponibilityRoom.addBooking();
+                    drRepository.save(disponibilityRoom);
+                });
+                if(dRoom.isEmpty()){
+                    newDr.setCapacity(1);
+                    drRepository.save(newDr);
+                }
+
                 disp.getBookings().add(persisted);
-                disp.getChairs().add(c);
                 disp.tryAvailable(constraints.getPERCENTAGE());
             });
         }
@@ -143,12 +165,19 @@ public class FullService {
                 x.getBookings().remove(booking);
             });
         } else {
+            // Ficaria aqui
             Optional<Chair> chair = chairRepository.findById(booking.getChair());
 
             chair.ifPresent(value -> {
                 disp.forEach(x -> {
+                    DisponibilityRoomPK pk = new DisponibilityRoomPK(x.getId(),value.getId());
+                    DisponibilityRoom dr = drRepository.getById(pk);
+                    if(dr.getCapacity() <= 1){
+                        drRepository.delete(dr);
+                    } else {
+                        dr.setCapacity(dr.getCapacity() - 1);
+                    }
                     x.getBookings().remove(booking);
-                    x.getChairs().remove(value);
                 });
             });
         }
