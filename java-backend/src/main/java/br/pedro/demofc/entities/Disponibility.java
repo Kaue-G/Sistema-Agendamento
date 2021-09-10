@@ -33,8 +33,20 @@ public class Disponibility {
     public Disponibility() {
     }
 
+    public int getAmount(){
+        return bookings.stream().mapToInt(Booking::getWeight).sum();
+    }
+
+    public boolean preTryAvailable(int weight, float percentage){
+        int limit = (int) Math.ceil(this.getOffice().getCapacity() * (percentage/100));
+        int people = bookings.stream().mapToInt(Booking::getWeight).sum();
+        return people + weight <= limit;
+    }
+
     public void tryAvailable(float percentage){
-        this.isAvailable = bookings.size() < this.getOffice().getCapacity() * (percentage/100);
+        int limit = (int) Math.ceil(this.getOffice().getCapacity() * (percentage/100));
+        int people = bookings.stream().mapToInt(Booking::getWeight).sum();
+        this.isAvailable = people < limit;
     }
 
     public DisponibilityPK getId() {
@@ -59,10 +71,6 @@ public class Disponibility {
 
     public void setAvailable(boolean available) {
         isAvailable = available;
-    }
-
-    public int getAmount() {
-        return bookings.size();
     }
 
     public Set<Booking> getBookings() {

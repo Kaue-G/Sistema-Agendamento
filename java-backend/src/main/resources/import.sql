@@ -4,12 +4,12 @@ INSERT INTO Office(address,capacity,name) VALUES ('Praça Dos Expedicionários, 
 
 -- Cadeiras
 INSERT INTO Chair(capacity, name, office_id) VALUES (1,'Sala 3',1);
-INSERT INTO Chair(capacity, name, office_id) VALUES (2,'Sala 2',1);
+INSERT INTO Chair(capacity, name, office_id) VALUES (4,'Sala 2',1);
 INSERT INTO Chair(capacity, name, office_id) VALUES (1,'A20',1);
 INSERT INTO Chair(capacity, name, office_id) VALUES (1,'A20',1);
 INSERT INTO Chair(capacity, name, office_id) VALUES (1,'A20',1);
 
-INSERT INTO Chair(capacity, name, office_id) VALUES (2,'Sala 35',2);
+INSERT INTO Chair(capacity, name, office_id) VALUES (1,'Sala 35',2);
 INSERT INTO Chair(capacity, name, office_id) VALUES (1,'Sala 34',2);
 INSERT INTO Chair(capacity, name, office_id) VALUES (1,'B33',2);
 INSERT INTO Chair(capacity, name, office_id) VALUES (1,'B22',2);

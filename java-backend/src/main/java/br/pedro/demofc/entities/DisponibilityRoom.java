@@ -26,12 +26,12 @@ public class DisponibilityRoom {
         this.chair = chair;
     }
 
-    public void addBooking(){
-        this.capacity++;
+    public void addBooking(int weight){
+        capacity += weight;
     }
 
-    public void remBooking(){
-        this.capacity--;
+    public void remBooking(int weight) {
+        capacity -= weight;
     }
 
     public DisponibilityRoomPK getPrimaryKey() {

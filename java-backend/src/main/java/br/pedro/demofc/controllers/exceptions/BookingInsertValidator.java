@@ -74,9 +74,17 @@ public class BookingInsertValidator implements ConstraintValidator<BookingValid,
             }
         }
 
+        if(dto.getType() == Type.DAY){
+            dto.setWeight(1);
+        } else {
+            dto.setWeight(2);
+        }
+
         List<Disponibility> disponibilities = findUnavailable(dto,id);
-        disponibilities.forEach(disp -> disp.tryAvailable(constraints.getPERCENTAGE()));
-        List<Disponibility> notAvailable = disponibilities.stream().filter(disp -> !disp.isAvailable()).collect(Collectors.toList());
+        //disponibilities.forEach(disp -> disp.tryAvailable(constraints.getPERCENTAGE()));
+        //List<Disponibility> notAvailable = disponibilities.stream().filter(disp -> !disp.isAvailable()).collect(Collectors.toList());
+        List<Disponibility> notAvailable = disponibilities.stream().filter(disp -> !disp.preTryAvailable(dto.getWeight(),constraints.getPERCENTAGE())).collect(Collectors.toList());
+
 
         if(!notAvailable.isEmpty()){
             errors.add(new FieldMessage("begin","There is to many people between " +
@@ -103,12 +111,7 @@ public class BookingInsertValidator implements ConstraintValidator<BookingValid,
                     return optionalRoom.orElse(null);
                 }).filter(Objects::nonNull).collect(Collectors.toList());
 
-                if(dRooms.isEmpty()){
-                    System.out.println("VAZIO");
-                } else {
-                    dRooms.forEach(System.out::println);
-                }
-                if(!dRooms.isEmpty() && dRooms.stream().anyMatch(droom -> droom.getCapacity() >= c.getCapacity())){
+                if(!dRooms.isEmpty() && dRooms.stream().anyMatch(droom -> droom.getCapacity() + dto.getWeight() > c.getCapacity())){
                     errors.add(new FieldMessage("chair", "This chair has already taken for another group of people"));
                 }
             }

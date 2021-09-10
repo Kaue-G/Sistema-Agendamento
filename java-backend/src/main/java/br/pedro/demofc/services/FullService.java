@@ -61,7 +61,7 @@ public class FullService {
         List<Disponibility> disponibilities = disponibilityRepository.findByEndAndBegin(date,constraints.getBEGIN(),constraints.getEND(),office.getId());
         List<Chair> chairs = office.getChairs();
 
-        int maxValue = disponibilities.stream().mapToInt(disp -> disp.getBookings().size()).max().orElse(0);
+        int maxValue = disponibilities.stream().mapToInt(Disponibility::getAmount).max().orElse(0);
         int restrictedCapacity = (int) Math.ceil(office.getCapacity() * (constraints.getPERCENTAGE()) / 100);
 
         return new OfficeStateDTO(office.getId(), restrictedCapacity, maxValue, chairs.size());
@@ -111,10 +111,12 @@ public class FullService {
             booking.setBegin(constraints.getBEGIN());
             booking.setEnd(constraints.getEND());
             booking.setChair(null);
+            booking.setWeight(1);
         } else {
             booking.setBegin(dto.getBegin());
             booking.setEnd(dto.getEnd());
             booking.setChair(dto.getChair());
+            booking.setWeight(2); // Peso do agendamento
         }
 
         List<Disponibility> disponibilities = disponibilityRepository.findByEndAndBegin(dto.getMoment(), booking.getBegin(), booking.getEnd(), id);
@@ -140,11 +142,12 @@ public class FullService {
                 Optional<DisponibilityRoom> dRoom = drRepository.findById(newDr.getPrimaryKey());
 
                 dRoom.ifPresent(disponibilityRoom -> {
-                    disponibilityRoom.addBooking();
+                    disponibilityRoom.addBooking(dto.getWeight());
                     drRepository.save(disponibilityRoom);
                 });
+
                 if(dRoom.isEmpty()){
-                    newDr.setCapacity(1);
+                    newDr.setCapacity(dto.getWeight());
                     drRepository.save(newDr);
                 }
 
@@ -175,7 +178,7 @@ public class FullService {
                     if(dr.getCapacity() <= 1){
                         drRepository.delete(dr);
                     } else {
-                        dr.setCapacity(dr.getCapacity() - 1);
+                        dr.setCapacity(dr.getCapacity() - booking.getWeight());
                     }
                     x.getBookings().remove(booking);
                 });
