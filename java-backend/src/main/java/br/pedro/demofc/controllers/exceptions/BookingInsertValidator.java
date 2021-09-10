@@ -101,6 +101,7 @@ public class BookingInsertValidator implements ConstraintValidator<BookingValid,
             }
 
             Chair c =  cRepository.findByIdAndOffice(dto.getChair(),id);
+
             if(c == null){
                 errors.add(new FieldMessage("chair", "This chair does not count on database"));
             } else {

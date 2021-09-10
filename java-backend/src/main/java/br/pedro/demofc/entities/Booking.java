@@ -2,6 +2,8 @@ package br.pedro.demofc.entities;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "Booking", uniqueConstraints = {
@@ -29,6 +31,9 @@ public class Booking {
     private Employee employee;
 
     private Integer weight;
+
+    @ManyToMany(mappedBy = "bookings")
+    private final Set<Disponibility> disponibilities = new HashSet<>();
 
     public Booking() {
     }
@@ -87,5 +92,9 @@ public class Booking {
 
     public void setEmployee(Employee employee) {
         this.employee = employee;
+    }
+
+    public Set<Disponibility> getDisponibilities() {
+        return disponibilities;
     }
 }

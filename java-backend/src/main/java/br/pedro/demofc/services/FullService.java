@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -54,7 +55,7 @@ public class FullService {
         }).collect(Collectors.toList());
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public OfficeStateDTO findOfficeStateByDate(Integer id, LocalDate date){
         Office office = oRepository.findById(id).orElseThrow(() -> new ServiceViolationException("[404] Office not found"));
 
@@ -74,18 +75,21 @@ public class FullService {
 
         Page<Chair> allChairs = chairRepository.findByOffice(pageable, id);
 
+        // RESTRINGIR ESSA BUSCA POR DATA ESCRITORIO E HORA
+        List<DisponibilityRoom> dRooms = drRepository.findAll();
+
         return allChairs.map(chair -> {
             boolean isOccupied =  true;
             int occupiedAmount = 0;
             for(Disponibility disp : disponibilities){
                 DisponibilityRoomPK pk = new DisponibilityRoomPK(disp.getId(),chair.getId());
-                Optional<DisponibilityRoom> optionalRoom = drRepository.findById(pk);
+                List<DisponibilityRoom> containedRooms = dRooms.stream().filter(droom -> droom.getPrimaryKey().equals(pk)).collect(Collectors.toList());
 
-                if(optionalRoom.isPresent()){
-                    if(optionalRoom.get().getCapacity() >= chair.getCapacity()){
+                if(!containedRooms.isEmpty()){
+                    if(containedRooms.get(0).getCapacity() >= chair.getCapacity()){
                         isOccupied = false;
                     }
-                    occupiedAmount = optionalRoom.get().getCapacity();
+                    occupiedAmount = containedRooms.get(0).getCapacity();
                 }
             }
             return new ChairDTO(chair, isOccupied, occupiedAmount);
@@ -98,6 +102,18 @@ public class FullService {
 
         disponibilities.forEach(disp -> disp.tryAvailable(constraints.getPERCENTAGE()));
         return disponibilities.map(DisponibilityDTO::new);
+    }
+
+    @Transactional(readOnly = true)
+    public List<BookingDTO> findAllBookings(String email) {
+        Employee e = employeeRepository.findById(email).orElseThrow(() -> new ServiceViolationException("[404] Entity not Found"));
+        List<Booking> bookings = bookingRepository.findBookingByEmployee(e);
+
+        return bookings.stream().map(x -> {
+            Disponibility d = x.getDisponibilities().stream().findFirst().orElseThrow(() -> new ServiceViolationException("[404] Booking whiteout disponibility"));
+            String officeName = d.getOffice().getName();
+            return new BookingDTO(x, officeName);
+        }).collect(Collectors.toList());
     }
 
     @Transactional
@@ -116,7 +132,7 @@ public class FullService {
             booking.setBegin(dto.getBegin());
             booking.setEnd(dto.getEnd());
             booking.setChair(dto.getChair());
-            booking.setWeight(2); // Peso do agendamento
+            booking.setWeight(2);
         }
 
         List<Disponibility> disponibilities = disponibilityRepository.findByEndAndBegin(dto.getMoment(), booking.getBegin(), booking.getEnd(), id);
@@ -133,8 +149,6 @@ public class FullService {
                 disp.tryAvailable(constraints.getPERCENTAGE());
             });
         } else {
-            // Ficaria aqui
-
             Chair c = chairRepository.findByIdAndOffice(dto.getChair(),id);
 
             if(dto.getWeight() > c.getCapacity()){
@@ -165,36 +179,27 @@ public class FullService {
     @Transactional
     public void delete(Integer id){
         Booking booking = bookingRepository.findById(id).orElseThrow(() -> new ServiceViolationException("[404] Entity not Found"));
-        List<Disponibility> disp = disponibilityRepository.findByBookingId(id);
+        Set<Disponibility> disp = booking.getDisponibilities();
+
+        System.out.println(disp.isEmpty());
 
         if(booking.getChair() == null){
             disp.forEach(x -> {
                 x.getBookings().remove(booking);
             });
         } else {
-            // Ficaria aqui
             Optional<Chair> chair = chairRepository.findById(booking.getChair());
-
-            chair.ifPresent(value -> {
-                disp.forEach(x -> {
-                    DisponibilityRoomPK pk = new DisponibilityRoomPK(x.getId(),value.getId());
-                    DisponibilityRoom dr = drRepository.getById(pk);
-                    if(dr.getCapacity() <= 1){
-                        drRepository.delete(dr);
-                    } else {
-                        dr.setCapacity(dr.getCapacity() - booking.getWeight());
-                    }
-                    x.getBookings().remove(booking);
-                });
-            });
+            chair.ifPresent(value -> disp.forEach(x -> {
+                DisponibilityRoomPK pk = new DisponibilityRoomPK(x.getId(),value.getId());
+                DisponibilityRoom dr = drRepository.getById(pk);
+                if(dr.getCapacity() <= 2){
+                    drRepository.delete(dr);
+                } else {
+                    dr.setCapacity(dr.getCapacity() - booking.getWeight());
+                }
+                x.getBookings().remove(booking);
+            }));
         }
         bookingRepository.delete(booking);
-    }
-
-    public List<BookingDTO> findAllBookings(String email) {
-        Employee e = employeeRepository.findById(email).orElseThrow(() -> new ServiceViolationException("[404] Entity not Found"));
-        List<Booking> bookings = bookingRepository.findBookingByEmployee(e);
-
-        return bookings.stream().map(BookingDTO::new).collect(Collectors.toList());
     }
 }

@@ -27,9 +27,6 @@ public class Disponibility {
             inverseJoinColumns = @JoinColumn(name = "BOOKING_ID"))
     private final Set<Booking> bookings = new HashSet<>();
 
-//    @ManyToMany(mappedBy = "disponibilities", cascade = CascadeType.ALL)
-//    private final Set<Booking> bookings = new HashSet<>();
-
     public Disponibility() {
     }
 

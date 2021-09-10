@@ -38,6 +38,7 @@ public class BookingDTO {
     private Integer end;
 
     private Integer weight;
+    private String officeName;
 
     public BookingDTO() {
     }
@@ -62,7 +63,7 @@ public class BookingDTO {
         }
     }
 
-    public BookingDTO(Booking booking){
+    public BookingDTO(Booking booking, String officeName){
         this.id = booking.getId();
         this.moment = booking.getMoment();
         this.weight = booking.getWeight();
@@ -70,6 +71,15 @@ public class BookingDTO {
         this.begin = booking.getBegin();
         this.end = booking.getEnd();
         this.chair = booking.getChair();
+        this.officeName = officeName;
+    }
+
+    public String getOfficeName() {
+        return officeName;
+    }
+
+    public void setOfficeName(String officeName) {
+        this.officeName = officeName;
     }
 
     public Integer getId() {
