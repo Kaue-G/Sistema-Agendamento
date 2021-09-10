@@ -2,15 +2,9 @@ package br.pedro.demofc.controllers.exceptions;
 
 import br.pedro.demofc.config.Constraints;
 import br.pedro.demofc.dtos.BookingDTO;
-import br.pedro.demofc.entities.Type;
-import br.pedro.demofc.entities.Booking;
-import br.pedro.demofc.entities.Chair;
-import br.pedro.demofc.entities.Disponibility;
-import br.pedro.demofc.entities.Employee;
-import br.pedro.demofc.repositories.BookingRepository;
-import br.pedro.demofc.repositories.ChairRepository;
-import br.pedro.demofc.repositories.DisponibilityRepository;
-import br.pedro.demofc.repositories.EmployeeRepository;
+import br.pedro.demofc.entities.*;
+import br.pedro.demofc.entities.pk.DisponibilityRoomPK;
+import br.pedro.demofc.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.HandlerMapping;
@@ -18,10 +12,7 @@ import org.springframework.web.servlet.HandlerMapping;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class BookingInsertValidator implements ConstraintValidator<BookingValid, BookingDTO> {
@@ -42,11 +33,15 @@ public class BookingInsertValidator implements ConstraintValidator<BookingValid,
     private ChairRepository cRepository;
 
     @Autowired
+    private DisponibilityRoomRepository drRepository;
+
+    @Autowired
     private Constraints constraints;
 
     private List<Disponibility> findUnavailable(BookingDTO dto, Integer id){
 
         List<Disponibility> disponibilities;
+
         if(dto.getType() != Type.DAY)
             disponibilities = repository.findByEndAndBegin(dto.getMoment(),dto.getBegin(),dto.getEnd(),id);
          else
@@ -58,6 +53,7 @@ public class BookingInsertValidator implements ConstraintValidator<BookingValid,
     @Override
     @Transactional(readOnly = true)
     public boolean isValid(BookingDTO dto, ConstraintValidatorContext context) {
+        List<FieldMessage> errors = new ArrayList<>();
 
         @SuppressWarnings("unchecked")
         var uriVars = (Map<String,String>) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
@@ -66,8 +62,6 @@ public class BookingInsertValidator implements ConstraintValidator<BookingValid,
 //        for(String var : uriVars.keySet()){
 //            System.out.println(var + ":" + uriVars.get(var));
 //        }
-
-        List<FieldMessage> errors = new ArrayList<>();
 
         Optional<Employee> e = eRepository.findById(dto.getEmployee_id());
 
@@ -80,34 +74,48 @@ public class BookingInsertValidator implements ConstraintValidator<BookingValid,
             }
         }
 
-        if(dto.getType() != Type.DAY && dto.getBegin() < constraints.getBEGIN()){
-            errors.add(new FieldMessage("begin","Begin must be greater than " + constraints.getBEGIN()));
-        }
-
-        if(dto.getType() != Type.DAY && dto.getEnd() <= dto.getBegin()){
-            errors.add(new FieldMessage("end","End time must be greater than begin time"));
+        if(dto.getType() == Type.DAY){
+            dto.setWeight(1);
+        } else {
+            dto.setWeight(2);
         }
 
         List<Disponibility> disponibilities = findUnavailable(dto,id);
+        //disponibilities.forEach(disp -> disp.tryAvailable(constraints.getPERCENTAGE()));
+        //List<Disponibility> notAvailable = disponibilities.stream().filter(disp -> !disp.isAvailable()).collect(Collectors.toList());
+        List<Disponibility> notAvailable = disponibilities.stream().filter(disp -> !disp.preTryAvailable(dto.getWeight(),constraints.getPERCENTAGE())).collect(Collectors.toList());
 
-        Chair c =  cRepository.findByIdAndOffice(dto.getChair(),id);
-        if(c == null){
-            errors.add(new FieldMessage("chair", "This chair does not count on database"));
-        } else {
-            boolean isOccupied = disponibilities.stream().anyMatch(disp -> disp.getChairs().contains(c));
-            if(isOccupied){
-                errors.add(new FieldMessage("chair","This chair is already taken for another person"));
-            }
-        }
-
-        List<Disponibility> notAvailable = findUnavailable(dto,id);
-        notAvailable.forEach(disp -> disp.tryAvailable(constraints.getPERCENTAGE()));
-        notAvailable = findUnavailable(dto,id).stream().filter(disp -> !disp.isAvailable()).collect(Collectors.toList());
 
         if(!notAvailable.isEmpty()){
             errors.add(new FieldMessage("begin","There is to many people between " +
                     notAvailable.get(0).getId().getBeginHour() + " hours and " +
                     notAvailable.get(notAvailable.size()-1).getId().getBeginHour() + " hours"));
+        }
+
+        if(dto.getType() != Type.DAY){ // Caso seja REUNION
+            if(dto.getBegin() < constraints.getBEGIN()){
+                errors.add(new FieldMessage("begin","Begin must be greater than " + constraints.getBEGIN()));
+            }
+            if(dto.getEnd() <= dto.getBegin()){
+                errors.add(new FieldMessage("end","End time must be greater than begin time"));
+            }
+
+            Chair c =  cRepository.findByIdAndOffice(dto.getChair(),id);
+
+            if(c == null){
+                errors.add(new FieldMessage("chair", "This chair does not count on database"));
+            } else {
+
+                List<DisponibilityRoom> dRooms = disponibilities.stream().map(disp -> {
+                    DisponibilityRoomPK pk = new DisponibilityRoomPK(disp.getId(),c.getId());
+                    Optional<DisponibilityRoom> optionalRoom = drRepository.findById(pk);
+                    return optionalRoom.orElse(null);
+                }).filter(Objects::nonNull).collect(Collectors.toList());
+
+                if(!dRooms.isEmpty() && dRooms.stream().anyMatch(droom -> droom.getCapacity() + dto.getWeight() > c.getCapacity())){
+                    errors.add(new FieldMessage("chair", "This chair has already taken for another group of people"));
+                }
+            }
         }
 
         for(FieldMessage f : errors){

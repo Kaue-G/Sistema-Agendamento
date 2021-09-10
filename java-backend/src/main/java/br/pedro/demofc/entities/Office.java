@@ -14,6 +14,7 @@ public class Office {
 
     private String name;
     private int capacity;
+    private String address;
 
     @OneToMany(mappedBy = "office")
     private final List<Disponibility> disponibilities = new ArrayList<>();
@@ -24,9 +25,12 @@ public class Office {
     public Office() {
     }
 
-    public Office(Integer id, String name) {
-        this.id = id;
-        this.name = name;
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public List<Disponibility> getDisponibilities() {

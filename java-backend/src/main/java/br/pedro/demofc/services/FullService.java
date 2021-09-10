@@ -3,6 +3,7 @@ package br.pedro.demofc.services;
 import br.pedro.demofc.config.Constraints;
 import br.pedro.demofc.dtos.*;
 import br.pedro.demofc.entities.*;
+import br.pedro.demofc.entities.pk.DisponibilityRoomPK;
 import br.pedro.demofc.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,16 +26,19 @@ public class FullService {
     private final ChairRepository chairRepository;
     private final EmployeeRepository employeeRepository;
     private final OfficeRepository oRepository;
+    private final DisponibilityRoomRepository drRepository;
 
     @Autowired
     FullService(BookingRepository bookingRepository, DisponibilityRepository disponibilityRepository,
                 ChairRepository chairRepository, EmployeeRepository employeeRepository, OfficeRepository oRepository,
+                DisponibilityRoomRepository drRepository,
                 Constraints constraints){
         this.bookingRepository = bookingRepository;
         this.disponibilityRepository = disponibilityRepository;
         this.chairRepository = chairRepository;
         this.employeeRepository = employeeRepository;
         this.oRepository = oRepository;
+        this.drRepository = drRepository;
 
         this.constraints = constraints;
     }
@@ -45,44 +49,50 @@ public class FullService {
 
         return offices.stream().map(of -> {
             List<DayDTO> days = disponibilityRepository.findDaysOfDisponibilities(of.getId());
-            int chairs = (int) of.getChairs().stream().filter(chair -> chair.getType().equals(Type.DAY)).count();
-            int rooms = (int) of.getChairs().stream().filter(chair -> chair.getType().equals(Type.REUNION)).count();
-            return new OfficeDTO(of.getId(),of.getName(),days,chairs,rooms);
+            int rooms = of.getChairs().size();
+            int restrictedCapacity = (int) Math.ceil(of.getCapacity() * (constraints.getPERCENTAGE()) / 100);
+            return new OfficeDTO(of.getId(), of.getName(), of.getAddress(), rooms, restrictedCapacity, days);
         }).collect(Collectors.toList());
-
-    }
-
-    @Transactional
-    public OfficeStateDTO findOfficeStateByDate(Integer id, LocalDate date){
-        Office office = oRepository.findById(id).orElseThrow(() -> new ServiceViolationException("[404] Office not found"));
-        List<Chair> chairs = office.getChairs().stream().filter(chair -> chair.getType().equals(Type.DAY)).collect(Collectors.toList());
-        List<Chair> rooms = office.getChairs().stream().filter(chair -> chair.getType().equals(Type.REUNION)).collect(Collectors.toList());
-        List<Disponibility> disponibilities = disponibilityRepository.findByEndAndBegin(date,constraints.getBEGIN(),constraints.getEND(),office.getId());
-
-        int chairsOccupied;
-        int roomsOccupied;
-
-        chairsOccupied = (int) chairs.stream().filter(chair -> disponibilities.stream().anyMatch(disp -> disp.getChairs().contains(chair))).count();
-        roomsOccupied = (int) rooms.stream().filter(room -> disponibilities.stream().anyMatch(disp -> disp.getChairs().contains(room))).count();
-        return new OfficeStateDTO(office.getId(),roomsOccupied, chairsOccupied,chairs.size(),rooms.size());
     }
 
     @Transactional(readOnly = true)
-    public Page<ChairDTO> findChairsPaged(Pageable pageable, Integer id, LocalDate when, Integer begin, Integer end, Type type){
+    public OfficeStateDTO findOfficeStateByDate(Integer id, LocalDate date){
+        Office office = oRepository.findById(id).orElseThrow(() -> new ServiceViolationException("[404] Office not found"));
+
+        List<Disponibility> disponibilities = disponibilityRepository.findByEndAndBegin(date,constraints.getBEGIN(),constraints.getEND(),office.getId());
+        List<Chair> chairs = office.getChairs();
+
+        int maxValue = disponibilities.stream().mapToInt(Disponibility::getAmount).max().orElse(0);
+        int restrictedCapacity = (int) Math.ceil(office.getCapacity() * (constraints.getPERCENTAGE()) / 100);
+
+        return new OfficeStateDTO(office.getId(), restrictedCapacity, maxValue, chairs.size());
+    }
+
+    @Transactional(readOnly = true)
+    public Page<ChairDTO> findChairsPaged(Pageable pageable, Integer id, LocalDate when, Integer begin, Integer end){
 
         List<Disponibility> disponibilities = disponibilityRepository.findByEndAndBegin(when,begin,end,id);
 
-        Page<Chair> allChairs = chairRepository.findByOffice(pageable, id, type);
+        Page<Chair> allChairs = chairRepository.findByOffice(pageable, id);
+
+        // RESTRINGIR ESSA BUSCA POR DATA ESCRITORIO E HORA
+        List<DisponibilityRoom> dRooms = drRepository.findAll();
 
         return allChairs.map(chair -> {
             boolean isOccupied =  true;
+            int occupiedAmount = 0;
             for(Disponibility disp : disponibilities){
-                if (disp.getChairs().contains(chair)) {
-                    isOccupied = false;
-                    break;
+                DisponibilityRoomPK pk = new DisponibilityRoomPK(disp.getId(),chair.getId());
+                List<DisponibilityRoom> containedRooms = dRooms.stream().filter(droom -> droom.getPrimaryKey().equals(pk)).collect(Collectors.toList());
+
+                if(!containedRooms.isEmpty()){
+                    if(containedRooms.get(0).getCapacity() >= chair.getCapacity()){
+                        isOccupied = false;
+                    }
+                    occupiedAmount = containedRooms.get(0).getCapacity();
                 }
             }
-            return new ChairDTO(chair, isOccupied);
+            return new ChairDTO(chair, isOccupied, occupiedAmount);
         });
     }
 
@@ -95,69 +105,101 @@ public class FullService {
     }
 
     @Transactional(readOnly = true)
-    public List<DayDTO> findByDays(Integer id){
-        return disponibilityRepository.findDaysOfDisponibilities(id);
+    public List<BookingDTO> findAllBookings(String email) {
+        Employee e = employeeRepository.findById(email).orElseThrow(() -> new ServiceViolationException("[404] Entity not Found"));
+        List<Booking> bookings = bookingRepository.findBookingByEmployee(e);
+
+        return bookings.stream().map(x -> {
+            Disponibility d = x.getDisponibilities().stream().findFirst().orElseThrow(() -> new ServiceViolationException("[404] Booking whiteout disponibility"));
+            String officeName = d.getOffice().getName();
+            return new BookingDTO(x, officeName);
+        }).collect(Collectors.toList());
     }
 
     @Transactional
     public BookingDTO insertSingleBooking(BookingDTO dto, Integer id){
         Booking booking = new Booking();
 
+        booking.setMoment(dto.getMoment());
+        booking.setEmployee(employeeRepository.getById(dto.getEmployee_id()));
+
         if(dto.getType() == Type.DAY){
             booking.setBegin(constraints.getBEGIN());
             booking.setEnd(constraints.getEND());
+            booking.setChair(null);
+            booking.setWeight(1);
         } else {
             booking.setBegin(dto.getBegin());
             booking.setEnd(dto.getEnd());
+            booking.setChair(dto.getChair());
+            booking.setWeight(2);
         }
 
-        List<Disponibility> disponibilities = disponibilityRepository.findByEndAndBegin(dto.getMoment(),booking.getBegin(),booking.getEnd(),id);
+        List<Disponibility> disponibilities = disponibilityRepository.findByEndAndBegin(dto.getMoment(), booking.getBegin(), booking.getEnd(), id);
 
         if(disponibilities.isEmpty()){
             throw new ServiceViolationException("[404] This data is not in system: " + dto.getMoment());
         }
 
-        dtoToEntity(dto,booking);
-
-        Chair c = chairRepository.findByIdAndOffice(dto.getChair(),id);
-        if(c == null){
-            throw new ServiceViolationException("[404] This chair does not count on data base or office area");
-        }
-
         Booking persisted = bookingRepository.save(booking);
 
-        disponibilities.forEach(disp -> {
-            disp.getBookings().add(persisted);
-            disp.getChairs().add(c);
-            disp.tryAvailable(constraints.getPERCENTAGE());
-        });
+        if(dto.getType() == Type.DAY){
+            disponibilities.forEach(disp -> {
+                disp.getBookings().add(persisted);
+                disp.tryAvailable(constraints.getPERCENTAGE());
+            });
+        } else {
+            Chair c = chairRepository.findByIdAndOffice(dto.getChair(),id);
 
-        return new BookingDTO(booking,dto.getMoment(),dto.getType(),dto.getChair());
-    }
+            if(dto.getWeight() > c.getCapacity()){
+                throw new ServiceViolationException("[422] The weight must me smaller than room capacity");
+            }
 
-    private void dtoToEntity (BookingDTO dto, Booking booking){
-        booking.setMoment(dto.getMoment());
-        booking.setEmployee(employeeRepository.getById(dto.getEmployee_id()));
-        booking.setChair(dto.getChair());
+            disponibilities.forEach(disp -> {
+                DisponibilityRoom newDr = new DisponibilityRoom(disp,c);
+                Optional<DisponibilityRoom> dRoom = drRepository.findById(newDr.getPrimaryKey());
+
+                dRoom.ifPresent(disponibilityRoom -> {
+                    disponibilityRoom.addBooking(dto.getWeight());
+                    drRepository.save(disponibilityRoom);
+                });
+
+                if(dRoom.isEmpty()){
+                    newDr.setCapacity(dto.getWeight());
+                    drRepository.save(newDr);
+                }
+
+                disp.getBookings().add(persisted);
+                disp.tryAvailable(constraints.getPERCENTAGE());
+            });
+        }
+        return new BookingDTO(booking,dto.getMoment(),dto.getType(),booking.getChair());
     }
 
     @Transactional
     public void delete(Integer id){
         Booking booking = bookingRepository.findById(id).orElseThrow(() -> new ServiceViolationException("[404] Entity not Found"));
-        List<Disponibility> disp = disponibilityRepository.findByBookingId(id);
+        Set<Disponibility> disp = booking.getDisponibilities();
 
-        Optional<Chair> chair = chairRepository.findById(booking.getChair());
+        System.out.println(disp.isEmpty());
 
-        if(chair.isEmpty()){
-            throw new ServiceViolationException(("[404] Chair not found"));
+        if(booking.getChair() == null){
+            disp.forEach(x -> {
+                x.getBookings().remove(booking);
+            });
+        } else {
+            Optional<Chair> chair = chairRepository.findById(booking.getChair());
+            chair.ifPresent(value -> disp.forEach(x -> {
+                DisponibilityRoomPK pk = new DisponibilityRoomPK(x.getId(),value.getId());
+                DisponibilityRoom dr = drRepository.getById(pk);
+                if(dr.getCapacity() <= 2){
+                    drRepository.delete(dr);
+                } else {
+                    dr.setCapacity(dr.getCapacity() - booking.getWeight());
+                }
+                x.getBookings().remove(booking);
+            }));
         }
-
-
-        disp.forEach(x -> {
-            x.getBookings().remove(booking);
-            x.getChairs().remove(chair.get());
-        });
-
         bookingRepository.delete(booking);
     }
 }

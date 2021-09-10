@@ -1,5 +1,7 @@
 package br.pedro.demofc.entities;
 
+import br.pedro.demofc.entities.pk.DisponibilityPK;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -25,24 +27,23 @@ public class Disponibility {
             inverseJoinColumns = @JoinColumn(name = "BOOKING_ID"))
     private final Set<Booking> bookings = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "Disponibility_Chair",
-            joinColumns = {@JoinColumn (name = "HOUR_ID"), @JoinColumn (name = "MOMENT_ID"), @JoinColumn (name = "OFFICE_ID")},
-            inverseJoinColumns = @JoinColumn(name = "CHAIR_ID"))
-    private final Set<Chair> chairs = new HashSet<>();
-
-//    @ManyToMany(mappedBy = "disponibilities", cascade = CascadeType.ALL)
-//    private final Set<Booking> bookings = new HashSet<>();
-
     public Disponibility() {
     }
 
-    public void tryAvailable(float percentage){
-        this.isAvailable = bookings.size() < this.getOffice().getCapacity() * (percentage/100);
+    public int getAmount(){
+        return bookings.stream().mapToInt(Booking::getWeight).sum();
     }
 
-    public Set<Chair> getChairs() {
-        return chairs;
+    public boolean preTryAvailable(int weight, float percentage){
+        int limit = (int) Math.ceil(this.getOffice().getCapacity() * (percentage/100));
+        int people = bookings.stream().mapToInt(Booking::getWeight).sum();
+        return people + weight <= limit;
+    }
+
+    public void tryAvailable(float percentage){
+        int limit = (int) Math.ceil(this.getOffice().getCapacity() * (percentage/100));
+        int people = bookings.stream().mapToInt(Booking::getWeight).sum();
+        this.isAvailable = people < limit;
     }
 
     public DisponibilityPK getId() {
@@ -67,10 +68,6 @@ public class Disponibility {
 
     public void setAvailable(boolean available) {
         isAvailable = available;
-    }
-
-    public int getAmount() {
-        return bookings.size();
     }
 
     public Set<Booking> getBookings() {

@@ -1,4 +1,4 @@
-package br.pedro.demofc.entities;
+package br.pedro.demofc.entities.pk;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -22,9 +22,10 @@ public class DisponibilityPK implements Serializable {
     public DisponibilityPK() {
     }
 
-    public DisponibilityPK(LocalDate moment, Integer beginHour) {
+    public DisponibilityPK(LocalDate moment, Integer beginHour, Integer office_id) {
         this.moment = moment;
         this.beginHour = beginHour;
+        this.office_id = office_id;
     }
 
     public LocalDate getMoment() {

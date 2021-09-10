@@ -1,18 +1,18 @@
 -- Escritórios
-INSERT INTO Office(name,capacity) VALUES ('MATRIZ - Rua Bela Cintra, 986 - 2º andar, Consolação, São Paulo - SP',10);
-INSERT INTO Office(name,capacity) VALUES ('FILIAL - Praça Dos Expedicionários, 192º andar, Gonzaga, Santos - SP',10);
+INSERT INTO Office(address,capacity,name) VALUES ('Rua Bela Cintra, 986 - 2º andar, Consolação, São Paulo - SP',10,'São Paulo');
+INSERT INTO Office(address,capacity,name) VALUES ('Praça Dos Expedicionários, 192º andar, Gonzaga, Santos - SP',10,'Santos');
 
 -- Cadeiras
-INSERT INTO Chair(type, name, office_id) VALUES (0,'Sala 3',1);
-INSERT INTO Chair(type, name, office_id) VALUES (0,'Sala 2',1);
-INSERT INTO Chair(type, name, office_id) VALUES (1,'A20',1);
-INSERT INTO Chair(type, name, office_id) VALUES (1,'A20',1);
-INSERT INTO Chair(type, name, office_id) VALUES (1,'A20',1);
+INSERT INTO Chair(capacity, name, office_id) VALUES (1,'Sala 3',1);
+INSERT INTO Chair(capacity, name, office_id) VALUES (4,'Sala 2',1);
+INSERT INTO Chair(capacity, name, office_id) VALUES (1,'A20',1);
+INSERT INTO Chair(capacity, name, office_id) VALUES (1,'A20',1);
+INSERT INTO Chair(capacity, name, office_id) VALUES (1,'A20',1);
 
-INSERT INTO Chair(type, name, office_id) VALUES (0,'Sala 35',2);
-INSERT INTO Chair(type, name, office_id) VALUES (0,'Sala 34',2);
-INSERT INTO Chair(type, name, office_id) VALUES (1,'B33',2);
-INSERT INTO Chair(type, name, office_id) VALUES (1,'B22',2);
+INSERT INTO Chair(capacity, name, office_id) VALUES (1,'Sala 35',2);
+INSERT INTO Chair(capacity, name, office_id) VALUES (1,'Sala 34',2);
+INSERT INTO Chair(capacity, name, office_id) VALUES (1,'B33',2);
+INSERT INTO Chair(capacity, name, office_id) VALUES (1,'B22',2);
 
 -- Funcionários
 

@@ -23,15 +23,26 @@ public class ChairDTO {
     @ApiModelProperty(value = "Verbose")
     private String name;
 
-    public ChairDTO(Chair chair, boolean isAvailable){
+    private int bookingAmount;
+
+    public ChairDTO(Chair chair, boolean isAvailable, int bookingAmount){
         this.id = chair.getId();
         this.type = chair.getType();
         this.office_id = chair.getOffice().getId();
         this.isAvailable = isAvailable;
         this.name = chair.getName();
+        this.bookingAmount = bookingAmount;
     }
 
     public ChairDTO() {
+    }
+
+    public int getBookingsAmount() {
+        return bookingAmount;
+    }
+
+    public void setBookingsAmount(int bookingAmount) {
+        this.bookingAmount = bookingAmount;
     }
 
     public Long getId() {

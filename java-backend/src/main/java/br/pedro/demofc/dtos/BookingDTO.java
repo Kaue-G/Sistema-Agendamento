@@ -37,16 +37,18 @@ public class BookingDTO {
     @ApiModelProperty(value = "Horário de término do agendamento")
     private Integer end;
 
+    private Integer weight;
+    private String officeName;
+
     public BookingDTO() {
     }
 
-    public BookingDTO(Type type, Long chair, LocalDate moment, String employee_id, Integer begin, Integer end) {
-        this.type = type;
-        this.chair = chair;
-        this.moment = moment;
-        this.employee_id = employee_id;
-        this.begin = begin;
-        this.end = end;
+    public Integer getWeight() {
+        return weight;
+    }
+
+    public void setWeight(Integer weight) {
+        this.weight = weight;
     }
 
     public BookingDTO(Booking booking, LocalDate date, Type type, Long chair_id){
@@ -54,11 +56,30 @@ public class BookingDTO {
         this.employee_id = booking.getEmployee().getCpf();
         this.type = type;
         this.moment = date;
-        this.chair = chair_id;
         if(type == Type.REUNION){
             this.begin = booking.getBegin();
             this.end = booking.getEnd();
+            this.chair = chair_id;
         }
+    }
+
+    public BookingDTO(Booking booking, String officeName){
+        this.id = booking.getId();
+        this.moment = booking.getMoment();
+        this.weight = booking.getWeight();
+        this.employee_id = booking.getEmployee().getCpf();
+        this.begin = booking.getBegin();
+        this.end = booking.getEnd();
+        this.chair = booking.getChair();
+        this.officeName = officeName;
+    }
+
+    public String getOfficeName() {
+        return officeName;
+    }
+
+    public void setOfficeName(String officeName) {
+        this.officeName = officeName;
     }
 
     public Integer getId() {

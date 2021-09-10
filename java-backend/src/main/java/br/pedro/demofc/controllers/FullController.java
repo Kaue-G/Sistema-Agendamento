@@ -41,13 +41,18 @@ public class FullController {
             @PathVariable Integer id,
             @RequestParam(value = "date") String date,
             @RequestParam(value = "begin",defaultValue = "${begin.service}") Integer begin,
-            @RequestParam(value = "end", defaultValue = "${end.service}") Integer end,
-            @RequestParam(value = "type", defaultValue = "null") String type
+            @RequestParam(value = "end", defaultValue = "${end.service}") Integer end
             ) throws DateTimeParseException {
 
-        Type t = !type.equals("null") ? Type.valueOf(type.toUpperCase()) : null;
-        Page<ChairDTO> dtos = service.findChairsPaged(pageable,id,LocalDate.parse(date),begin,end,t);
+        Page<ChairDTO> dtos = service.findChairsPaged(pageable,id,LocalDate.parse(date),begin,end);
         return ResponseEntity.ok(dtos);
+    }
+
+    @GetMapping(value = "/bookings")
+    public ResponseEntity<List<BookingDTO>> findBookings(@RequestParam(value = "email") String email){
+        List<BookingDTO> dtos = service.findAllBookings(email);
+        return ResponseEntity.ok(dtos);
+
     }
 
     @GetMapping

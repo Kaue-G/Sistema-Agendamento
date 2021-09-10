@@ -38,7 +38,7 @@ mvnw.cmd
 .mvn/
 
 # dependencies
-/node_modules
+/react-frontend/node_modules
 /.pnp
 .pnp.js
 
