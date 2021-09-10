@@ -30,7 +30,7 @@ public class BookingInsertValidator implements ConstraintValidator<BookingValid,
     private BookingRepository bRepository;
 
     @Autowired
-    private ChairRepository cRepository;
+    private RoomRepository cRepository;
 
     @Autowired
     private DisponibilityRoomRepository drRepository;
@@ -59,18 +59,17 @@ public class BookingInsertValidator implements ConstraintValidator<BookingValid,
         var uriVars = (Map<String,String>) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
         int id = Integer.parseInt(uriVars.get("id"));
 
-//        for(String var : uriVars.keySet()){
-//            System.out.println(var + ":" + uriVars.get(var));
-//        }
-
-        Optional<Employee> e = eRepository.findById(dto.getEmployee_id());
-
-        if(e.isEmpty()){
-            errors.add(new FieldMessage("employee_id","This user does not exist"));
+        if(dto.getEmployee_id() == null){
+            errors.add(new FieldMessage("employee_id","This can not be null"));
         } else {
-            Booking b = bRepository.findByEmployeeAndMoment(e.get(),dto.getMoment());
-            if(b != null){
-                errors.add(new FieldMessage("moment","You already made a reservation on: " + dto.getMoment() + ", USER: " + dto.getEmployee_id()));
+            Optional<Employee> e = eRepository.findById(dto.getEmployee_id());
+            if(e.isEmpty()){
+                errors.add(new FieldMessage("employee_id","This user does not exist"));
+            } else {
+                Booking b = bRepository.findByEmployeeAndMoment(e.get(),dto.getMoment());
+                if(b != null){
+                    errors.add(new FieldMessage("moment","You already made a reservation on: " + dto.getMoment() + ", USER: " + dto.getEmployee_id()));
+                }
             }
         }
 
@@ -81,8 +80,6 @@ public class BookingInsertValidator implements ConstraintValidator<BookingValid,
         }
 
         List<Disponibility> disponibilities = findUnavailable(dto,id);
-        //disponibilities.forEach(disp -> disp.tryAvailable(constraints.getPERCENTAGE()));
-        //List<Disponibility> notAvailable = disponibilities.stream().filter(disp -> !disp.isAvailable()).collect(Collectors.toList());
         List<Disponibility> notAvailable = disponibilities.stream().filter(disp -> !disp.preTryAvailable(dto.getWeight(),constraints.getPERCENTAGE())).collect(Collectors.toList());
 
 
@@ -100,19 +97,20 @@ public class BookingInsertValidator implements ConstraintValidator<BookingValid,
                 errors.add(new FieldMessage("end","End time must be greater than begin time"));
             }
 
-            Chair c =  cRepository.findByIdAndOffice(dto.getChair(),id);
+            Room c =  cRepository.findByIdAndOffice(dto.getChair(),id);
 
             if(c == null){
                 errors.add(new FieldMessage("chair", "This chair does not count on database"));
             } else {
+                List<DisponibilityRoom> allRooms = drRepository.findAll();
 
                 List<DisponibilityRoom> dRooms = disponibilities.stream().map(disp -> {
                     DisponibilityRoomPK pk = new DisponibilityRoomPK(disp.getId(),c.getId());
-                    Optional<DisponibilityRoom> optionalRoom = drRepository.findById(pk);
+                    Optional<DisponibilityRoom> optionalRoom = allRooms.stream().filter(room -> room.getId().equals(pk)).distinct().findAny();
                     return optionalRoom.orElse(null);
                 }).filter(Objects::nonNull).collect(Collectors.toList());
 
-                if(!dRooms.isEmpty() && dRooms.stream().anyMatch(droom -> droom.getCapacity() + dto.getWeight() > c.getCapacity())){
+                if(!dRooms.isEmpty() && dRooms.stream().anyMatch(room -> room.getCapacity() + dto.getWeight() > c.getCapacity())){
                     errors.add(new FieldMessage("chair", "This chair has already taken for another group of people"));
                 }
             }

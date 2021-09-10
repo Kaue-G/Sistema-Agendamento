@@ -10,15 +10,15 @@ public class DisponibilityRoomPK implements Serializable {
 
     private DisponibilityPK disponibilityPK = new DisponibilityPK();
 
-    @Column(name = "CHAIR_PK")
-    private Long chair;
+    @Column(name = "ROOM_PK")
+    private Long room;
 
     public DisponibilityRoomPK() {
     }
 
-    public DisponibilityRoomPK(DisponibilityPK disponibilityPK, Long chair) {
+    public DisponibilityRoomPK(DisponibilityPK disponibilityPK, Long room) {
         this.disponibilityPK = disponibilityPK;
-        this.chair = chair;
+        this.room = room;
     }
 
     public DisponibilityPK getDisponibilityPK() {
@@ -29,12 +29,12 @@ public class DisponibilityRoomPK implements Serializable {
         this.disponibilityPK = disponibilityPK;
     }
 
-    public Long getChair() {
-        return chair;
+    public Long getRoom() {
+        return room;
     }
 
-    public void setChair(Long chair) {
-        this.chair = chair;
+    public void setRoom(Long chair) {
+        this.room = chair;
     }
 
     @Override
@@ -42,11 +42,11 @@ public class DisponibilityRoomPK implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         DisponibilityRoomPK that = (DisponibilityRoomPK) o;
-        return disponibilityPK.equals(that.disponibilityPK) && chair.equals(that.chair);
+        return disponibilityPK.equals(that.disponibilityPK) && room.equals(that.room);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(disponibilityPK, chair);
+        return Objects.hash(disponibilityPK, room);
     }
 }

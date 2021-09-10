@@ -15,8 +15,8 @@ public class Booking {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "CHAIR_ID")
-    private Long chair;
+    @Column(name = "ROOM")
+    private Long room;
 
     private LocalDate moment;
 
@@ -54,12 +54,12 @@ public class Booking {
         this.id = id;
     }
 
-    public Long getChair() {
-        return chair;
+    public Long getRoom() {
+        return room;
     }
 
-    public void setChair(Long chair) {
-        this.chair = chair;
+    public void setRoom(Long chair) {
+        this.room = chair;
     }
 
     public LocalDate getMoment() {

@@ -17,7 +17,7 @@ import java.util.List;
 @Repository
 public interface DisponibilityRepository extends JpaRepository<Disponibility, DisponibilityPK> {
 
-    @EntityGraph(type = EntityGraph.EntityGraphType.FETCH, attributePaths = {"office", "bookings"})
+    @EntityGraph(type = EntityGraph.EntityGraphType.LOAD, attributePaths = {"office", "bookings"})
     @Query("SELECT disp FROM Disponibility disp WHERE disp.id.moment = :moment AND " +
             "disp.id.beginHour BETWEEN :begin AND :end AND " +
             "disp.office.id = :id")
@@ -26,7 +26,7 @@ public interface DisponibilityRepository extends JpaRepository<Disponibility, Di
     @EntityGraph(type = EntityGraph.EntityGraphType.LOAD, attributePaths = {"office", "bookings"})
     @Query("SELECT disp FROM Disponibility disp WHERE disp.office.id = :id AND :data = disp.id.moment AND " +
             "(:bool IS FALSE OR disp.isAvailable = :bool)")
-    Page<Disponibility> findAllByOffice(Pageable pageable, LocalDate data, Integer id, Boolean bool);
+    List<Disponibility> findAllByOffice(LocalDate data, Integer id, Boolean bool);
 
     @Query("SELECT new br.pedro.demofc.dtos.DayDTO(disp.id.moment) FROM Disponibility disp WHERE disp.office.id = :id GROUP BY disp.id.moment")
     List<DayDTO> findDaysOfDisponibilities(Integer id);

@@ -21,7 +21,7 @@ public class Disponibility {
     @Column(name = "IS_AVAILABLE")
     private boolean isAvailable;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany
     @JoinTable(name = "Disponibility_Booking",
             joinColumns = {@JoinColumn (name = "HOUR_ID"), @JoinColumn (name = "MOMENT_ID"), @JoinColumn (name = "OFFICE_ID")},
             inverseJoinColumns = @JoinColumn(name = "BOOKING_ID"))

@@ -1,40 +1,29 @@
 package br.pedro.demofc.dtos;
 
-import br.pedro.demofc.entities.Chair;
+import br.pedro.demofc.entities.Room;
 import br.pedro.demofc.entities.Type;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 
-@ApiModel(value = "Chair", description = "Dado sobre cadeira ou sala disponível no banco de dados")
-public class ChairDTO {
-
-    @ApiModelProperty(value = "Identificador")
+@ApiModel(value = "Room", description = "Entidade que representa uma Sala.")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class RoomDTO {
     private Long id;
-
-    @ApiModelProperty(value = "Tipo do local de trabalho: uma mesa ou sala")
-    private Type type;
-
-    @ApiModelProperty(value = "Verificação da disponibilidade")
     private boolean isAvailable;
-
-    @ApiModelProperty(value = "Escritório a qual pertence")
     private Integer office_id;
-
-    @ApiModelProperty(value = "Verbose")
     private String name;
 
     private int bookingAmount;
 
-    public ChairDTO(Chair chair, boolean isAvailable, int bookingAmount){
-        this.id = chair.getId();
-        this.type = chair.getType();
-        this.office_id = chair.getOffice().getId();
+    public RoomDTO(Room room, boolean isAvailable, int bookingAmount){
+        this.id = room.getId();
+        this.office_id = room.getOffice().getId();
         this.isAvailable = isAvailable;
-        this.name = chair.getName();
+        this.name = room.getName();
         this.bookingAmount = bookingAmount;
     }
 
-    public ChairDTO() {
+    public RoomDTO() {
     }
 
     public int getBookingsAmount() {
@@ -51,14 +40,6 @@ public class ChairDTO {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Type getType() {
-        return type;
-    }
-
-    public void setType(Type type) {
-        this.type = type;
     }
 
     public String getName() {

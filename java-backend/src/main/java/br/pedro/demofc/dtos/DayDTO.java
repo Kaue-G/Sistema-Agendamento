@@ -4,7 +4,7 @@ import io.swagger.annotations.ApiModel;
 
 import java.time.LocalDate;
 
-@ApiModel(value = "Day", description = "Dias disponíveis no banco para agendamentos")
+@ApiModel(value = "Day", description = "Entidade que representa uma formatação para os dias disponíveis.")
 public class DayDTO {
 
     private int day;

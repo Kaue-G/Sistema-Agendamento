@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "Office")
+@Table(name = "OFFICE")
 public class Office {
 
     @Id
@@ -20,7 +20,7 @@ public class Office {
     private final List<Disponibility> disponibilities = new ArrayList<>();
 
     @OneToMany(mappedBy = "office")
-    private final List<Chair> chairs = new ArrayList<>();
+    private final List<Room> rooms = new ArrayList<>();
 
     public Office() {
     }
@@ -37,8 +37,8 @@ public class Office {
         return disponibilities;
     }
 
-    public List<Chair> getChairs() {
-        return chairs;
+    public List<Room> getChairs() {
+        return rooms;
     }
 
     public int getCapacity() {

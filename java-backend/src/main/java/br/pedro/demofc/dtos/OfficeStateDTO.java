@@ -2,7 +2,7 @@ package br.pedro.demofc.dtos;
 
 import io.swagger.annotations.ApiModel;
 
-@ApiModel(value = "OfficeState", description = "Estado do escritório em uma data")
+@ApiModel(value = "OfficeState", description = "Estado do escritório em uma data.")
 public class OfficeStateDTO {
 
     private Integer officeId;

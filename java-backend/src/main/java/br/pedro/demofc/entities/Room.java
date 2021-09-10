@@ -3,8 +3,8 @@ package br.pedro.demofc.entities;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Chair")
-public class Chair {
+@Table(name = "ROOM")
+public class Room {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +20,7 @@ public class Chair {
 
     private int capacity;
 
-    public Chair() {
+    public Room() {
     }
 
     public int getCapacity() {

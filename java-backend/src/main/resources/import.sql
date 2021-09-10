@@ -3,16 +3,11 @@ INSERT INTO Office(address,capacity,name) VALUES ('Rua Bela Cintra, 986 - 2º an
 INSERT INTO Office(address,capacity,name) VALUES ('Praça Dos Expedicionários, 192º andar, Gonzaga, Santos - SP',10,'Santos');
 
 -- Cadeiras
-INSERT INTO Chair(capacity, name, office_id) VALUES (1,'Sala 3',1);
-INSERT INTO Chair(capacity, name, office_id) VALUES (4,'Sala 2',1);
-INSERT INTO Chair(capacity, name, office_id) VALUES (1,'A20',1);
-INSERT INTO Chair(capacity, name, office_id) VALUES (1,'A20',1);
-INSERT INTO Chair(capacity, name, office_id) VALUES (1,'A20',1);
+INSERT INTO Room(capacity, name, office_id) VALUES (4,'Sala 1',1);
+INSERT INTO Room(capacity, name, office_id) VALUES (4,'Sala 2',1);
 
-INSERT INTO Chair(capacity, name, office_id) VALUES (1,'Sala 35',2);
-INSERT INTO Chair(capacity, name, office_id) VALUES (1,'Sala 34',2);
-INSERT INTO Chair(capacity, name, office_id) VALUES (1,'B33',2);
-INSERT INTO Chair(capacity, name, office_id) VALUES (1,'B22',2);
+INSERT INTO Room(capacity, name, office_id) VALUES (4,'Sala 35',2);
+INSERT INTO Room(capacity, name, office_id) VALUES (4,'Sala 34',2);
 
 -- Funcionários
 

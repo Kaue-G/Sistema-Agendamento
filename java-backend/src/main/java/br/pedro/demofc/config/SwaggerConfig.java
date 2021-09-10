@@ -2,6 +2,7 @@ package br.pedro.demofc.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,7 +30,7 @@ public class SwaggerConfig {
                 .apis(RequestHandlerSelectors.withClassAnnotation(RestController.class)).paths(PathSelectors.any())
                 .build()
                 .ignoredParameterTypes(Sort.class)
-                .ignoredParameterTypes(Page.class)
+                .ignoredParameterTypes(Pageable.class)
                 .globalResponseMessage(RequestMethod.GET,responseMessageForGET())
                 .globalResponseMessage(RequestMethod.POST,responseMessageForGET())
                 .globalResponseMessage(RequestMethod.DELETE,responseMessageForGET())

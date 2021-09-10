@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -23,19 +24,19 @@ public class FullService {
 
     private final BookingRepository bookingRepository;
     private final DisponibilityRepository disponibilityRepository;
-    private final ChairRepository chairRepository;
+    private final RoomRepository roomRepository;
     private final EmployeeRepository employeeRepository;
     private final OfficeRepository oRepository;
     private final DisponibilityRoomRepository drRepository;
 
     @Autowired
     FullService(BookingRepository bookingRepository, DisponibilityRepository disponibilityRepository,
-                ChairRepository chairRepository, EmployeeRepository employeeRepository, OfficeRepository oRepository,
+                RoomRepository roomRepository, EmployeeRepository employeeRepository, OfficeRepository oRepository,
                 DisponibilityRoomRepository drRepository,
                 Constraints constraints){
         this.bookingRepository = bookingRepository;
         this.disponibilityRepository = disponibilityRepository;
-        this.chairRepository = chairRepository;
+        this.roomRepository = roomRepository;
         this.employeeRepository = employeeRepository;
         this.oRepository = oRepository;
         this.drRepository = drRepository;
@@ -60,20 +61,20 @@ public class FullService {
         Office office = oRepository.findById(id).orElseThrow(() -> new ServiceViolationException("[404] Office not found"));
 
         List<Disponibility> disponibilities = disponibilityRepository.findByEndAndBegin(date,constraints.getBEGIN(),constraints.getEND(),office.getId());
-        List<Chair> chairs = office.getChairs();
+        List<Room> rooms = office.getChairs();
 
         int maxValue = disponibilities.stream().mapToInt(Disponibility::getAmount).max().orElse(0);
         int restrictedCapacity = (int) Math.ceil(office.getCapacity() * (constraints.getPERCENTAGE()) / 100);
 
-        return new OfficeStateDTO(office.getId(), restrictedCapacity, maxValue, chairs.size());
+        return new OfficeStateDTO(office.getId(), restrictedCapacity, maxValue, rooms.size());
     }
 
     @Transactional(readOnly = true)
-    public Page<ChairDTO> findChairsPaged(Pageable pageable, Integer id, LocalDate when, Integer begin, Integer end){
+    public Page<RoomDTO> findChairsPaged(Pageable pageable, Integer id, LocalDate when, Integer begin, Integer end){
 
         List<Disponibility> disponibilities = disponibilityRepository.findByEndAndBegin(when,begin,end,id);
 
-        Page<Chair> allChairs = chairRepository.findByOffice(pageable, id);
+        Page<Room> allChairs = roomRepository.findByOffice(pageable, id);
 
         // RESTRINGIR ESSA BUSCA POR DATA ESCRITORIO E HORA
         List<DisponibilityRoom> dRooms = drRepository.findAll();
@@ -83,7 +84,7 @@ public class FullService {
             int occupiedAmount = 0;
             for(Disponibility disp : disponibilities){
                 DisponibilityRoomPK pk = new DisponibilityRoomPK(disp.getId(),chair.getId());
-                List<DisponibilityRoom> containedRooms = dRooms.stream().filter(droom -> droom.getPrimaryKey().equals(pk)).collect(Collectors.toList());
+                List<DisponibilityRoom> containedRooms = dRooms.stream().filter(droom -> droom.getId().equals(pk)).collect(Collectors.toList());
 
                 if(!containedRooms.isEmpty()){
                     if(containedRooms.get(0).getCapacity() >= chair.getCapacity()){
@@ -92,16 +93,16 @@ public class FullService {
                     occupiedAmount = containedRooms.get(0).getCapacity();
                 }
             }
-            return new ChairDTO(chair, isOccupied, occupiedAmount);
+            return new RoomDTO(chair, isOccupied, occupiedAmount);
         });
     }
 
     @Transactional(readOnly = true)
-    public Page<DisponibilityDTO> findDisponibilities(Pageable pageable, Integer id, LocalDate date, Boolean bool){
-        Page<Disponibility> disponibilities = disponibilityRepository.findAllByOffice(pageable,date,id,bool);
+    public List<DisponibilityDTO> findDisponibilities(Integer id, LocalDate date, Boolean bool){
+        List<Disponibility> disponibilities = disponibilityRepository.findAllByOffice(date,id,bool);
 
         disponibilities.forEach(disp -> disp.tryAvailable(constraints.getPERCENTAGE()));
-        return disponibilities.map(DisponibilityDTO::new);
+        return disponibilities.stream().map(DisponibilityDTO::new).collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
@@ -126,12 +127,12 @@ public class FullService {
         if(dto.getType() == Type.DAY){
             booking.setBegin(constraints.getBEGIN());
             booking.setEnd(constraints.getEND());
-            booking.setChair(null);
+            booking.setRoom(null);
             booking.setWeight(1);
         } else {
             booking.setBegin(dto.getBegin());
             booking.setEnd(dto.getEnd());
-            booking.setChair(dto.getChair());
+            booking.setRoom(dto.getChair());
             booking.setWeight(2);
         }
 
@@ -149,15 +150,17 @@ public class FullService {
                 disp.tryAvailable(constraints.getPERCENTAGE());
             });
         } else {
-            Chair c = chairRepository.findByIdAndOffice(dto.getChair(),id);
+            Room c = roomRepository.findByIdAndOffice(dto.getChair(),id);
 
             if(dto.getWeight() > c.getCapacity()){
                 throw new ServiceViolationException("[422] The weight must me smaller than room capacity");
             }
 
+            List<DisponibilityRoom> allRooms = drRepository.findAll();
+
             disponibilities.forEach(disp -> {
                 DisponibilityRoom newDr = new DisponibilityRoom(disp,c);
-                Optional<DisponibilityRoom> dRoom = drRepository.findById(newDr.getPrimaryKey());
+                Optional<DisponibilityRoom> dRoom = allRooms.stream().filter(room -> room.equals(newDr)).findAny();
 
                 dRoom.ifPresent(disponibilityRoom -> {
                     disponibilityRoom.addBooking(dto.getWeight());
@@ -173,7 +176,7 @@ public class FullService {
                 disp.tryAvailable(constraints.getPERCENTAGE());
             });
         }
-        return new BookingDTO(booking,dto.getMoment(),dto.getType(),booking.getChair());
+        return new BookingDTO(booking,dto.getMoment(),dto.getType(),booking.getRoom());
     }
 
     @Transactional
@@ -181,14 +184,12 @@ public class FullService {
         Booking booking = bookingRepository.findById(id).orElseThrow(() -> new ServiceViolationException("[404] Entity not Found"));
         Set<Disponibility> disp = booking.getDisponibilities();
 
-        System.out.println(disp.isEmpty());
-
-        if(booking.getChair() == null){
+        if(booking.getRoom() == null){
             disp.forEach(x -> {
                 x.getBookings().remove(booking);
             });
         } else {
-            Optional<Chair> chair = chairRepository.findById(booking.getChair());
+            Optional<Room> chair = roomRepository.findById(booking.getRoom());
             chair.ifPresent(value -> disp.forEach(x -> {
                 DisponibilityRoomPK pk = new DisponibilityRoomPK(x.getId(),value.getId());
                 DisponibilityRoom dr = drRepository.getById(pk);

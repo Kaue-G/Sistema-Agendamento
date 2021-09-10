@@ -1,6 +1,6 @@
 package br.pedro.demofc;
 
-import br.pedro.demofc.repositories.ChairRepository;
+import br.pedro.demofc.repositories.RoomRepository;
 import br.pedro.demofc.repositories.DisponibilityRepository;
 import br.pedro.demofc.repositories.EmployeeRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,7 +13,7 @@ import java.time.LocalDate;
 public class DataTests {
 
     @Autowired
-    private ChairRepository cRepository;
+    private RoomRepository cRepository;
 
     @Autowired
     private DisponibilityRepository dRepository;

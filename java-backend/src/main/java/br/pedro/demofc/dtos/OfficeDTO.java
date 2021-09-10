@@ -1,8 +1,11 @@
 package br.pedro.demofc.dtos;
 
+import io.swagger.annotations.ApiModel;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@ApiModel(value = "Office", description = "Dados estáticos do escritório.")
 public class OfficeDTO {
 
     private Integer id;

@@ -1,7 +1,8 @@
 CREATE TABLE Office(
 	id SERIAL PRIMARY KEY,
 	name VARCHAR(255),
-	capacity INTEGER
+	capacity INTEGER,
+	address VARCHAR(255)
 );
 
 CREATE TABLE Employee(
@@ -10,12 +11,14 @@ CREATE TABLE Employee(
 	business_unit VARCHAR(255)
 );
 
-CREATE TABLE Chair(
+CREATE TABLE Room(
 	id SERIAL PRIMARY KEY,
 	type INTEGER,
 	name VARCHAR(255),
+	capacity INTEGER,
 	
 	office_id INTEGER,
+	
 	
 	CONSTRAINT FK_office FOREIGN KEY (office_id) REFERENCES Office(id)
 );
@@ -34,11 +37,12 @@ CREATE TABLE Disponibility(
 
 CREATE TABLE Booking(
 	id SERIAL PRIMARY KEY,
-	chair_id INTEGER,
+	room INTEGER,
 	begin_time INTEGER,
 	end_time INTEGER,
 	employee_id VARCHAR(255),
 	moment DATE,
+	weight INTEGER,
 	
 	CONSTRAINT FK_employee FOREIGN KEY (employee_id) REFERENCES Employee(cpf),
 	CONSTRAINT UN_employee_moment UNIQUE (employee_id,moment)
@@ -56,16 +60,15 @@ CREATE TABLE Disponibility_Booking(
 	CONSTRAINT Fk_booking FOREIGN KEY (booking_id) REFERENCES Booking
 );
 
-CREATE TABLE Disponibility_Chair(
-	hour_id INTEGER,
-	office_id INTEGER,
-	moment_id DATE,
-	chair_id INTEGER,
+CREATE TABLE Disponibility_Room(
+	hour_pk INTEGER,
+	office_pk INTEGER,
+	date_pk DATE,
+	room_pk INTEGER,
 	
-	PRIMARY KEY(hour_id, office_id, moment_id, chair_id),
+	capacity INTEGER,
 	
-	CONSTRAINT FK_disponibility FOREIGN KEY (moment_id, hour_id, office_id) REFERENCES Disponibility,
-	CONSTRAINT Fk_chair FOREIGN KEY (chair_id) REFERENCES Chair
+	PRIMARY KEY(hour_pk, office_pk, date_pk, room_pk)
 );
 
 -- Escritórios
@@ -74,19 +77,14 @@ INSERT INTO Office(name) VALUES ('FILIAL - Santos');
 
 SELECT * FROM Office;
 
--- Cadeiras e salas
-INSERT INTO Chair(type,office_id,name) VALUES 
-(0,1,'Sala 1'),
-(0,1,'Sala 2'),
-(1,1,'A45'),
-(1,1,'A46'),
-(1,1,'A47'),
-(0,2,'Sala 35'),
-(0,2,'Sala 38'),
-(1,2,'B20'),
-(1,2,'B50');
+-- Salas
+INSERT INTO Room(office_id,name,capacity) VALUES 
+(1,'Sala 1',4),
+(1,'Sala 2',2),
+(2,'Sala 35',4),
+(2,'Sala 38',1);
 
-SELECT * FROM Chair;
+SELECT * FROM Room;
 
 -- Funcionários
 INSERT INTO Employee(cpf, business_unit, email) VALUES
@@ -180,3 +178,4 @@ INSERT INTO Disponibility(date_pk, hour_pk, office_pk, is_available) VALUES ('20
 
 SELECT * FROM Disponibility;
 SELECT * FROM Booking;
+SELECT * FROM Disponibility_Room;

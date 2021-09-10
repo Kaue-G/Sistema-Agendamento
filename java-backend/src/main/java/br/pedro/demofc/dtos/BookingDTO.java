@@ -7,48 +7,32 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiParam;
 
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
 
 @JsonInclude(Include.NON_NULL)
 @BookingValid
-@ApiModel(value = "Booking", description = "Agendamento")
+@ApiModel(value = "Booking", description = "Entidade que representa o corpo de um agendamento.")
 public class BookingDTO {
 
-    @ApiModelProperty(value = "Identificador do agendamento")
     private Integer id;
-
-    @ApiModelProperty(value = "Tipo do agendamento para definir entre dia completo 'DAY' ou intervalo de horário 'REUNION'")
     private Type type;
 
-    @ApiModelProperty(value = "Local de trabalho", required = true)
     private Long chair;
 
-    @ApiModelProperty(value = "Data do agendamento", required = true)
+    @ApiModelProperty(required = true)
     private LocalDate moment;
 
-    @ApiModelProperty(value = "Usuário relacionado ao agendamento", required = true)
+    @ApiModelProperty(required = true)
     private String employee_id;
 
-    @ApiModelProperty(value = "Horário de início do agendamento")
     private Integer begin;
-
-    @ApiModelProperty(value = "Horário de término do agendamento")
     private Integer end;
-
     private Integer weight;
     private String officeName;
 
     public BookingDTO() {
-    }
-
-    public Integer getWeight() {
-        return weight;
-    }
-
-    public void setWeight(Integer weight) {
-        this.weight = weight;
     }
 
     public BookingDTO(Booking booking, LocalDate date, Type type, Long chair_id){
@@ -70,17 +54,21 @@ public class BookingDTO {
         this.employee_id = booking.getEmployee().getCpf();
         this.begin = booking.getBegin();
         this.end = booking.getEnd();
-        this.chair = booking.getChair();
+        this.chair = booking.getRoom();
         this.officeName = officeName;
     }
 
-    public String getOfficeName() {
-        return officeName;
+    public Integer getWeight() {
+        return weight;
     }
 
-    public void setOfficeName(String officeName) {
-        this.officeName = officeName;
+    public void setWeight(Integer weight) {
+        this.weight = weight;
     }
+
+    public String getOfficeName() { return officeName; }
+
+    public void setOfficeName(String officeName) { this.officeName = officeName; }
 
     public Integer getId() {
         return id;
