@@ -1,4 +1,4 @@
-.office-page {
+.home-page {
    width: 1234px;
    height: 745px;
    background-color: white;
@@ -7,7 +7,7 @@
    border-radius: 20px;
  }
 
- .office-page div .central {
+ .home-page div .central {
    display: flex;
    flex-direction: column;
    /* justify-content: space-between; */
@@ -16,12 +16,12 @@
    padding: 30px;
  }
  
- .office-page p {
+ .home-page p {
    font-size: 25px;
    line-height: 35px;
 }
 
- .office-page span {
+ .home-page span {
    font-size: 20px;
   }
 

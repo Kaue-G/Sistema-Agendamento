@@ -21,12 +21,12 @@ function Modal({ visible, setVisible, office }) {
             <div className='images'>
               <div className='office'>
                 <Link to={`/office/${office.id}/chair`}>
-                  <img src='/office.svg' alt='' />
+                  <img src='/images/office.svg' alt='' />
                 </Link>
               </div>
               <div className='meet'>
                 <Link to={`/office/${office.id}/meet`}>
-                  <img src='/meet.svg' alt='' />
+                  <img src='/images/meet.svg' alt='' />
                 </Link>
               </div>
             </div>

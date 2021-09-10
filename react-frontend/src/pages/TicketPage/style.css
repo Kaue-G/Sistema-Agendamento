@@ -1,0 +1,147 @@
+.ticket-page{
+  display: flex;
+  flex-direction: column;
+  padding: 70px;
+}
+
+.ticket-page .top{
+  display: flex;
+  justify-content: space-between;
+}
+
+.ticket-page .top .msg {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ticket-page .top .image-space {
+  padding-left: 70px;
+}
+
+.ticket-page .top .msg h1 {
+  margin-top: 100px;
+  margin-bottom: 40px;
+  font-weight: bold;
+  font-size: 64px;
+}
+
+.ticket-page .top .msg p {
+  margin: 30px;
+}
+
+.ticket-page .middle {
+  display: flex;
+  justify-content: space-between;
+}
+
+.ticket-page .middle .ticket {
+  width: 560px;
+  height: 275px;
+  background-color: #E1DEDE;
+  border-radius: 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 30px 50px;
+}
+
+.ticket-page .middle .ticket .number {
+  width: 480px;
+  height: 110px;
+  border-radius: 55px;
+  background-color: #FFFFFF;
+  margin: 30px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 64px;
+}
+
+.ticket-page .middle .ticket .infos{
+  display: flex;
+}
+
+
+.ticket-page .middle .ticket .infos .box1{
+  display: flex;
+  justify-content: space-between;
+  width: 280px;
+  padding: 0 30px;
+  border-right: 1px solid black;
+}
+
+
+.ticket-page .middle .ticket .infos .box1 .date{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ticket-page .middle .ticket .infos .box1 .date .date-p1{
+  font-weight: 500;
+  font-size: 25px;
+  padding-left: 10px;
+}
+
+.ticket-page .middle .ticket .infos .box1 .date .date-p2{
+  font-size: 18px;
+}
+
+.ticket-page .middle .ticket .infos .box1 .date{
+  display: flex;
+  flex-direction: column;
+}
+
+.ticket-page .middle .ticket .infos .box2{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  width: 280px;
+  padding: 0 20px;
+}
+
+.ticket-page .middle .ticket .infos .box2 .office-p1{
+  font-weight: 500;
+  font-size: 20px;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.ticket-page .middle .ticket .infos .box2 .office-p2{
+  font-weight: 500;
+  font-size: 20px;
+}
+
+.ticket-page .middle .right{
+ display: flex;
+}
+
+.ticket-page .middle .right .r1{
+  margin: 30px;
+  padding-top: 100px;
+}
+
+.ticket-page .middle .right .r2{
+  display: flex;
+  padding-bottom: 160px;
+}
+
+.ticket-page .bottom{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  text-align: center;
+}
+
+.ticket-page .bottom p{
+  font-size: 26px;
+  margin: 30px;
+}
+
+.ticket-page .bottom .link a:visited{
+  color: #000000;
+  
+}
+

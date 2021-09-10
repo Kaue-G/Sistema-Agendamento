@@ -3,12 +3,18 @@ const offices = [
   {
     id: 'sao-paulo',
     name: 'São Paulo',
-    endereco: 'R.Bela Cintra, 986 - 2º andar - Consolação, São Paulo - SP, 01415 - 906'
+    address: 'R. Bela Cintra, 986 - 2º andar',
+    compl: 'Consolação, São Paulo - SP, 01415 - 906',
+    chairs: 240,
+    meetRoom: 3
   },
   {
     id: 'santos',
     name: 'Santos',
-    endereco: 'Prç. dos Expedicionários, 19 - Gonzaga, Santos-SP, 11065-500'
+    address: 'Prç. dos Expedicionários, 19 ',
+    compl: 'Gonzaga, Santos-SP, 11065-500',
+    chairs: 40,
+    meetRoom: 2
   }
 ]
 export function getOffices() {

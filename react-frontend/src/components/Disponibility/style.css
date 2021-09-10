@@ -1,6 +1,130 @@
-.container {
-  width: 474px;
-  height: 557px;
-  border: 1px solid black;
+.dispon{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
 }
+
+.dispon h1 {
+ text-align: center;
+ margin-bottom: 15px;
+}
+
+.dispon .address{
+  margin-top: 10px;
+  text-align: center;
+}
+
+.dispon .compl {
+  margin-top: 5px;
+ text-align: center;
+}
+
+.dispon .dispon-boxes {
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+  height: 390px;
+  background-color: #EEEDED;
+  border-radius: 20px;
+  padding: 20px;
+}
+
+.dispon .dispon-boxes .msg {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 15px;
+  border-bottom: 1px dashed black;
+}
+
+.dispon .boxes .box-left {
+   border-right: 1px dashed black;
+}
+
+.dispon .boxes .box-right,
+.dispon .boxes .box-left{
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  padding: 0 10px;
+}
+
+.dispon .boxes .box-left .boxL1,
+.dispon .boxes .box-right .boxR1{
+  border-bottom: 1px dashed black;
+  padding-bottom: 10px;
+  font-weight: bold;
+  height: 10%;
+  text-align: center;
+}
+
+.dispon .boxes .box-left .boxL2,
+.dispon .boxes .box-right .boxR2{
+  border-bottom: 1px dashed black;
+  padding: 10px;
+  text-align: start;
+  height: 50%;
+}
+
+.dispon .boxes .box-left .boxL3,
+.dispon .boxes .box-right .boxR3{
+  padding: 10px;
+  height: 30%;
+  text-align: center;
+}
+
+button:focus, select:focus {
+    box-shadow: 0 0 0 0;
+    border: 0 none;
+    outline: 0;
+} 
+
+.dispon .boxes .box-left .boxL2 select,
+.dispon .boxes .box-right .boxR2 select{
+  width: 190px;
+  height: 35px;
+  border-radius: 20px;
+  margin: 5px 0;
+  font-size: 18px;
+}
+
+.dispon .boxes .box-right .boxR2 .time {
+  display: flex;
+  font-size: 14px;
+}
+
+
+.dispon .boxes .box-right .boxR2 .time select{
+  width: 90px;
+  height: 35px;
+  border-radius: 20px;
+  margin-right: 10px;
+}
+
+.dispon .boxes .box-left .boxL3 p:after,
+.dispon .boxes .box-right .boxR3 p:after{
+  content: ' \2714';
+
+}
+
+.dispon .boxes .box-left .boxL3 button,
+.dispon .boxes .box-right .boxR3 button{
+  width: 190px;
+  height: 60px;
+  border-radius: 30px;
+  margin: 10px 0;
+  border: 1px solid black;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.dispon .boxes .box-left .boxL3 button:hover,
+.dispon .boxes .box-right .boxR3 button:hover{
+  background-color: black;
+  color: white;
+  transition: 0.3s;
+}
+
+
+
+
 

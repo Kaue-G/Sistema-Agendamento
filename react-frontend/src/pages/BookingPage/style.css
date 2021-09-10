@@ -1,0 +1,32 @@
+.booking-page {
+   width: 1234px;
+   height: 745px;
+   background-color: white;
+   margin: 60px auto;
+   display: flex;
+   border-radius: 20px;
+ }
+
+ .booking-page .container {
+   display: flex;
+   flex-direction: column;
+   margin: 40px;
+ }
+
+ .booking-page .container .txt {
+   display: flex;
+   justify-content: center;
+ }
+
+  .booking-page .container .txt p{
+   font-size: 24px;
+   line-height: 30px;
+   text-align: center;
+   padding: 40px;
+ }
+
+ .booking-page .container .boxes {
+   display: flex;
+   justify-content: space-between;
+   margin-top: 25px;
+ }
