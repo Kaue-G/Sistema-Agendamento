@@ -55,11 +55,21 @@ public class BookingDTO {
         this.employee_id = booking.getEmployee().getCpf();
         this.type = type;
         this.moment = date;
-        this.chair = chair_id;
         if(type == Type.REUNION){
             this.begin = booking.getBegin();
             this.end = booking.getEnd();
+            this.chair = chair_id;
         }
+    }
+
+    public BookingDTO(Booking booking){
+        this.id = booking.getId();
+        this.moment = booking.getMoment();
+        this.weight = booking.getWeight();
+        this.employee_id = booking.getEmployee().getCpf();
+        this.begin = booking.getBegin();
+        this.end = booking.getEnd();
+        this.chair = booking.getChair();
     }
 
     public Integer getId() {

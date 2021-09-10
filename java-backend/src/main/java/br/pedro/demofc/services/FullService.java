@@ -186,4 +186,11 @@ public class FullService {
         }
         bookingRepository.delete(booking);
     }
+
+    public List<BookingDTO> findAllBookings(String email) {
+        Employee e = employeeRepository.findById(email).orElseThrow(() -> new ServiceViolationException("[404] Entity not Found"));
+        List<Booking> bookings = bookingRepository.findBookingByEmployee(e);
+
+        return bookings.stream().map(BookingDTO::new).collect(Collectors.toList());
+    }
 }

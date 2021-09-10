@@ -48,6 +48,13 @@ public class FullController {
         return ResponseEntity.ok(dtos);
     }
 
+    @GetMapping(value = "/bookings")
+    public ResponseEntity<List<BookingDTO>> findBookings(@RequestParam(value = "email") String email){
+        List<BookingDTO> dtos = service.findAllBookings(email);
+        return ResponseEntity.ok(dtos);
+
+    }
+
     @GetMapping
     public ResponseEntity<List<OfficeDTO>> findOffices(){
         List<OfficeDTO> offices = service.findOffices();
