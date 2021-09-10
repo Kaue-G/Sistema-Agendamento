@@ -137,6 +137,10 @@ public class FullService {
 
             Chair c = chairRepository.findByIdAndOffice(dto.getChair(),id);
 
+            if(dto.getWeight() > c.getCapacity()){
+                throw new ServiceViolationException("[422] The weight must me smaller than room capacity");
+            }
+
             disponibilities.forEach(disp -> {
                 DisponibilityRoom newDr = new DisponibilityRoom(disp,c);
                 Optional<DisponibilityRoom> dRoom = drRepository.findById(newDr.getPrimaryKey());
