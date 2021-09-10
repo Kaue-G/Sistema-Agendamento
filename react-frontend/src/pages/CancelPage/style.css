@@ -1,0 +1,38 @@
+.container {
+    width: 100vw;
+    height: 100vh;
+    padding: 12vh 12vw 0 12vw;
+}
+
+.page {
+    display: flex;
+    background: #FF601C;
+    border-radius: 20px;
+}
+
+.cancelarTicket {
+    background: #F9F8F8;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+
+
+    border-radius: 0 20px 20px 0;
+    margin: 10px 10px 10px 0;
+    padding: 5% 8%;
+}
+
+.txt {
+    height: 100px;
+}
+
+.form {
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form input {
+    margin-bottom: 40px;
+}
+
