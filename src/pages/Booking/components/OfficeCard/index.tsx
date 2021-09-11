@@ -61,7 +61,6 @@ const OfficeCard = ({office}: Props) => {
                         <RoomIcon state="active-icon"/>
                     </div>
                     <button className="btn btn-secondary btn-lg">Agendar sala</button>
-
                 </div>
             </div>
         </div>

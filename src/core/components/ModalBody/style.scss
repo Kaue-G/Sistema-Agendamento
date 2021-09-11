@@ -1,0 +1,45 @@
+.modal-body {
+    max-width: 540px;
+    padding: 35px 35px 35px 35px;
+    border-radius: 30px;
+    background-color: #FFF;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    div {
+        border: none;
+    }
+
+    button {
+        border-radius: 50px;
+        font-weight: bold;
+        width: 232px;
+        margin-top: 60px;
+        &.go-back  {
+            color: #000;
+            border: 1px solid #000;
+            margin-right: 40px;
+        }
+
+        &.go-confirm {
+            color: #FFF;
+        }
+    }
+}
+
+.modal-container {
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(0, 0, 0, 0.575);
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
