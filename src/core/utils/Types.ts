@@ -1,14 +1,15 @@
 export type Office = {
     id: number,
     name: string,
-    totalChairs: number,
+    restrictedCapacity: number,
     totalRooms: number,
+    address: string,
     days: Day[]
 }
 
 export type Day = {
     date: string;
-    day: number;
+    dayNumber: number;
     verbose: string;
 }
 

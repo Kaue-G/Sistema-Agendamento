@@ -1,12 +1,18 @@
+import { Office } from 'core/utils/Types'
 import RoomIcon from './components'
+
 import './style.scss'
 
-const OfficeCard = () => {
+type Props = {
+    office: Office;
+}
+
+const OfficeCard = ({office}: Props) => {
     return (
         <div className="office-card-container">
             <div className="office-header">
-                <h3>São Paulo</h3>
-                <span>&nbsp;&nbsp;*Lotação máxima: 240 pessoas</span>
+                <h3>{office.name}</h3>
+                <span>&nbsp;&nbsp;*Lotação restrita: {office.restrictedCapacity} pessoas</span>
             </div>
             <div className="office-information">
                 <div className="work-day">
@@ -14,6 +20,9 @@ const OfficeCard = () => {
                     <p>Escolha um dia</p>
                     <select className="form-select">
                         <option style={{display: 'none'}}>Escolha um dia</option>
+                        {office.days.map(day => (
+                            <option value={day.dayNumber} key={day.dayNumber}>{day.date}</option>
+                        ))}
                     </select>
                     <p>Lugares disponíveis: <b>14</b></p>
                     <button className="btn btn-primary btn-lg">Agendar</button>
@@ -24,6 +33,9 @@ const OfficeCard = () => {
                     <p>Escolha um dia</p>
                     <select className="form-select">
                         <option style={{display: 'none'}}>Escolha um dia</option>
+                        {office.days.map(day => (
+                            <option value={day.dayNumber} key={day.dayNumber}>{day.date}</option>
+                        ))}
                     </select>
 
                     <div className="time-select">
