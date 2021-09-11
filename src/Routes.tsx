@@ -1,22 +1,35 @@
 import Aside from './core/components/Aside';
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
-import Home from './pages/Home'
-import Booking from './pages/Booking';
+import MainBody from 'core/components/MainBody';
+import Home from 'pages/Home';
+import Cancel from 'pages/Cancel';
+import Booking from 'pages/Booking';
 
 const Routes = () => (
-    <div className="container-box">
     <BrowserRouter > 
-    <Aside/>
        <Switch>
            <Route path="/" exact> 
-                <Home/>
+           <MainBody>
+               <Home/>
+           </MainBody>
            </Route>    
            <Route path="/bookings" exact>
-               <Booking/> 
+           <MainBody>
+               <Booking/>
+           </MainBody>
+           </Route>
+           <Route path="/cancel" exact>
+           <MainBody>
+               <Cancel/>
+           </MainBody>
+           </Route>
+           <Route path="/history" exact>
+           <MainBody>
+               HISTORY
+           </MainBody>
            </Route>
        </Switch>
     </BrowserRouter>
-    </div>
     )
 
 export default Routes;

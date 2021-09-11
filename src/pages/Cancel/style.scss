@@ -1,0 +1,54 @@
+.cancel-container {
+    margin-bottom: 460px;
+}
+
+.header-cancel{
+    margin-left: 80px;
+    margin-right: 240px;
+    margin-bottom: 40px;
+
+    h2 {
+        font-size: 36px;
+        line-height: 44px;
+        font-weight: bold;
+    }
+
+    p {
+        margin-top: 32px;
+        font-size: 24px;
+        color: rgba(0, 0, 0, 0.8);
+        line-height: 34px;
+    }
+
+
+}
+
+.action-cancel{
+    margin-left: 80px;
+
+    input {
+        margin-right: 32px;
+        background: #FFFFFF;
+        border: 1px solid rgba(0, 0, 0, 0.5);
+        border-radius: 30px;
+        width: 292px;
+        height: 62px;
+        font-size: 20px;
+        line-height: 24px;
+        padding-left: 24px;
+        padding-right: 24px;
+
+        &:focus{
+            outline: none;
+        }
+    }
+
+    
+
+    button {
+        color: #FFF;
+        border-radius: 50px;
+        font-weight: bold;
+    }
+
+}

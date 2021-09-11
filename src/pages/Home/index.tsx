@@ -1,30 +1,37 @@
-import doRequest from 'core/utils/Requests'
-import { Office } from 'core/utils/Types'
-import OfficeCard from './components/Office'
-import { useEffect, useState } from 'react'
 import './style.scss'
+import {ReactComponent as HomeImage} from './assets/home_image.svg'
+import {ReactComponent as DeleteIcon} from 'core/assets/NavImages/delete.svg'
+import {ReactComponent as BookingIcon} from 'core/assets/NavImages/book.svg'
+import {ReactComponent as HistoryIcon} from 'core/assets/NavImages/icon_clock.svg'
+import { Link } from 'react-router-dom'
 
 const Home = () => {
-    const [officeResponse,setOfficeResponde] = useState<Office[]>([])
 
-    useEffect(() => {
-        doRequest({url: '/offices'})
-        .then(response => setOfficeResponde(response.data))
-    },[])
-
-    return <div>
-        <div className="home-container">
-            <div className="title-body">
-                <h2 className="title">Olá consultor!</h2>
-                <p className="description">Navegue no menu ao lado para agendar sua ida presencial em uma unidade da FCamara.</p>
-                <p className="description">Bom trabalho e não se esqueça da máscara hein?</p>
+    return (
+        <div className="home-wrapper">
+            <div className="home-header">
+                <h2>Olá, consultor!</h2>
+                <p>Navegue pelos ícones abaixo ou no menu ao lado para agendar sua ida presencial aos escritórios da FCamara.</p>
             </div>
-            <div className="office-body">
-                {officeResponse.map(office => (
-                    <OfficeCard office={office} key={office.id}/>
-                ))}
+            <div className="home-button">
+                <div>
+                    <Link to="/bookings">
+                    <BookingIcon className="booking-icon"/></Link>
+                    <span>Realize seu agendamento</span>
+                </div>
+                <div>
+                    <Link to="/history">
+                    <HistoryIcon style={{paddingLeft: '7px'}}/></Link>
+                    <span style={{paddingLeft: '14px'}}>Veja o histórico de reservas</span>
+                </div>
+                <div>
+                    <Link to="/cancel"><DeleteIcon style={{paddingLeft: '7px'}}/></Link>
+                    <span style={{paddingLeft: '14px'}}>Cancele um agendamento quando precisar</span>
+                </div>
             </div>
+            <div className="home-image"><HomeImage/></div>
         </div>
-    </div>
+    )
 }
-export default Home
+
+export default Home;
