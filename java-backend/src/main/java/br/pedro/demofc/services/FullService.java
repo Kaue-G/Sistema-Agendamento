@@ -57,10 +57,10 @@ public class FullService {
     }
 
     @Transactional(readOnly = true)
-    public OfficeStateDTO findOfficeStateByDate(Integer id, LocalDate date){
+    public OfficeStateDTO findOfficeStateByDate(Integer id, LocalDate date, Integer begin, Integer end){
         Office office = oRepository.findById(id).orElseThrow(() -> new ServiceViolationException("[404] Office not found"));
 
-        List<Disponibility> disponibilities = disponibilityRepository.findByEndAndBegin(date,constraints.getBEGIN(),constraints.getEND(),office.getId());
+        List<Disponibility> disponibilities = disponibilityRepository.findByEndAndBegin(date,begin,end,office.getId());
         List<Room> rooms = office.getChairs();
 
         int maxValue = disponibilities.stream().mapToInt(Disponibility::getAmount).max().orElse(0);
@@ -193,7 +193,7 @@ public class FullService {
             chair.ifPresent(value -> disp.forEach(x -> {
                 DisponibilityRoomPK pk = new DisponibilityRoomPK(x.getId(),value.getId());
                 DisponibilityRoom dr = drRepository.getById(pk);
-                if(dr.getCapacity() <= 2){
+                if(dr.getCapacity() <= booking.getWeight()){
                     drRepository.delete(dr);
                 } else {
                     dr.setCapacity(dr.getCapacity() - booking.getWeight());

@@ -78,14 +78,17 @@ public class FullController {
     @ApiResponses(value = {
             @ApiResponse(code = 400, message = "Erro durante o uso do parâmetro 'date'.")
     })
-    public ResponseEntity<OfficeStateDTO> findOfficeByState(@PathVariable Integer id, @RequestParam(value = "date") String date){
-        OfficeStateDTO dtos = service.findOfficeStateByDate(id,LocalDate.parse(date));
+    public ResponseEntity<OfficeStateDTO> findOfficeByState(@PathVariable Integer id,
+                                                            @RequestParam(value = "date") String date,
+                                                            @RequestParam(value = "begin", defaultValue = "${begin.service}") Integer begin,
+                                                            @RequestParam(value = "end", defaultValue = "${end.service}") Integer end){
+        OfficeStateDTO dtos = service.findOfficeStateByDate(id, LocalDate.parse(date), begin, end);
         return ResponseEntity.ok(dtos);
     }
 
 
     @PostMapping(value = "/{id}/bookings")
-    @ApiOperation(value = "Insere um novo agendamento no escritório", produces = "application/json")
+    @ApiOperation(value = "Insere um novo agendamento no escritório.", produces = "application/json")
     @ApiResponses(value = {
             @ApiResponse(code = 400, message = "Falha devido a incompatibilidade dos atributos do body."),
             @ApiResponse(code = 422, message = "Falha devido a critérios de validação dos dados."),
