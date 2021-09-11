@@ -25,3 +25,15 @@ export type OfficeResponse = {
     content: Office[];
 }
 
+export type Booking = {
+    begin: number,
+    chair: number,
+    employee_id: string,
+    end: number,
+    id: number,
+    moment: string,
+    officeName: string,
+    type: string,
+    weight: number,
+}
+
