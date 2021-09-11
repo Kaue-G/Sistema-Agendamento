@@ -1,0 +1,147 @@
+.office-information{
+    background: #FFFFFF;
+    border-radius: 30px;
+    width: 510px;
+    display: flex;
+    flex-direction: row;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    padding-left: 36px;
+    padding-right: 36px;
+}
+
+.office-information-active{
+    box-shadow: 0px 16px 40px rgba(54, 53, 126, 0.5);
+}
+
+.work-day{
+    border-collapse: collapse;
+    border-right: 1px solid #000000;
+
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: 50%;
+
+    padding-right: 20px;
+
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    span {
+        font-weight: bold;
+        font-size: 18px;
+        line-height: 22px;
+        color: #FF601C;
+    }
+
+    p {
+        margin-top: 25px;
+        font-size: 16px;
+        line-height: 22px;
+    }
+
+    button {
+        color: #FFF;
+        font-weight: bold;
+        border-radius: 50px;
+        margin-top: 44px;
+
+        &:hover{
+            color: #FFF;
+        }
+    }
+
+    select {
+        margin-bottom: 127px;
+        border: 1px solid #FF601C;
+        background-color: #FFF;
+    }
+
+
+}
+
+.time-select {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+
+    div {
+        text-align: center;
+    }
+
+}
+
+.work-reunion{
+    padding-left: 19px;
+
+
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: 50%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    span {
+        font-weight: bold;
+        font-size: 18px;
+        line-height: 22px;
+        color: #36357E;
+    }
+
+    p {
+        margin-top: 25px;
+        font-size: 16px;
+        line-height: 22px;
+    }
+
+    button {
+        color: #FFF;
+        font-weight: bold;
+        margin-top: 20px;
+        border-radius: 50px;
+    }
+
+    select {
+        border: 1px solid #36357E;
+        background-color: #FFF;
+    }
+    
+}
+
+.room-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+.office-header{
+    margin-bottom: 25px;
+    margin-top: 25px;
+    h3 {
+        font-size: 30px;
+        line-height: 37px;
+        font-weight: bold;
+        display: inline;
+    }
+
+    span {
+        font-size: 14px;
+        line-height: 17px;
+        color: #7D7D7D;
+    }
+}
+
+.office-card-container {
+    width: 512px;
+    text-align: center;
+
+}

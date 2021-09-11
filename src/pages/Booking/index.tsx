@@ -1,3 +1,4 @@
+import OfficeCard from './components/OfficeCard'
 import './style.scss'
 
 const Booking = () => {
@@ -8,7 +9,8 @@ const Booking = () => {
                 <p>Verifique a disponibilidade de estações de trabalho e salas de reunião por unidade, dia e horário.</p>
             </div>
             <div className="content-booking">
-                CONTEUDO
+                <OfficeCard/>
+                <OfficeCard/>
             </div>
         </div>      
     )
