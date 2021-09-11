@@ -4,6 +4,7 @@ import MainBody from 'core/components/MainBody';
 import Home from 'pages/Home';
 import Cancel from 'pages/Cancel';
 import Booking from 'pages/Booking';
+import History from 'pages/History';
 
 const Routes = () => (
     <BrowserRouter > 
@@ -25,7 +26,7 @@ const Routes = () => (
            </Route>
            <Route path="/history" exact>
            <MainBody>
-               HISTORY
+               <History/>
            </MainBody>
            </Route>
        </Switch>

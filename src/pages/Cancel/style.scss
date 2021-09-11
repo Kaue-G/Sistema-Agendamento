@@ -1,5 +1,6 @@
 .cancel-container {
-    margin-bottom: 460px;
+    height: 726px;
+    
 }
 
 .header-cancel{
@@ -31,12 +32,13 @@
         background: #FFFFFF;
         border: 1px solid rgba(0, 0, 0, 0.5);
         border-radius: 30px;
-        width: 292px;
+        width: 400px;
         height: 62px;
         font-size: 20px;
         line-height: 24px;
         padding-left: 24px;
         padding-right: 24px;
+        margin-bottom: 15px;
 
         &:focus{
             outline: none;
@@ -49,6 +51,7 @@
         color: #FFF;
         border-radius: 50px;
         font-weight: bold;
+        width: 230px;
 
         &:hover  {
             color: #FFF;
