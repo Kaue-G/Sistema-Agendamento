@@ -3,13 +3,14 @@ package br.pedro.demofc.dtos;
 import io.swagger.annotations.ApiModel;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @ApiModel(value = "Day", description = "Entidade que representa uma formatação para os dias disponíveis.")
 public class DayDTO {
 
     private int day;
     private String verbose;
-    private LocalDate date;
+    private String date;
 
     private String dictionary(int day){
         String verbose;
@@ -47,16 +48,17 @@ public class DayDTO {
     }
 
     public DayDTO(LocalDate date){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         this.day = date.getDayOfWeek().ordinal();
         this.verbose = dictionary(day);
-        this.date = date;
+        this.date = date.format(formatter);
     }
 
-    public LocalDate getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

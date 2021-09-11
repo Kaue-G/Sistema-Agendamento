@@ -12,6 +12,8 @@ import org.springframework.web.servlet.HandlerMapping;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -38,14 +40,19 @@ public class BookingInsertValidator implements ConstraintValidator<BookingValid,
     @Autowired
     private Constraints constraints;
 
+    private LocalDate stringToDate(String date){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return LocalDate.parse(date,formatter);
+    }
+
     private List<Disponibility> findUnavailable(BookingDTO dto, Integer id){
 
         List<Disponibility> disponibilities;
 
         if(dto.getType() != Type.DAY)
-            disponibilities = repository.findByEndAndBegin(dto.getMoment(),dto.getBegin(),dto.getEnd(),id);
+            disponibilities = repository.findByEndAndBegin(stringToDate(dto.getMoment()),dto.getBegin(),dto.getEnd(),id);
          else
-            disponibilities = repository.findByEndAndBegin(dto.getMoment(),constraints.getBEGIN(),constraints.getEND(),id);
+            disponibilities = repository.findByEndAndBegin(stringToDate(dto.getMoment()),constraints.getBEGIN(),constraints.getEND(),id);
 
         return disponibilities;
     }
@@ -66,7 +73,7 @@ public class BookingInsertValidator implements ConstraintValidator<BookingValid,
             if(e.isEmpty()){
                 errors.add(new FieldMessage("employee_id","This user does not exist"));
             } else {
-                Booking b = bRepository.findByEmployeeAndMoment(e.get(),dto.getMoment());
+                Booking b = bRepository.findByEmployeeAndMoment(e.get(),stringToDate(dto.getMoment()));
                 if(b != null){
                     errors.add(new FieldMessage("moment","You already made a reservation on: " + dto.getMoment() + ", USER: " + dto.getEmployee_id()));
                 }

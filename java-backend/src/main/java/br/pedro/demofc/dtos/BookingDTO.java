@@ -22,7 +22,7 @@ public class BookingDTO {
     private Long chair;
 
     @ApiModelProperty(required = true)
-    private LocalDate moment;
+    private String moment;
 
     @ApiModelProperty(required = true)
     private String employee_id;
@@ -35,7 +35,7 @@ public class BookingDTO {
     public BookingDTO() {
     }
 
-    public BookingDTO(Booking booking, LocalDate date, Type type, Long chair_id){
+    public BookingDTO(Booking booking, String date, Type type, Long chair_id){
         this.id = booking.getId();
         this.employee_id = booking.getEmployee().getCpf();
         this.type = type;
@@ -47,9 +47,9 @@ public class BookingDTO {
         }
     }
 
-    public BookingDTO(Booking booking, String officeName){
+    public BookingDTO(Booking booking, String officeName, String moment){
         this.id = booking.getId();
-        this.moment = booking.getMoment();
+        this.moment = moment;
         this.weight = booking.getWeight();
         this.employee_id = booking.getEmployee().getCpf();
         this.begin = booking.getBegin();
@@ -94,11 +94,11 @@ public class BookingDTO {
         this.chair = chair;
     }
 
-    public LocalDate getMoment() {
+    public String getMoment() {
         return moment;
     }
 
-    public void setMoment(LocalDate moment) {
+    public void setMoment(String moment) {
         this.moment = moment;
     }
 

@@ -5,14 +5,15 @@ import br.pedro.demofc.dtos.*;
 import br.pedro.demofc.entities.*;
 import br.pedro.demofc.entities.pk.DisponibilityRoomPK;
 import br.pedro.demofc.repositories.*;
+import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.SQLOutput;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -44,6 +45,16 @@ public class FullService {
         this.constraints = constraints;
     }
 
+    private String dateToString(LocalDate date){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return date.format(formatter);
+    }
+
+    private LocalDate stringToDate(String date){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return LocalDate.parse(date,formatter);
+    }
+
     @Transactional(readOnly = true)
     public List<OfficeDTO> findOffices(){
         List<Office> offices = oRepository.findAll();
@@ -57,22 +68,37 @@ public class FullService {
     }
 
     @Transactional(readOnly = true)
-    public OfficeStateDTO findOfficeStateByDate(Integer id, LocalDate date, Integer begin, Integer end){
+    public OfficeStateDTO findOfficeStateByDate(Integer id, String date, Integer begin, Integer end){
         Office office = oRepository.findById(id).orElseThrow(() -> new ServiceViolationException("[404] Office not found"));
 
-        List<Disponibility> disponibilities = disponibilityRepository.findByEndAndBegin(date,begin,end,office.getId());
+        List<Disponibility> disponibilities = disponibilityRepository.findByEndAndBegin(LocalDate.parse(date),begin,end,office.getId());
+
+        List<DisponibilityRoom> dRooms = drRepository.findByEndAndBegin(LocalDate.parse(date),begin,end,office.getId());
+
         List<Room> rooms = office.getChairs();
+
+        int roomsAvailable = (int)rooms.stream().filter(room -> {
+            boolean isAvailable = true;
+            for(DisponibilityRoom dr : dRooms){
+                if(dr.getChair().getId().equals(room.getId()) && dr.getCapacity() >= room.getCapacity()){
+                    isAvailable = false;
+                    break;
+                }
+            }
+            return isAvailable;
+        }).count();
+
 
         int maxValue = disponibilities.stream().mapToInt(Disponibility::getAmount).max().orElse(0);
         int restrictedCapacity = (int) Math.ceil(office.getCapacity() * (constraints.getPERCENTAGE()) / 100);
 
-        return new OfficeStateDTO(office.getId(), restrictedCapacity, maxValue, rooms.size());
+        return new OfficeStateDTO(office.getId(), restrictedCapacity, maxValue, roomsAvailable);
     }
 
     @Transactional(readOnly = true)
-    public Page<RoomDTO> findChairsPaged(Pageable pageable, Integer id, LocalDate when, Integer begin, Integer end){
+    public Page<RoomDTO> findChairsPaged(Pageable pageable, Integer id, String when, Integer begin, Integer end){
 
-        List<Disponibility> disponibilities = disponibilityRepository.findByEndAndBegin(when,begin,end,id);
+        List<Disponibility> disponibilities = disponibilityRepository.findByEndAndBegin(LocalDate.parse(when),begin,end,id);
 
         Page<Room> allChairs = roomRepository.findByOffice(pageable, id);
 
@@ -98,11 +124,11 @@ public class FullService {
     }
 
     @Transactional(readOnly = true)
-    public List<DisponibilityDTO> findDisponibilities(Integer id, LocalDate date, Boolean bool){
-        List<Disponibility> disponibilities = disponibilityRepository.findAllByOffice(date,id,bool);
+    public List<DisponibilityDTO> findDisponibilities(Integer id, String date, Boolean bool){
+        List<Disponibility> disponibilities = disponibilityRepository.findAllByOffice(LocalDate.parse(date),id,bool);
 
         disponibilities.forEach(disp -> disp.tryAvailable(constraints.getPERCENTAGE()));
-        return disponibilities.stream().map(DisponibilityDTO::new).collect(Collectors.toList());
+        return disponibilities.stream().map(x -> new DisponibilityDTO(x,dateToString(x.getId().getMoment()))).collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
@@ -113,7 +139,7 @@ public class FullService {
         return bookings.stream().map(x -> {
             Disponibility d = x.getDisponibilities().stream().findFirst().orElseThrow(() -> new ServiceViolationException("[404] Booking whiteout disponibility"));
             String officeName = d.getOffice().getName();
-            return new BookingDTO(x, officeName);
+            return new BookingDTO(x, officeName, dateToString(x.getMoment()));
         }).collect(Collectors.toList());
     }
 
@@ -121,7 +147,7 @@ public class FullService {
     public BookingDTO insertSingleBooking(BookingDTO dto, Integer id){
         Booking booking = new Booking();
 
-        booking.setMoment(dto.getMoment());
+        booking.setMoment(stringToDate(dto.getMoment()));
         booking.setEmployee(employeeRepository.getById(dto.getEmployee_id()));
 
         if(dto.getType() == Type.DAY){
@@ -133,10 +159,10 @@ public class FullService {
             booking.setBegin(dto.getBegin());
             booking.setEnd(dto.getEnd());
             booking.setRoom(dto.getChair());
-            booking.setWeight(2);
+            booking.setWeight(dto.getWeight());
         }
 
-        List<Disponibility> disponibilities = disponibilityRepository.findByEndAndBegin(dto.getMoment(), booking.getBegin(), booking.getEnd(), id);
+        List<Disponibility> disponibilities = disponibilityRepository.findByEndAndBegin(stringToDate(dto.getMoment()), booking.getBegin(), booking.getEnd(), id);
 
         if(disponibilities.isEmpty()){
             throw new ServiceViolationException("[404] This data is not in system: " + dto.getMoment());

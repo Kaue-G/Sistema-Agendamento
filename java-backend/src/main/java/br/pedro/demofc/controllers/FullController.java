@@ -40,9 +40,9 @@ public class FullController {
             @RequestParam(value = "date") String date,
             @RequestParam(value = "begin",defaultValue = "${begin.service}") Integer begin,
             @RequestParam(value = "end", defaultValue = "${end.service}") Integer end
-            ) throws DateTimeParseException {
+            ){
 
-        Page<RoomDTO> dtos = service.findChairsPaged(pageable,id,LocalDate.parse(date),begin,end);
+        Page<RoomDTO> dtos = service.findChairsPaged(pageable,id,date,begin,end);
         return ResponseEntity.ok(dtos);
     }
 
@@ -67,9 +67,9 @@ public class FullController {
     @ApiOperation(value = "Retorna uma página de horários com a quantidade de pessoas naquele momento.", produces = "application/json")
     public ResponseEntity<List<DisponibilityDTO>> findAllDisps (@PathVariable Integer id,
             @RequestParam(value = "date") String date,
-            @RequestParam(value = "onlyTrue",defaultValue = "false") Boolean onlyTrue) throws DateTimeParseException {
+            @RequestParam(value = "onlyTrue",defaultValue = "false") Boolean onlyTrue){
 
-        List<DisponibilityDTO> dtos = service.findDisponibilities(id,LocalDate.parse(date),onlyTrue);
+        List<DisponibilityDTO> dtos = service.findDisponibilities(id,date,onlyTrue);
         return ResponseEntity.ok(dtos);
     }
 
@@ -82,7 +82,7 @@ public class FullController {
                                                             @RequestParam(value = "date") String date,
                                                             @RequestParam(value = "begin", defaultValue = "${begin.service}") Integer begin,
                                                             @RequestParam(value = "end", defaultValue = "${end.service}") Integer end){
-        OfficeStateDTO dtos = service.findOfficeStateByDate(id, LocalDate.parse(date), begin, end);
+        OfficeStateDTO dtos = service.findOfficeStateByDate(id, date, begin, end);
         return ResponseEntity.ok(dtos);
     }
 

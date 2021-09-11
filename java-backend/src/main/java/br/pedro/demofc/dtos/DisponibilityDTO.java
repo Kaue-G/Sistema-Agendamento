@@ -11,14 +11,14 @@ public class DisponibilityDTO {
     private Integer office_id;
     private boolean available;
     private int amount;
-    private LocalDate moment;
+    private String moment;
     private Integer beginHour;
 
     public DisponibilityDTO() {
     }
 
-    public DisponibilityDTO(Disponibility disponibility) {
-        this.moment = disponibility.getId().getMoment();
+    public DisponibilityDTO(Disponibility disponibility, String moment) {
+        this.moment = moment;
         this.beginHour = disponibility.getId().getBeginHour();
         this.amount = disponibility.getAmount();
         this.available = disponibility.isAvailable();
@@ -49,11 +49,11 @@ public class DisponibilityDTO {
         this.amount = amount;
     }
 
-    public LocalDate getMoment() {
+    public String getMoment() {
         return moment;
     }
 
-    public void setMoment(LocalDate moment) {
+    public void setMoment(String moment) {
         this.moment = moment;
     }
 
