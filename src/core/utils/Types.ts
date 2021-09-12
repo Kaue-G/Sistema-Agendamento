@@ -14,15 +14,10 @@ export type Day = {
 }
 
 export type OfficeState = {
-    chairsOccupied: number,
     officeId: number,
-    roomsOccupied: number,
-    totalChairs: number,
-    totalRooms: number
-}
-
-export type OfficeResponse = {
-    content: Office[];
+    restrictedCapacity: number,
+    totalEmployees: number,
+    totalRooms: number,
 }
 
 export type Booking = {
@@ -35,5 +30,17 @@ export type Booking = {
     officeName: string,
     type: string,
     weight: number,
+}
+
+export type Room = {
+    id: number,
+    office_id: number,
+    available: boolean,
+    bookingsAmout: number,
+    name: string
+}
+
+export type RoomResponse = {
+    content: Room[]
 }
 

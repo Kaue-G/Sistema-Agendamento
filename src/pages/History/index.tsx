@@ -29,12 +29,11 @@ const History = () => {
             </div>
             <div className="action-cancel">
                 <input type="text" value={email} onChange={handleOnChange}/>
-                <button className="btn btn-primary btn-lg" onClick={getBookingInfo}>Buscar</button>
+                <button className={`btn btn-primary btn-lg ${email === '' ? 'disabled':''}`} onClick={getBookingInfo}>Buscar</button>
             </div>
             {booking && (
                 <ResultTable bookings={booking}/>
             )}
-            
         </div>      
     )
 }

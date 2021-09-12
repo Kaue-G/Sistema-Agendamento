@@ -10,8 +10,6 @@ const Booking = () => {
     useEffect(() => {
         doRequest({url: "/offices"})
         .then(r => setOfficeResponse(r.data))
-
-        //officeResponse.forEach(o => o.days.sort)
     },[])
 
     return (

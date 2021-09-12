@@ -2,8 +2,9 @@ import './style.scss'
 
 type Props = {
     state: string;
+    room: string;
 }
 
-const RoomIcon = ({state} : Props) => (<div className={`room-icon ${state}`}>A1</div>)
+const RoomIcon = ({state, room} : Props) => (<div className={`room-icon ${state}`}>{room}</div>)
 
 export default RoomIcon;
