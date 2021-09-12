@@ -1,9 +1,35 @@
+import React, { useState, useEffect } from 'react';
 import Aside from '../../components/Aside';
 import './style.css';
 
 import Disponibility from "../../components/Disponibility";
+import axios from 'axios';
+import api from '../../services/api';
+
 
 function Home() {
+  const [agendados, setAgendados] =  useState([]);
+  const [email, setEmail] =  useState([]);
+
+  console.log(agendados);
+
+  function onChange(ev) {
+    const { name, value} = ev.target;    
+    setEmail(value);
+  }
+
+  console.log(email);
+
+  function onClick(){
+    api.get(`/offices/bookings?email=${email}`)
+    .then((agendamentos) => {
+      setAgendados(agendamentos.data);
+    });
+    console.log(agendados);
+    console.log(email);
+  }
+  
+
   return (
     // <>
     //   <main>
@@ -17,18 +43,26 @@ function Home() {
           <div className ="txt">
             <h1>historico</h1>
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-              Eveniet officiis veniam facere eum vitae soluta perferendis 
-              reprehenderit ipsa unde! Quaerat doloribus atque id, nisi 
-              quibusdam accusamus quod placeat inventore beatae.
+              Busque seu histórico de agendamentos da 
+              última semana pelo e-mail utilizado na 
+              confirmação de sua reserva.
             </p>
           </div>
           <div>
             <form className="form" action="">
-              <input type="email" name="" id="" />
-              <button>buscar pelo e-mail</button>
+              <input type="" name="email" id="" onChange={onChange}/>
+              <button type="button" onClick={onClick}>buscar</button>
             </form>
           </div>
+
+
+
+          <div>
+
+          </div>
+
+
+
         </div>
       </div>
     </div>

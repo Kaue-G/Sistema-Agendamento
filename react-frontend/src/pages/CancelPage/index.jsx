@@ -1,13 +1,26 @@
 import './style.css';
-import { getOffice } from '../../services/offices';
+import api from '../../services/api.js'
 import Aside from '../../components/Aside';
+import { useState } from 'react';
 
 function CancelPage(props) {
-  const officeId = props.match.params.officeId;
-  const office = getOffice(officeId);
+  
+  const [idTicket, setIdTicket] = useState();
+
+  ///offices/bookings/{id}
+  function onChange(ev) {
+    setIdTicket(ev.target.value);
+  }
+
+  function onClick(){
+    api.delete(`/offices/bookings/${idTicket}`)
+    // .then(
+      
+    // });
+   
+  }
 
   return (
-    // <h1>Cancelamento {office.name}</h1>
     <div className="container">  
       <div className="page">
         <Aside />
@@ -15,16 +28,15 @@ function CancelPage(props) {
           <div className ="txt">
             <h1>cancelar ticket</h1>
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-              Eveniet officiis veniam facere eum vitae soluta perferendis 
-              reprehenderit ipsa unde! Quaerat doloribus atque id, nisi 
-              quibusdam accusamus quod placeat inventore beatae.
+            Para cancelar uma reserva já realizada, 
+            por favor insira o número do ticket correspondente 
+            à esse agendamento no espaço abaixo.
             </p>
           </div>
           <div>
-            <form className="form" action="">
-              <input type="email" name="" id="" />
-              <button>buscar pelo e-mail</button>
+            <form onSubmit="onDelete" className="form" action="">
+              <input type="email" name="" id="" onChange={onChange}/>
+              <button type="button" onClick={onClick}>cancelar ticket</button>
             </form>
           </div>
         </div>
