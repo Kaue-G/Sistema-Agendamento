@@ -1,10 +1,16 @@
 import './style.scss'
+import { Room } from 'core/utils/Types'
 
 type Props = {
-    state: string;
-    room: string;
+    room: Room,
+    onClick: Function 
 }
 
-const RoomIcon = ({state, room} : Props) => (<div className={`room-icon ${state}`}>{room}</div>)
+const RoomIcon = ({room, onClick} : Props) => {
+
+    return <div className={`room-icon ${room.available ? 'available' : ''}`} onClick={() => onClick(room.id)}>
+        {room.name}
+    </div>
+}
 
 export default RoomIcon;

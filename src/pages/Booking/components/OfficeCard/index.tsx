@@ -1,20 +1,36 @@
 import stringToDate from 'core/utils/DataFormat'
 import doRequest from 'core/utils/Requests'
-import { Office, OfficeState, RoomResponse } from 'core/utils/Types'
+import {Office, OfficeState, RoomResponse } from 'core/utils/Types'
 import React, { useEffect, useState } from 'react'
 import RoomIcon from './components'
+import {ReactComponent as Dot} from '../../assets/dot.svg'
 
 import './style.scss'
 
 type Props = {
-    office: Office;
+    office: Office | undefined;
 }
 
 type ReunionArgs = {
-    date?: string,
+    moment?: string,
     begin?: number,
     end?: number
 } 
+
+type DayBooking = {
+    employee_id: string
+    moment: string,
+    type: number,
+}
+
+type ReunionBooking = {
+    begin: number,
+    chair: number,
+    employee_id: string,
+    end: number,
+    moment: string,
+    type: number
+}
 
 const OfficeCard = ({office}: Props) => {
     const[officeState, setOfficeState] = useState<OfficeState>()
@@ -22,10 +38,29 @@ const OfficeCard = ({office}: Props) => {
     const[reunionState, setReunionState] = useState<OfficeState>()
     const[roomContent, setRoomContent] = useState<RoomResponse>()
 
+    const[bookingDay,setBookingDay] = useState<DayBooking>({
+        employee_id: '',
+        moment: '',
+        type: 1
+    })
+
+    const[bookingReunion,setBookingReunion] = useState<ReunionBooking>({
+        begin: 0,
+        chair: 0,
+        employee_id: '',
+        end: 0,
+        moment: '',
+        type: 0
+    })
+
     const onSimpleSelect = (e: React.ChangeEvent<HTMLSelectElement>) =>{
-        let date = stringToDate(e.target.value)
-        doRequest({url: `/offices/${office.id}`, params: {date} })
+        const value = stringToDate(e.target.value)
+        const name  = e.target.name
+
+        doRequest({url: `/offices/${office?.id}`, params: {date: value} })
         .then(r => setOfficeState(r.data))
+
+        setBookingDay(data => ({...data, [name] : value}))
     }
 
     const onMultipleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -33,18 +68,26 @@ const OfficeCard = ({office}: Props) => {
         const value = e.target.value
         
         setReunionArgs(data => ({...data, [name]: value}))
+        setBookingReunion(data => ({...data, [name]: value}))
+    }
+
+    const getId = (id: number) => {
+        const chair = roomContent?.content.find(r => r.id === id)
+        if(chair?.available){
+            setBookingReunion(data => ({...data, chair : chair.id}))
+        }
     }
 
     useEffect(() =>{
-        if(reunionArgs.date !== undefined && reunionArgs.begin !== undefined && reunionArgs.end){
-            const date = stringToDate(reunionArgs.date);
+        if(reunionArgs.moment !== undefined && reunionArgs.begin !== undefined && reunionArgs.end){
+            const date = stringToDate(reunionArgs.moment);
             const begin = reunionArgs.begin;
             const end = reunionArgs.end;
 
-            doRequest({url: `/offices/${office.id}`, params: {date, begin, end}})
+            doRequest({url: `/offices/${office?.id}`, params: {date, begin, end}})
             .then(r => setReunionState(r.data))
 
-            doRequest({url: `/offices/${office.id}/chairs`, params: {date, begin, end}})
+            doRequest({url: `/offices/${office?.id}/chairs`, params: {date, begin, end}})
             .then(r => setRoomContent(r.data))
         
         }
@@ -53,84 +96,97 @@ const OfficeCard = ({office}: Props) => {
 
     return (
         <div className="office-card-container">
-            <div className="office-header">
-                <h3>{office.name}</h3>
-                <span>&nbsp;&nbsp;*Lotação restrita: {office.restrictedCapacity} pessoas</span>
-            </div>
+            <span>*&nbsp;Lotação máxima restrita: <b>{office?.restrictedCapacity}</b> pessoas</span>
             <div className="office-information">
                 <div className="work-day">
                     <span>Estações de trabalho</span>
-                    <p>Escolha um dia</p>
-                    <select className="form-select" onChange={onSimpleSelect}>
-                        <option style={{display: 'none'}}>Escolha um dia</option>
-                        {office.days.map(day => (
+                    <p className="bold-p">Escolha uma data</p>
+                    <select className="form-select" onChange={onSimpleSelect}  name="moment">
+                        <option style={{display: 'none'}}>Datas disponíveis</option>
+                        {office?.days.map(day => (
                             <option value={day.date} key={day.dayNumber}>{day.date}</option>
                         ))}
                     </select>
-                    <p>Lugares disponíveis: {officeState && <b>{officeState.restrictedCapacity - officeState.totalEmployees}</b>}</p>
+                    <p className="info-p">Pessoas no escritório nesse momento: {officeState && <b>{officeState.totalEmployees}</b>}</p>
+                    <p className="bold-p">
+                        <Dot color={`${officeState !== undefined && officeState?.totalEmployees >= officeState?.restrictedCapacity ? 'red':'green'}`}/> 
+                        &nbsp;Lugares disponíveis: {officeState && <b>{officeState.restrictedCapacity - officeState.totalEmployees}</b>}
+                    </p>
                     <button 
-                    className={`btn btn-primary btn-lg ${officeState !== undefined && officeState.totalEmployees >= officeState?.restrictedCapacity ? 'disabled':''}`}>Agendar</button>
+                    className={`btn btn-primary btn-lg ${officeState !== undefined && officeState.totalEmployees >= officeState?.restrictedCapacity ? 'disabled':''}`}
+                    >Agendar sala</button>
 
                 </div>
                 <div className="work-reunion">
                     <span>Salas de reunião</span>
-                    <p>Escolha um dia</p>
-                    <select className="form-select" onChange={onMultipleSelect} name="date" value={reunionArgs.date}>
-                        <option style={{display: 'none'}}>Escolha um dia</option>
-                        {office.days.map(day => (
+                    <p className="bold-p">Escolha uma data</p>
+                    <select className="form-select" onChange={onMultipleSelect} name="moment" value={reunionArgs.moment}>
+                        <option style={{display: 'none'}}>Datas disponíveis</option>
+                        {office?.days.map(day => (
                             <option value={day.date} key={day.dayNumber}>{day.date}</option>
                         ))}
                     </select>
-
                     <div className="time-select">
                         <div>
                             <p><b>Hora inicial</b></p>
                             <select className="form-select" name="begin" value={reunionArgs.begin} onChange={onMultipleSelect}>
-                            <option style={{display: 'none'}}></option>
-                            <option value='8'>8h</option>
-                            <option value='9'>9h</option>
-                            <option value='10'>10h</option>
-                            <option value='11'>11h</option>
-                            <option value='12'>12h</option>
-                            <option value='13'>13h</option>
-                            <option value='14'>14h</option>
-                            <option value='15'>15h</option>
-                            <option value='16'>16h</option>
-                            <option value='17'>17h</option>
-                            <option value='18'>18h</option>
+                                <option style={{display: 'none'}}></option>
+                                <option value='8'>8h</option>
+                                <option value='9'>9h</option>
+                                <option value='10'>10h</option>
+                                <option value='11'>11h</option>
+                                <option value='12'>12h</option>
+                                <option value='13'>13h</option>
+                                <option value='14'>14h</option>
+                                <option value='15'>15h</option>
+                                <option value='16'>16h</option>
+                                <option value='17'>17h</option>
+                                <option value='18'>18h</option>
                             </select>
                         </div>
                         <div>
+                        <div>
                             <p><b>Hora final</b></p>
                             <select className="form-select" name="end" value={reunionArgs.end} onChange={onMultipleSelect}>
-                            <option style={{display: 'none'}}></option>
-                            <option value='8'>8h</option>
-                            <option value='9'>9h</option>
-                            <option value='10'>10h</option>
-                            <option value='11'>11h</option>
-                            <option value='12'>12h</option>
-                            <option value='13'>13h</option>
-                            <option value='14'>14h</option>
-                            <option value='15'>15h</option>
-                            <option value='16'>16h</option>
-                            <option value='17'>17h</option>
-                            <option value='18'>18h</option>
+                                <option style={{display: 'none'}}></option>
+                                <option value='8'>8h</option>
+                                <option value='9'>9h</option>
+                                <option value='10'>10h</option>
+                                <option value='11'>11h</option>
+                                <option value='12'>12h</option>
+                                <option value='13'>13h</option>
+                                <option value='14'>14h</option>
+                                <option value='15'>15h</option>
+                                <option value='16'>16h</option>
+                                <option value='17'>17h</option>
+                                <option value='18'>18h</option>
                             </select>
                         </div>
                     </div>
-
-                    <p>Disponibilidade: {reunionState && <b>{reunionState.totalRooms}</b>}</p>
-
-                    <div className="room-container">
-                        {roomContent && roomContent.content.map(room => (
-                            <RoomIcon  key={room.id} room={room.name} state={`${room.available ? 'active-icon':'disable-icon'}`}/>
-                        ))}
-                    </div>
-                    <button 
-                    className={`btn btn-secondary btn-lg ${reunionState !== undefined && (reunionState.totalRooms < 1 || reunionState?.totalEmployees  >= reunionState?.restrictedCapacity) ? 'disabled' : ''}`}>Agendar sala</button>
                 </div>
+
+                <p className="info-p">
+                    <Dot color={`${reunionState !== undefined && reunionState?.totalEmployees >= reunionState.restrictedCapacity ? 'red':'green'}`}/> 
+                    &nbsp;Pessoas no escritório nesse momento: {reunionState && <b>{reunionState.totalEmployees}</b>}</p>
+                <p className="bold-p">
+                    <Dot color={`${reunionState !== undefined && reunionState?.totalRooms < 1 ? 'red':'green'}`}/> 
+                    &nbsp;Salas disponíveis: {reunionState && <b>{reunionState.totalRooms}</b>}
+                </p>
+
+                <div className="room-container">
+                    {roomContent && roomContent.content.map(room => (
+                        <RoomIcon room={room} key={room.id} onClick={getId}/>
+                    ))}
+
+                </div>
+
+                <button 
+                className={`btn btn-secondary btn-lg ${reunionState !== undefined && (reunionState.totalRooms < 1 || reunionState?.totalEmployees  >= reunionState?.restrictedCapacity) ? 'disabled' : ''}`}
+                >Agendar sala</button>
             </div>
         </div>
+            
+    </div>
     )
 }
 

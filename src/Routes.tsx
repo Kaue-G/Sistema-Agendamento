@@ -4,7 +4,6 @@ import Home from 'pages/Home';
 import Cancel from 'pages/Cancel';
 import Booking from 'pages/Booking';
 import History from 'pages/History';
-import ModalBody from 'core/components/ModalBody';
 
 const Routes = () => (
     <BrowserRouter > 

@@ -1,29 +1,32 @@
-.office-information{
-    background: #FFFFFF;
-    border-radius: 30px;
-    width: 510px;
+.office-card-container {
+    width: 100%;
+}
+
+.office-card-container > span {
+    font-size: 16px;
+    line-height: 20px;
+    color: #7D7D7D;
+}
+
+.office-information {
+    margin-top: 16px;
+    background-color: #FFF;
+    box-shadow: 0px 16px 40px rgba(0, 0, 0, 0.15);
+    border-radius: 15px;    
     display: flex;
     flex-direction: row;
-    padding-top: 16px;
-    padding-bottom: 16px;
-    padding-left: 36px;
-    padding-right: 36px;
+    padding-top: 32px;
+    padding-bottom: 32px;
 }
 
-.office-information-active{
-    box-shadow: 0px 16px 40px rgba(54, 53, 126, 0.5);
-}
-
-.work-day{
+.work-day {
+    border-right: 1.5px solid rgba(0, 0, 0, 0.5);
+    padding-left: 32px;
+    padding-right: 32px;
     border-collapse: collapse;
-    border-right: 1px solid #000000;
-
     flex-grow: 0;
     flex-shrink: 0;
     flex-basis: 50%;
-
-    padding-right: 20px;
-
 
     display: flex;
     flex-direction: column;
@@ -31,117 +34,94 @@
 
     span {
         font-weight: bold;
-        font-size: 18px;
+        font-size: 20px;
         line-height: 22px;
         color: #FF601C;
-    }
-
-    p {
-        margin-top: 25px;
-        font-size: 16px;
-        line-height: 22px;
-    }
-
-    button {
-        color: #FFF;
-        font-weight: bold;
-        border-radius: 50px;
-        margin-top: 44px;
-
-        &:hover{
-            color: #FFF;
-        }
+        margin-bottom: 32px;
     }
 
     select {
-        margin-bottom: 127px;
         border: 1px solid #FF601C;
         background-color: #FFF;
-    }
-
-
-}
-
-.time-select {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 25px;
-
-    div {
-        text-align: center;
-    }
-
-}
-
-.work-reunion{
-    padding-left: 19px;
-
-
-    flex-grow: 0;
-    flex-shrink: 0;
-    flex-basis: 50%;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    span {
-        font-weight: bold;
-        font-size: 18px;
-        line-height: 22px;
-        color: #36357E;
-    }
-
-    p {
-        margin-top: 25px;
-        font-size: 16px;
-        line-height: 22px;
+        max-width: 260px;
+        margin-bottom: 106px;
     }
 
     button {
         color: #FFF;
         font-weight: bold;
-        margin-top: 20px;
         border-radius: 50px;
+        margin-top: 80px;
+    }
+}
+
+.work-reunion {
+    border-collapse: collapse;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-left: 32px;
+    padding-right: 32px;
+
+    span {
+        font-weight: bold;
+        font-size: 20px;
+        line-height: 22px;
+        color: #36357E;
+        margin-bottom: 32px;
     }
 
     select {
         border: 1px solid #36357E;
         background-color: #FFF;
+        max-width: 260px;
+        margin-bottom: 16px;
     }
-    
+
+    button {
+        font-weight: bold;
+        border-radius: 50px;
+    }
+
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: 50%;
+
 }
+
+.bold-p{
+    font-size: 18px;
+    line-height: 27px;
+}
+
+.info-p{
+    font-size: 14px;
+    line-height: 22px;
+    margin: 0;
+}
+
+.time-select {
+    width: 260px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 10px;
+
+    div {text-align: center;}
+    select {width: 85px;}
+    p { margin: 0;}
+}
+
 
 .room-container {
-    width: 100%;
+    height: 50px;
+    margin-bottom: 30px;
+    width: 260px;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
     flex-direction: row;
-}
-
-.office-header{
-    margin-bottom: 25px;
-    margin-top: 25px;
-    h3 {
-        font-size: 30px;
-        line-height: 37px;
-        font-weight: bold;
-        display: inline;
-    }
-
-    span {
-        font-size: 14px;
-        line-height: 17px;
-        color: #7D7D7D;
-    }
-}
-
-.office-card-container {
-    width: 512px;
-    text-align: center;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid red;
 
 }

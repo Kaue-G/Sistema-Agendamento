@@ -1,21 +1,24 @@
 .room-icon {
     font-size: 12px;
-    width: 25px;
+    min-width: 60px;
     height: 25px;
     text-align: center;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 50%;
+    border-radius: 50px;
+    border: 1.5px solid #C4C4C4;
+    margin-right: 10px;
+    font-weight: bold;
+    cursor: default;
 
-    &.active-icon{
-        border: 1.4px solid #FF601C;
+    &.available{
+        border: 1.4px solid #36357E;
         cursor: pointer;
+
+        &:hover {
+            background-color: #36357E; 
+            color: #FFF;
+        }
     }
-
-    &.disable-icon{
-        border: 1.4px solid #C4C4C4;
-
-    }
-
 }
