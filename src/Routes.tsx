@@ -5,6 +5,7 @@ import Cancel from 'pages/Cancel';
 import Booking from 'pages/Booking';
 import History from 'pages/History';
 import TicketPage from 'pages/Confirmation';
+import ErrorPage from 'pages/Error';
 
 const Routes = () => (
     <BrowserRouter > 
@@ -32,8 +33,8 @@ const Routes = () => (
            <Route path="/bookings/confirmation" exact>
                <TicketPage/>
            </Route>
-           <Route path="/bookings/error" exact>
-               <h1>DEU ERRADO SINTO MUITO</h1>
+           <Route path="/bookings/error" exact >
+               <ErrorPage/>
            </Route>
        </Switch>
     </BrowserRouter>

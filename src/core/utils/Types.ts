@@ -44,3 +44,14 @@ export type RoomResponse = {
     content: Room[]
 }
 
+export type FieldError = {
+    fieldName: string,
+    message: string
+}
+
+export type Error = {
+    date: string,
+    status: number,
+    errors?: FieldError[]
+}
+

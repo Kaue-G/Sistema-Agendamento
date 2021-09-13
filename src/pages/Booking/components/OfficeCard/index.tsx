@@ -52,10 +52,10 @@ const OfficeCard = ({office}: Props) => {
     })
 
     const[bookingReunion,setBookingReunion] = useState<ReunionBooking>({
-        begin: 0,
+        begin: 8,
         chair: 0,
         employee_id: '',
-        end: 0,
+        end: 18,
         moment: '',
         type: 0,
         weight: 2
@@ -111,8 +111,6 @@ const OfficeCard = ({office}: Props) => {
         .catch(error => history.push('/bookings/error', {params: error.response.data}))
     }
 
-
-
     useEffect(() =>{
         if(reunionArgs.moment !== undefined && reunionArgs.begin !== undefined && reunionArgs.end){
             const date = stringToDate(reunionArgs.moment);
@@ -147,7 +145,7 @@ const OfficeCard = ({office}: Props) => {
                         &nbsp;Lugares disponíveis: {officeState && <b>{officeState.restrictedCapacity - officeState.totalEmployees}</b>}
                     </p>
                     <button 
-                    className={`btn btn-primary btn-lg ${officeState !== undefined && officeState.totalEmployees >= officeState?.restrictedCapacity ? 'disabled':''}`}
+                    className={`btn btn-primary btn-lg ${officeState !== undefined && (officeState.totalEmployees >= officeState?.restrictedCapacity) ? 'disabled':''}`}
                     onClick={() => setModalVisibleDay(true)}
                     >Agendar</button>
 

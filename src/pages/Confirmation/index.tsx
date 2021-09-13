@@ -12,11 +12,10 @@ import { Booking, Office } from 'core/utils/Types';
 
 const TicketPage = () => {
     const location = useLocation<Booking>();
-    <LogoImage style={{position: "absolute", top: '40px', left: '40px'}}/>
 
   return (
     <div className="ticket-page">
-        <Ticket booking={location.state}/>
+        {location.state && <Ticket booking={location.state}/>}
     </div>
   )
 }
