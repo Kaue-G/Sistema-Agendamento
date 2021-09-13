@@ -62,3 +62,11 @@
 .modal-area .buttons button:focus{
   outline: none;
 }
+
+.modal-area .to {
+  text-decoration: none;
+}
+
+.modal-area .to:visited {
+ color: #FFF;
+}

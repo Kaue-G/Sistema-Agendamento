@@ -27,7 +27,7 @@ export default function Modal({ setVisible }) {
             <button className="back" type="submit" onClick={setVisible}>Voltar</button>
 
             <button className="next" type="button" onClick={handleInformation}>
-              {showEmail ? <Link to='/ticket'>Próximo</Link> : 'Próximo'}
+              {showEmail ? <Link to='/ticket' className="to">Próximo</Link> : 'Próximo'}
             </button>
 
           </div>

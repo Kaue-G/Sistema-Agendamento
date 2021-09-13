@@ -1,0 +1,42 @@
+.messageHP h1{
+   font-size: 2.4rem;
+   font-weight: bold;;
+ }
+
+.messageHP p {
+    font-size: 1.5rem;    
+    margin: 32px 0;
+    width: 80%;
+}
+
+.inputHP {
+  display: flex;
+}
+
+.inputHP input{
+  width: 292px;
+  height: 62px;
+  border-radius: 30px;
+  padding: 10px;
+  margin-right: 32px;
+  border: 1px solid #C4C4C4;
+  font-size: 1rem;
+}
+
+.inputHP button{
+  width: 232px;
+  height: 63px;
+  border-radius: 30px;
+  padding: 10px;
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #FFFFFF;  
+  background: #FF601C;
+  border: 1px solid #FF601C;
+}
+
+.inputHP button:focus,
+.inputHP input:focus{
+  outline: none;
+  border: 0;
+}

@@ -1,23 +1,19 @@
 import './style.css';
-import Aside from '../../components/Aside';
 import Disponibility from '../../components/Disponibility';
+import DefaultPage from '../../components/DefaultPage';
 
-function BookingPage() {
+export default function BookingPage() {
   return (
-    <div className="booking-page">
-      <div className="container-booking">
-        <Aside />
-        <div className="txt">
-          <p>Verifique a disponibilidade de estações de trabalho e
-            salas de reunião por unidade, dia e horário.
-          </p>
-        </div>
-        <div className="boxes">
-          <Disponibility />
-        </div>
+    <DefaultPage>
+      <div className="messageBP">
+        <p>Verifique a disponibilidade de estações de trabalho e
+          salas de reunião por unidade, dia e horário.
+        </p>
       </div>
-    </div>
+      <div className="boxesBP">
+        <Disponibility />
+      </div>
+    </DefaultPage>
+
   )
 }
-
-export default BookingPage;

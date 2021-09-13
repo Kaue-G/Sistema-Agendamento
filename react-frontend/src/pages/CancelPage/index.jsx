@@ -1,9 +1,9 @@
 import './style.css';
 import api from '../../services/api.js'
-import Aside from '../../components/Aside';
+import DefaultPage from '../../components/DefaultPage'
 import { useState } from 'react';
 
-function CancelPage(props) {
+export default function CancelPage(props) {
   const [idTicket, setIdTicket] = useState([]);
 
   function onChange(ev) {
@@ -11,50 +11,35 @@ function CancelPage(props) {
   }
 
   function onClick() {
-
     api.delete(`/offices/bookings/${idTicket}`)
     // .then(
 
     // });
-
   }
 
   return (
-
-    <div className="container-cancel">
-      <div className="page">
-        <Aside />
-        <div className="cancelarTicket">
-          <div className="txt-cancel">
-            <h1>cancelar ticket</h1>
-            <p>
-              Para cancelar uma reserva já realizada,
-              por favor insira o número do ticket correspondente
-              à esse agendamento no espaço abaixo.
-            </p>
-          </div>
-          <div>
-            <form className="form" action="">
-              <input
-                type="number"
-                placeholder="insira o numero do seu Ticket"
-                name="" id="" onChange={onChange}
-              />
-              <button
-                type="button"
-                onClick={onClick}
-                disabled
-              >
-                cancelar ticket
-              </button>
-            </form>
-          </div>
-        </div>
+    <DefaultPage>
+      <div className="messageCP">
+        <h1>Cancelar Ticket</h1>
+        <p>Para cancelar uma reserva já realizada,
+          por favor insira o número do ticket correspondente
+          à esse agendamento no espaço abaixo.
+        </p>
       </div>
-    </div>
+      <div>
+        <form className="formCP" action="">
+          <input type="number"
+            placeholder="Insira o número do seu Ticket"
+            name="" id="" onChange={onChange}
+          />
+          <button type="button" onClick={onClick} disabled>
+            Cancelar Ticket
+          </button>
+        </form>
+      </div>
+    </DefaultPage>
 
   )
 }
 
-export default CancelPage;
 

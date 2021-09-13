@@ -1,71 +1,42 @@
-
-.container-cancel {
-    width: 100vw;
-    height: auto;
-    padding: 165px 3vw 20px 3vw;
-    background-color: #36357E;
-}
-
-.page {
-    display: flex;
-    background: #FF601C;
-    border-radius: 30px;
-}
-
-.cancelarTicket {
-    background: #F9F8F8;
-    width: 100vw;
-    display: flex;
-    flex-direction: column;
-
-    border-radius: 0 30px 30px 0;
-    padding: 8% 6%;
-}
-
-.txt-cancel h1 {
+.messageCP h1 {
     font-size: 2.4rem;
-    text-transform: capitalize;
     font-weight: bold;
-
 }
 
-.txt-cancel p {
+.messageCP p {
     font-size: 1.5rem;    
-    
     margin: 32px 0;
     width: 80%;
 }
 
-.form {
-    width: 50%;
+.formCP {
     display: flex;
-    justify-content: space-between;
 }
 
-.form input, button {
-    width: 48%;
-}
-
-.form input {
-    height: 59px;
-    padding-left: 1rem;
-    font-size: 1rem;
-    background: #FFFFFF;
-    border: 1px solid rgba(0, 0, 0, 0.5);
-    box-sizing: border-box;
+.formCP input {
+    width: 292px;
+    height: 62px;
     border-radius: 30px;
+    padding: 10px;
+    margin-right: 32px;
+    border: 1px solid #C4C4C4;
+    font-size: 1rem;
 }
 
-form button {
-    height: 60px;
-    
-    font-size: 1.5rem;
+.formCP button {
+    width: 232px;
+    height: 63px;
+    border-radius: 30px;
+    padding: 10px;
+    font-size: 1.25rem;
     font-weight: bold;
-    text-transform: capitalize;
-    color: #FFFFFF;
-    
+    color: #FFFFFF;  
     background: #FF601C;
-    border-radius: 50px;
+    border: 1px solid #FF601C;
+}
+
+.formCP button:focus{
+  outline: none;
 }
 /* celular :a baixo de 768 
 tela pequena : entre 768 - 1024

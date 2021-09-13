@@ -4,7 +4,7 @@ export default function Confirmation() {
   return (
 
     <div className="confirmation">
-      <p class="msg">Você selecionou:</p>
+      <p class="message-confirmation">Você selecionou:</p>
       <div className='info'>
         <div className='info1'>
           <p>Dia: </p>

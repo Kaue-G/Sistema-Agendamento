@@ -2,7 +2,18 @@
   width: 505px;
   height: 240px; 
   display: flex;
+  flex-direction: column;
   align-self: center;
+}
+
+.confirmation .message-confirmation {
+  font-size: 24px;
+  margin-bottom:40px;
+}
+
+.confirmation .info {
+  display: flex;
+  flex-direction: column;
 }
 
 .confirmation .info .info1 {
@@ -19,5 +30,8 @@
 
 .confirmation .info .info2 {
   display: flex;
-  justify-self: start;
- }
+}
+
+.confirmation .info .info2 p{
+  margin-right: 132px;
+}
