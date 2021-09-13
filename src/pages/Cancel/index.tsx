@@ -32,7 +32,10 @@ const Cancel = () => {
                 <input type="text" onChange={handleOnChange} value={ticketId} />
                 <button className={`btn btn-primary btn-lg ${ticketId === '' ? 'disabled':''}`} onClick={() => setModalVisible(true)}>Cancelar ticket</button>
             </div>
-            { modalVisible && <ModalBody onClose={() => {setModalVisible(false)}} onModalAction={modalAction}/>}
+            { modalVisible && <ModalBody onClose={() => {setModalVisible(false)}} onModalAction={modalAction}>
+                <p style={{fontSize: '24px', lineHeight: '34px'}}>Tem certeza que deseja cancelar <br/>o ticket <b>{ticketId}</b>?</p>
+                <span style={{fontSize: '14px', lineHeight: '17px', color: 'rgba(0, 0, 0, 0.5)'}}><b>Atenção!</b> Depois de confirmada, essa ação não poderá ser desfeita.</span>
+                </ModalBody>}
         </div>      
     )
 }

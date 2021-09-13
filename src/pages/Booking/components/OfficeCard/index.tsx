@@ -1,11 +1,13 @@
 import stringToDate from 'core/utils/DataFormat'
 import doRequest from 'core/utils/Requests'
 import {Office, OfficeState, RoomResponse } from 'core/utils/Types'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import RoomIcon from './components'
 import {ReactComponent as Dot} from '../../assets/dot.svg'
 
 import './style.scss'
+import ModalBody from 'core/components/ModalBody'
+import { useHistory } from 'react-router'
 
 type Props = {
     office: Office | undefined;
@@ -29,7 +31,8 @@ type ReunionBooking = {
     employee_id: string,
     end: number,
     moment: string,
-    type: number
+    type: number,
+    weight: number
 }
 
 const OfficeCard = ({office}: Props) => {
@@ -37,6 +40,10 @@ const OfficeCard = ({office}: Props) => {
     const[reunionArgs, setReunionArgs] = useState<ReunionArgs>({})
     const[reunionState, setReunionState] = useState<OfficeState>()
     const[roomContent, setRoomContent] = useState<RoomResponse>()
+    const[modalVisibleDay,setModalVisibleDay] =  useState(false);
+    const[modalVisibleReunion,setModalVisibleReunion] =  useState(false);
+    const[email,setEmail] = useState('')
+    const history = useHistory()
 
     const[bookingDay,setBookingDay] = useState<DayBooking>({
         employee_id: '',
@@ -50,7 +57,8 @@ const OfficeCard = ({office}: Props) => {
         employee_id: '',
         end: 0,
         moment: '',
-        type: 0
+        type: 0,
+        weight: 2
     })
 
     const onSimpleSelect = (e: React.ChangeEvent<HTMLSelectElement>) =>{
@@ -60,7 +68,7 @@ const OfficeCard = ({office}: Props) => {
         doRequest({url: `/offices/${office?.id}`, params: {date: value} })
         .then(r => setOfficeState(r.data))
 
-        setBookingDay(data => ({...data, [name] : value}))
+        setBookingDay(data => ({...data, [name] : e.target.value}))
     }
 
     const onMultipleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -78,6 +86,33 @@ const OfficeCard = ({office}: Props) => {
         }
     }
 
+    const handleOnSubmitDay = () => {
+        const payload = {
+            ...bookingDay,
+            employee_id: email
+        }
+
+
+        setModalVisibleDay(false);
+        doRequest({ url: `/offices/${office?.id}/bookings`, method: 'POST', data: payload})
+        .then(r => history.push('/bookings/confirmation', {params: r.data}))
+        .catch(error => history.push('/bookings/error', {params: error.response.data}))
+    }
+
+    const handleOnSubmitReunion = () => {
+        const payload = {
+            ...bookingReunion,
+            employee_id: email
+        }
+
+        console.log(payload)
+        doRequest({ url: `/offices/${office?.id}/bookings`, method: 'POST', data: payload})
+        .then(r => history.push('/bookings/confirmation', {params: r.data}))
+        .catch(error => history.push('/bookings/error', {params: error.response.data}))
+    }
+
+
+
     useEffect(() =>{
         if(reunionArgs.moment !== undefined && reunionArgs.begin !== undefined && reunionArgs.end){
             const date = stringToDate(reunionArgs.moment);
@@ -89,7 +124,6 @@ const OfficeCard = ({office}: Props) => {
 
             doRequest({url: `/offices/${office?.id}/chairs`, params: {date, begin, end}})
             .then(r => setRoomContent(r.data))
-        
         }
 
     },[reunionArgs, office])
@@ -114,6 +148,7 @@ const OfficeCard = ({office}: Props) => {
                     </p>
                     <button 
                     className={`btn btn-primary btn-lg ${officeState !== undefined && officeState.totalEmployees >= officeState?.restrictedCapacity ? 'disabled':''}`}
+                    onClick={() => setModalVisibleDay(true)}
                     >Agendar sala</button>
 
                 </div>
@@ -182,10 +217,45 @@ const OfficeCard = ({office}: Props) => {
 
                 <button 
                 className={`btn btn-secondary btn-lg ${reunionState !== undefined && (reunionState.totalRooms < 1 || reunionState?.totalEmployees  >= reunionState?.restrictedCapacity) ? 'disabled' : ''}`}
+                onClick={() => setModalVisibleReunion(true)}
                 >Agendar sala</button>
             </div>
         </div>
-            
+        { modalVisibleDay && 
+            <ModalBody onClose={() => setModalVisibleDay(false)} onModalAction={handleOnSubmitDay}>
+                <div className="main-modal-children">
+                    <span>Você selecionou:</span>
+                    <div className="modal-reunion-info">
+                        <span>Dia: {bookingDay.moment}</span>
+                        <span>Unidade: {office?.name}</span>
+                    </div>
+                    <div className="modal-email-input">
+                        <p>Agora só falta colocar o seu e-mail para confirmarmos o seu agendamento!</p>
+                        <span>E-mail</span>
+                        <input type="text" onChange={e => setEmail(e.target.value)} value={email}/>
+                    </div>
+                </div>
+            </ModalBody> 
+        }
+        { modalVisibleReunion && 
+            <ModalBody onClose={() => setModalVisibleReunion(false)} onModalAction={handleOnSubmitReunion}>
+                <div className="main-modal-children">
+                    <span>Você selecionou:</span>
+                    <div className="modal-reunion-info">
+                        <span>Dia: {bookingReunion.moment}, {bookingReunion.weight} Lugares</span>
+                        <span>Unidade: {office?.name}</span>
+                        <span>Sala: {bookingReunion.chair}</span>
+                        <span>Horário: {bookingReunion.begin}h - {bookingReunion.end}h</span>
+                    </div>
+                    <div className="modal-email-input">
+                        <p>Agora só falta colocar o seu e-mail para confirmarmos o seu agendamento!</p>
+                        <span>E-mail</span>
+                        <input type="text" onChange={e => setEmail(e.target.value)} value={email}/>
+                    </div>
+                </div>
+            </ModalBody> 
+        }
+    
     </div>
     )
 }

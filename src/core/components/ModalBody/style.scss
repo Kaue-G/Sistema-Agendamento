@@ -1,5 +1,5 @@
-.modal-body {
-    max-width: 540px;
+.main-modal-body {
+    max-width: 575px;
     padding: 35px 35px 35px 35px;
     border-radius: 30px;
     background-color: #FFF;
@@ -9,15 +9,11 @@
     align-items: center;
     justify-content: center;
 
-    div {
-        border: none;
-    }
-
     button {
         border-radius: 50px;
         font-weight: bold;
         width: 232px;
-        margin-top: 60px;
+        margin-top: 40px;
         &.go-back  {
             color: #000;
             border: 1px solid #000;
@@ -29,6 +25,7 @@
         }
     }
 }
+
 
 .modal-container {
     height: 100vh;
@@ -42,4 +39,17 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.main-modal-content {
+    border: 1px solid blue;
+    width: 100%;
+
+}
+
+.button-content{
+    border: 1px solid blue;
+    display: flex;
+    flex-direction: row;
+
 }
