@@ -30,7 +30,7 @@ export default function CancelPage(props) {
         <form className="formCP" action="">
           <input type="number"
             placeholder="Insira o número do seu Ticket"
-            name="" id="" onChange={onChange}
+            name="" id="" required onChange={onChange}
           />
           <button type="button" onClick={onClick} disabled>
             Cancelar Ticket

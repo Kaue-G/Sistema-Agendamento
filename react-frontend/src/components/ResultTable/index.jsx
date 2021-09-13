@@ -1,67 +1,27 @@
 import './style.css'
 
-const ResultTable = () => {
+const ResultTable = ({ bookings }) => {
     return <div className="result-container">
-        <table className="table table-hover table-sm">
+        <table className="table table-hover table-sm table-borderless">
             <thead>
                 <tr>
                     <th scope="col">N° do Ticket</th>
-                    <th scope="col">Tipo</th>
+                    <th scope="col">Tipo de agendamento</th>
                     <th scope="col">Horário</th>
-                    <th scope="col">Dia</th>
+                    <th scope="col">Data</th>
                     <th scope="col">Unidade</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <th scope="row">122938</th>
-                    <td>Dia inteiro</td>
-                    <td>08h-18h</td>
-                    <td>13/09/2021</td>
-                    <td>São Paulo</td>
-                </tr>
-                <tr>
-                    <th scope="row">122938</th>
-                    <td>Dia inteiro</td>
-                    <td>08h-18h</td>
-                    <td>13/09/2021</td>
-                    <td>São Paulo</td>
-                </tr>
-                <tr>
-                    <th scope="row">122938</th>
-                    <td>Dia inteiro</td>
-                    <td>08h-18h</td>
-                    <td>13/09/2021</td>
-                    <td>São Paulo</td>
-                </tr>
-                <tr>
-                    <th scope="row">122938</th>
-                    <td>Dia inteiro</td>
-                    <td>08h-18h</td>
-                    <td>13/09/2021</td>
-                    <td>São Paulo</td>
-                </tr>
-                <tr>
-                    <th scope="row">122938</th>
-                    <td>Dia inteiro</td>
-                    <td>08h-18h</td>
-                    <td>13/09/2021</td>
-                    <td>São Paulo</td>
-                </tr>
-                <tr>
-                    <th scope="row">122938</th>
-                    <td>Dia inteiro</td>
-                    <td>08h-18h</td>
-                    <td>13/09/2021</td>
-                    <td>São Paulo</td>
-                </tr>
-                <tr>
-                    <th scope="row">122938</th>
-                    <td>Dia inteiro</td>
-                    <td>08h-18h</td>
-                    <td>13/09/2021</td>
-                    <td>São Paulo</td>
-                </tr>
+                {bookings.map(b => (
+                    <tr key={b.id}>
+                        <th scope="row">{b.id}</th>
+                        <td>{b.begin === 8 && b.end === 18 ? 'Dia inteiro' : 'Reunião'}</td>
+                        <td>{`${b.begin}h - ${b.end}h`}</td>
+                        <td>{b.moment}</td>
+                        <td>{b.officeName}</td>
+                    </tr>
+                ))}
             </tbody>
         </table>
     </div>
