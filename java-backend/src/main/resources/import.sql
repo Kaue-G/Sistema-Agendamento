@@ -1,9 +1,9 @@
 -- Escritórios
-INSERT INTO Office(address,capacity,name) VALUES ('Rua Bela Cintra, 986 - 2º andar, Consolação, São Paulo - SP',10,'São Paulo');
+INSERT INTO Office(address,capacity,name) VALUES ('Rua Bela Cintra, 986 - 2º andar, Consolação, São Paulo - SP',21,'São Paulo');
 INSERT INTO Office(address,capacity,name) VALUES ('Praça Dos Expedicionários, 192º andar, Gonzaga, Santos - SP',10,'Santos');
 
 -- Cadeiras
-INSERT INTO Room(capacity, name, office_id) VALUES (4,'Sala 1',1);
+INSERT INTO Room(capacity, name, office_id) VALUES (10,'Sala 1',1);
 INSERT INTO Room(capacity, name, office_id) VALUES (4,'Sala 2',1);
 
 INSERT INTO Room(capacity, name, office_id) VALUES (4,'Sala 35',2);

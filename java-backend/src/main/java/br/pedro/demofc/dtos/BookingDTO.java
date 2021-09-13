@@ -8,15 +8,14 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-import javax.validation.constraints.NotBlank;
-import java.time.LocalDate;
+import javax.validation.constraints.Email;
 
 @JsonInclude(Include.NON_NULL)
 @BookingValid
 @ApiModel(value = "Booking", description = "Entidade que representa o corpo de um agendamento.")
 public class BookingDTO {
 
-    private Integer id;
+    private String id;
     private Type type;
 
     private Long chair;
@@ -25,6 +24,7 @@ public class BookingDTO {
     private String moment;
 
     @ApiModelProperty(required = true)
+    @Email(message = "Must be a email")
     private String employee_id;
 
     private Integer begin;
@@ -51,7 +51,7 @@ public class BookingDTO {
         this.id = booking.getId();
         this.moment = moment;
         this.weight = booking.getWeight();
-        this.employee_id = booking.getEmployee().getCpf();
+        this.employee_id = booking.getEmployee().getEmail();
         this.begin = booking.getBegin();
         this.end = booking.getEnd();
         this.chair = booking.getRoom();
@@ -70,11 +70,11 @@ public class BookingDTO {
 
     public void setOfficeName(String officeName) { this.officeName = officeName; }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

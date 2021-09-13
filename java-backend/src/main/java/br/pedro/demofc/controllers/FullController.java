@@ -106,7 +106,7 @@ public class FullController {
     @ApiResponses(value = {
             @ApiResponse(code = 404, message = "ID inserido não consta no banco de dados.")
     })
-    public ResponseEntity<Void> remove (@PathVariable Integer id){
+    public ResponseEntity<Void> remove (@PathVariable String id){
         service.delete(id);
         return  ResponseEntity.noContent().build();
     }

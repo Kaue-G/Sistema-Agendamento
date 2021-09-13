@@ -10,6 +10,8 @@ public class Employee {
 
     @Id
     private String cpf;
+
+    @Column (unique = true)
     private String email;
 
     @Column(name = "BUSINESS_UNIT")

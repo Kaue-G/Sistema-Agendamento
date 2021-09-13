@@ -20,5 +20,5 @@ public interface BookingRepository extends JpaRepository<Booking,Integer> {
 
     @NonNull
     @EntityGraph(type = EntityGraph.EntityGraphType.LOAD, attributePaths = {"disponibilities"})
-    Optional<Booking> findById(@NonNull Integer id);
+    Optional<Booking> findById(@NonNull String id);
 }

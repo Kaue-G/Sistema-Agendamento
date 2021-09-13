@@ -1,5 +1,8 @@
 package br.pedro.demofc.entities;
 
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -9,11 +12,12 @@ import java.util.Set;
 @Table(name = "Booking", uniqueConstraints = {
         @UniqueConstraint(name = "uniqueMomentAndEmployee", columnNames = {"MOMENT","EMPLOYEE_ID"})
 })
+@GenericGenerator(name = "booking-gen", parameters = {@Parameter(name = "prefix", value = "FC")}, strategy = "br.pedro.demofc.services.IdGenerator")
 public class Booking {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @GeneratedValue(generator = "booking-gen")
+    private String id;
 
     @Column(name = "ROOM")
     private Long room;
@@ -46,11 +50,11 @@ public class Booking {
         this.weight = weight;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

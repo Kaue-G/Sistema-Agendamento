@@ -69,7 +69,7 @@ public class BookingInsertValidator implements ConstraintValidator<BookingValid,
         if(dto.getEmployee_id() == null){
             errors.add(new FieldMessage("employee_id","This can not be null"));
         } else {
-            Optional<Employee> e = eRepository.findById(dto.getEmployee_id());
+            Optional<Employee> e = eRepository.findByEmail(dto.getEmployee_id());
             if(e.isEmpty()){
                 errors.add(new FieldMessage("employee_id","This user does not exist"));
             } else {
@@ -80,10 +80,16 @@ public class BookingInsertValidator implements ConstraintValidator<BookingValid,
             }
         }
 
+//        if(dto.getType() != Type.DAY && (dto.getBegin() == null || dto.getEnd() == null)){
+//            errors.add(new FieldMessage("begin", "Begin or end when in reunion must be informed"));
+//        }
+
         if(dto.getType() == Type.DAY){
             dto.setWeight(1);
-        } else {
-            dto.setWeight(2);
+        }
+
+        if(dto.getType() != Type.DAY && dto.getWeight() == null ){
+            dto.setWeight(1);
         }
 
         List<Disponibility> disponibilities = findUnavailable(dto,id);

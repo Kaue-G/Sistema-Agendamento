@@ -133,7 +133,7 @@ public class FullService {
 
     @Transactional(readOnly = true)
     public List<BookingDTO> findAllBookings(String email) {
-        Employee e = employeeRepository.findById(email).orElseThrow(() -> new ServiceViolationException("[404] Entity not Found"));
+        Employee e = employeeRepository.findByEmail(email).orElseThrow(() -> new ServiceViolationException("[404] Entity not Found"));
         List<Booking> bookings = bookingRepository.findBookingByEmployee(e);
 
         return bookings.stream().map(x -> {
@@ -148,7 +148,7 @@ public class FullService {
         Booking booking = new Booking();
 
         booking.setMoment(stringToDate(dto.getMoment()));
-        booking.setEmployee(employeeRepository.getById(dto.getEmployee_id()));
+        booking.setEmployee(employeeRepository.getByEmail(dto.getEmployee_id()));
 
         if(dto.getType() == Type.DAY){
             booking.setBegin(constraints.getBEGIN());
@@ -182,7 +182,7 @@ public class FullService {
                 throw new ServiceViolationException("[422] The weight must me smaller than room capacity");
             }
 
-            List<DisponibilityRoom> allRooms = drRepository.findAll();
+            List<DisponibilityRoom> allRooms = drRepository.findByEndAndBegin(stringToDate(dto.getMoment()), booking.getBegin(), booking.getEnd(), id);
 
             disponibilities.forEach(disp -> {
                 DisponibilityRoom newDr = new DisponibilityRoom(disp,c);
@@ -206,7 +206,7 @@ public class FullService {
     }
 
     @Transactional
-    public void delete(Integer id){
+    public void delete(String id){
         Booking booking = bookingRepository.findById(id).orElseThrow(() -> new ServiceViolationException("[404] Entity not Found"));
         Set<Disponibility> disp = booking.getDisponibilities();
 
