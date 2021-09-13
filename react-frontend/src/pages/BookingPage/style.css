@@ -1,8 +1,43 @@
-.messageBP{
-   display: flex;
-   flex-direction: column;
- }
+.content-booking{
+    margin-left: 80px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-bottom: 50px;
+    margin-right: 80px;
+    flex-wrap: wrap;
+    flex: 1;
+    min-height: 450px;
+}
 
-.boxesBP {
-   display: flex;
- }
+.header-booking{
+    margin-left: 80px;
+    margin-bottom: 11px;
+    margin-right: 80px;
+    font-size: 22px;
+    line-height: 27px;
+    color: rgba(0, 0, 0, 0.8);
+}
+
+.office-pagination{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 60px;
+}
+
+.office-pagination-element{
+    font-weight: bold;
+    font-size: 30px;
+    line-height: 37px;
+    color: #acacacbd;
+    margin-right: 80px;
+    cursor: pointer;
+}
+
+.office-pagination-element .active {
+        cursor: default;
+        color: #000;
+        border-bottom: 3px solid #FF601C;
+}

@@ -1,31 +1,24 @@
 import './style.css';
 
-export default function Ticket() {
-  return (
-    <div className="ticket-boxes">
-      <div className="box1">
-        <div className="number">
-          123456
-        </div>
-      </div>
-      <div className="box2">
-        <div className="box2-L">
-          <div className="image-ticket">
-            <img src="/images/ticketOk.svg" alt="" />
-          </div>
-          <div className="date">
-            <p className="date-p1">09/09/2021</p>
-            <p className="date-p2">quinta-feira</p>
-          </div>
-        </div>
 
-        <div className="box2-R">
-          <div className="office-p1">
-            <p>Unidade</p>
-          </div>
-          <p className="office-p2">São Paulo</p>
+export default function Ticket({ booking }) {
+  return (
+    <div className="ticket-box">
+      {/* <div className="ticket-number">{booking.id}</div>
+      <div className="ticket-left">
+        <img src="/images/ticketOK" alt="" />
+        {booking.begin !== undefined ? <span>{booking.moment} <br /> {booking.begin}h - {booking.end}h</span> : <span>{booking.moment}</span>}</div>
+      <div className="ticket-right">
+        <div className="ticket-right-info-header">
+          <span>Unidade</span>
+
+          {booking.chair !== undefined ? <span>Sala</span> : ''}
         </div>
-      </div>
+        <div className="ticket-right-info">
+          {booking.officeName.substring(9)}
+          {booking.chair !== undefined ? <span>{booking.chair}</span> : ''}
+        </div>
+      </div> */}
     </div>
 
   )

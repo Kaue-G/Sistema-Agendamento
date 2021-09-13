@@ -1,0 +1,132 @@
+.office-card-container {
+    width: 100%;
+}
+
+.office-card-container > span {
+    font-size: 16px;
+    line-height: 20px;
+    color: #7D7D7D;
+}
+
+.office-information {
+    margin-top: 16px;
+    background-color: #FFF;
+    box-shadow: 0px 16px 40px rgba(0, 0, 0, 0.15);
+    border-radius: 15px;    
+    display: flex;
+    flex-direction: row;
+    padding-top: 32px;
+    padding-bottom: 32px;
+}
+
+.work-day {
+    border-right: 1.5px solid rgba(0, 0, 0, 0.5);
+    padding-left: 32px;
+    padding-right: 32px;
+    border-collapse: collapse;
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: 50%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.work-day span {
+        font-weight: bold;
+        font-size: 20px;
+        line-height: 22px;
+        color: #FF601C;
+        margin-bottom: 32px;
+    }
+
+.work-day select {
+        border: 1px solid #FF601C;
+        background-color: #FFF;
+        max-width: 260px;
+        margin-bottom: 106px;
+    }
+
+.work-day button {
+        color: #FFF;
+        font-weight: bold;
+        border-radius: 50px;
+        margin-top: 80px;
+    }
+
+.work-reunion {
+    border-collapse: collapse;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-left: 32px;
+    padding-right: 32px;
+
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: 50%;
+}
+
+.work-reunion span {
+        font-weight: bold;
+        font-size: 20px;
+        line-height: 22px;
+        color: #36357E;
+        margin-bottom: 32px;
+    }
+
+.work-reunion select {
+        border: 1px solid #36357E;
+        background-color: #FFF;
+        max-width: 260px;
+        margin-bottom: 16px;
+    }
+
+.work-reunion button {
+        font-weight: bold;
+        border-radius: 50px;
+    }
+
+
+.bold-p{
+    font-size: 18px;
+    line-height: 27px;
+}
+
+.info-p{
+    font-size: 14px;
+    line-height: 22px;
+    margin: 0;
+}
+
+.time-select {
+    width: 260px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.time-select div {text-align: center;}
+.time-select select {width: 85px;}
+.time-select p { margin: 0;}
+
+
+.room-container {
+    height: 50px;
+    margin-bottom: 30px;
+    width: 260px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.main-modal-children span{
+display: block;
+  
+
+}
