@@ -1,12 +1,18 @@
 .ticket-page {
-    max-width: 100vw;
-    min-width: 320px;
+    height: 100vh;
     width: 100vw;
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    background-color: #36357E;
-   }
+    border: 1px solid red;
+}
+
+.ticket-header {
+    border: 1px solid red;
+    margin-left: 160px;
+    background-color: red;
+    margin-top: 160px;
+
+    width: 50%;
+    height: 50%;
+}
   
   .ticket-page .top{
     display: flex;

@@ -95,7 +95,7 @@ const OfficeCard = ({office}: Props) => {
 
         setModalVisibleDay(false);
         doRequest({ url: `/offices/${office?.id}/bookings`, method: 'POST', data: payload})
-        .then(r => history.push('/bookings/confirmation', {params: r.data}))
+        .then(r => history.push('/bookings/confirmation', {...r.data, officeName: office?.name} ))
         .catch(error => history.push('/bookings/error', {params: error.response.data}))
     }
 
@@ -107,7 +107,7 @@ const OfficeCard = ({office}: Props) => {
 
         console.log(payload)
         doRequest({ url: `/offices/${office?.id}/bookings`, method: 'POST', data: payload})
-        .then(r => history.push('/bookings/confirmation', {params: r.data}))
+        .then(r => history.push('/bookings/confirmation', {...r.data, officeName: office?.name}))
         .catch(error => history.push('/bookings/error', {params: error.response.data}))
     }
 
@@ -149,7 +149,7 @@ const OfficeCard = ({office}: Props) => {
                     <button 
                     className={`btn btn-primary btn-lg ${officeState !== undefined && officeState.totalEmployees >= officeState?.restrictedCapacity ? 'disabled':''}`}
                     onClick={() => setModalVisibleDay(true)}
-                    >Agendar sala</button>
+                    >Agendar</button>
 
                 </div>
                 <div className="work-reunion">
@@ -255,7 +255,6 @@ const OfficeCard = ({office}: Props) => {
                 </div>
             </ModalBody> 
         }
-    
     </div>
     )
 }
