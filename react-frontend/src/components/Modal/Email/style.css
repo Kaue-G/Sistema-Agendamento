@@ -1,0 +1,12 @@
+.email {
+  width: 505px;
+  height: 240px; 
+  display: flex;
+  align-self: center;
+}
+
+.email .email-txt {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}

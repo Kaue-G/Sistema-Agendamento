@@ -1,4 +1,4 @@
-.modalBackground {
+.modal-background {
   position: fixed;
   left: 0;
   top: 0;
@@ -11,26 +11,54 @@
   align-items: center;
 }
 
-.modalArea {
+.modal-area {
   background-color: #FFF;
-  padding:10px;
-  width: 587px;
-  height: 462px;
+  padding:40px;
+  width: 585px;
+  height: 411px;
   display: flex;
   flex-direction: column;
-  border-radius: 20px;
-  align-items: center;
+  justify-content: space-between;
+  border-radius: 15px;
 }
 
-.images{
+.modal-area .modal-information {
+  width: 505px;
+  height: 240px;
+}
+
+.modal-area .msg {
+   align-self: flex-start;
+   font-size: 24px;
+   margin-bottom: 40px;
+}
+
+.modal-area .buttons {
   display: flex;
 }
 
-.title {
-  font-size: 24px;
+.modal-area .buttons button {
+  width: 232px;
+  height: 63px;
+  border-radius: 50px;
+  font-size: 20px;
   font-weight: bold;
+  margin: 40px;
+  background: none;
 }
 
-.msg {
-  font-size: 22px;
+.modal-area .buttons .back{
+  color: #000;
+  background-color: #FFF;
+  border: 1px solid #000;
+}
+
+.modal-area .buttons .next{
+  color: #FFF;
+  background-color: #FF601C;
+  border: 1px solid #FF601C;
+}
+
+.modal-area .buttons button:focus{
+  outline: none;
 }

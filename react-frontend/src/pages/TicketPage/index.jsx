@@ -1,5 +1,6 @@
 import './style.css';
 import { Link } from 'react-router-dom';
+import Ticket from '../../components/Ticket';
 
 function TicketPage() {
 
@@ -13,11 +14,14 @@ function TicketPage() {
         </div>
         <div className="msg">
           <h1>CONFIRMADO!</h1>
-          <p>Seu agendamento foi concluído com sucesso e gerou o ticket:</p>
         </div>
         <div className="image-space">
           <img src="/images/space.svg" alt="foguete" />
         </div>
+      </div>
+
+      <div className="text">
+        <p>Seu agendamento foi concluído com sucesso e gerou o ticket:</p>
       </div>
 
       <div className="middle">
@@ -26,35 +30,17 @@ function TicketPage() {
         </div>
 
         <div className="ticket">
-          <div className="number">
-            123456
-          </div>
-
-          <div className="infos">
-
-            <div className="box1">
-              <div className="image-ticket">
-                <img src="/images/ticketOk.svg" alt="" />
-              </div>
-              <div className="date">
-                <p className="date-p1">09/09/2021</p>
-                <p className="date-p2">quinta-feira</p>
-              </div>
-            </div>
-
-            <div className="box2">
-              <p className="office-p1">Unidade</p>
-              <p className="office-p2">São Paulo</p>
-            </div>
-
-          </div>
+          <Ticket />
         </div>
 
         <div className="right">
-          <img className="r1" src="/images/proteja.svg" alt="se-proteja" />
-          <img className="r2" src="/images/lave.svg" alt="lave-mãos" />
+          <div className="r1">
+            <img src="/images/proteja.svg" alt="se-proteja" />
+          </div>
+          <div className="r2">
+            <img src="/images/lave.svg" alt="lave-mãos" />
+          </div>
         </div>
-
       </div>
 
       <div className="bottom">

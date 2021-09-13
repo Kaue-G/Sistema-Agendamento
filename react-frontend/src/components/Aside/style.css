@@ -1,25 +1,25 @@
-nav {
-  width: 100px;
-  height: 80vh;
-  background-color: #FF601C;
+.aside-comp nav {
   display: flex;
   justify-content: center;
-  border-radius: 20px 0 0 20px;
+  width: 120px;
+  height: 811px;
+  background-color: #FF601C;
+  border-radius: 30px;
 }
 
-ul {
+.aside-comp ul {
   display: flex;
   flex-direction: column;
   align-items: center;
-
 }
 
-li {
+.aside-comp li {
   list-style: none;
   margin: 40px 0;
 }
 
-img {
-  width: 2.5rem;
-  height: 2.5rem;
+.aside-comp img {
+  cursor: pointer;
+  width: 50px;
+  height: 55px;
 }

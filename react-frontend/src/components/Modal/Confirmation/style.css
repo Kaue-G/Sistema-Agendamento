@@ -1,0 +1,23 @@
+.confirmation {
+  width: 505px;
+  height: 240px; 
+  display: flex;
+  align-self: center;
+}
+
+.confirmation .info .info1 {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.confirmation .info .info1 p,
+.confirmation .info .info2 p{
+  font-size: 30px;
+  line-height: 36px;
+}
+
+.confirmation .info .info2 {
+  display: flex;
+  justify-self: start;
+ }

@@ -1,41 +1,40 @@
 import './style.css';
+import Email from './Email';
+import Confirmation from './Confirmation';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
+export default function Modal({ setVisible }) {
 
-function Modal({ visible, setVisible, office }) {
+  const [showEmail, setShowEmail] = useState(false);
 
-  const handleBackgroundClick = () => {
-    console.log('passou')
-    setVisible(false);
+  const handleInformation = () => {
+    if (showEmail === false) {
+      setShowEmail(true)
+    }
   }
 
   return (
     <>
-      {visible ? (
-        <div className='modalBackground' onClick={handleBackgroundClick} >
-          <div className='modalArea'>
+      <div className='modal-background'>
+        <div className='modal-area'>
+          <div className='modal-information'>
+            {!showEmail ?
+              <Confirmation />
+              : <Email />}
+          </div>
+          <div className="buttons">
+            <button className="back" type="submit" onClick={setVisible}>Voltar</button>
 
-            <p className='title'>O que você quer marcar?</p>
-            <p className='msg'>Escolho que tipo de agendamento você quer fazer.</p>
-
-            <div className='images'>
-              <div className='office'>
-                <Link to={`/office/${office.id}/chair`}>
-                  <img src='/images/office.svg' alt='' />
-                </Link>
-              </div>
-              <div className='meet'>
-                <Link to={`/office/${office.id}/meet`}>
-                  <img src='/images/meet.svg' alt='' />
-                </Link>
-              </div>
-            </div>
+            <button className="next" type="button" onClick={handleInformation}>
+              {showEmail ? <Link to='/ticket'>Próximo</Link> : 'Próximo'}
+            </button>
 
           </div>
         </div>
-      ) : null}
+      </div>
     </>
   )
 }
 
-export default Modal;
+
