@@ -222,10 +222,10 @@ const OfficeCard = ({office}: Props) => {
         { modalVisibleDay && 
             <ModalBody onClose={() => setModalVisibleDay(false)} onModalAction={handleOnSubmitDay}>
                 <div className="main-modal-children">
-                    <span>Você selecionou:</span>
+                    <span className="title-modal-span">Você selecionou:</span>
                     <div className="modal-reunion-info">
-                        <span>Dia: {bookingDay.moment}</span>
-                        <span>Unidade: {office?.name}</span>
+                        <span>Dia: <b>{bookingDay.moment}</b></span>
+                        <span>Unidade: <b>{office?.name}</b></span>
                     </div>
                     <div className="modal-email-input">
                         <p>Agora só falta colocar o seu e-mail para confirmarmos o seu agendamento!</p>
@@ -238,12 +238,12 @@ const OfficeCard = ({office}: Props) => {
         { modalVisibleReunion && 
             <ModalBody onClose={() => setModalVisibleReunion(false)} onModalAction={handleOnSubmitReunion}>
                 <div className="main-modal-children">
-                    <span>Você selecionou:</span>
+                    <span className="title-modal-span">Você selecionou:</span>
                     <div className="modal-reunion-info">
-                        <span>Dia: {bookingReunion.moment}, {bookingReunion.weight} Lugares</span>
-                        <span>Unidade: {office?.name}</span>
-                        <span>Sala: {bookingReunion.chair}</span>
-                        <span>Horário: {bookingReunion.begin}h - {bookingReunion.end}h</span>
+                        <span>Dia: <b>{bookingReunion.moment}</b>, {bookingReunion.weight} Lugares</span>
+                        <span>Unidade: <b>{office?.name}</b></span>
+                        <span style={{display: "inline", marginRight: '120px'}}>Sala: <b>{bookingReunion.chair}</b></span>
+                        <span style={{display: "inline"}}>Horário: <b>{bookingReunion.begin}h - {bookingReunion.end}h</b></span>
                     </div>
                     <div className="modal-email-input">
                         <p>Agora só falta colocar o seu e-mail para confirmarmos o seu agendamento!</p>
