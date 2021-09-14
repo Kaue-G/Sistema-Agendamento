@@ -67,15 +67,15 @@ public class BookingInsertValidator implements ConstraintValidator<BookingValid,
         int id = Integer.parseInt(uriVars.get("id"));
 
         if(dto.getEmployee_id() == null){
-            errors.add(new FieldMessage("employee_id","This can not be null"));
+            errors.add(new FieldMessage("employee_id","O usuário não pode ser nulo"));
         } else {
             Optional<Employee> e = eRepository.findByEmail(dto.getEmployee_id());
             if(e.isEmpty()){
-                errors.add(new FieldMessage("employee_id","This user does not exist"));
+                errors.add(new FieldMessage("employee_id","Esse email não existe no sistema"));
             } else {
                 Booking b = bRepository.findByEmployeeAndMoment(e.get(),stringToDate(dto.getMoment()));
                 if(b != null){
-                    errors.add(new FieldMessage("moment","You already made a reservation on: " + dto.getMoment() + ", USER: " + dto.getEmployee_id()));
+                    errors.add(new FieldMessage("moment","Você já fez uma reserva em: " + dto.getMoment() + ", EMAIL: " + dto.getEmployee_id()));
                 }
             }
         }
@@ -97,23 +97,23 @@ public class BookingInsertValidator implements ConstraintValidator<BookingValid,
 
 
         if(!notAvailable.isEmpty()){
-            errors.add(new FieldMessage("begin","There is to many people between " +
-                    notAvailable.get(0).getId().getBeginHour() + " hours and " +
-                    notAvailable.get(notAvailable.size()-1).getId().getBeginHour() + " hours"));
+            errors.add(new FieldMessage("begin","Há uma grande quantidade de pessoas entre " +
+                    notAvailable.get(0).getId().getBeginHour() + " horas e " +
+                    notAvailable.get(notAvailable.size()-1).getId().getBeginHour() + " horas"));
         }
 
         if(dto.getType() != Type.DAY){ // Caso seja REUNION
             if(dto.getBegin() < constraints.getBEGIN()){
-                errors.add(new FieldMessage("begin","Begin must be greater than " + constraints.getBEGIN()));
+                errors.add(new FieldMessage("begin","O horário de início deve ser maior que " + constraints.getBEGIN()));
             }
             if(dto.getEnd() <= dto.getBegin()){
-                errors.add(new FieldMessage("end","End time must be greater than begin time"));
+                errors.add(new FieldMessage("end","O horário final deve ser maior que o horário inicial"));
             }
 
             Room c =  cRepository.findByIdAndOffice(dto.getChair(),id);
 
             if(c == null){
-                errors.add(new FieldMessage("chair", "This chair does not count on database"));
+                errors.add(new FieldMessage("chair", "Essa sala não se encontra no sistema"));
             } else {
                 List<DisponibilityRoom> allRooms = drRepository.findAll();
 
@@ -124,7 +124,7 @@ public class BookingInsertValidator implements ConstraintValidator<BookingValid,
                 }).filter(Objects::nonNull).collect(Collectors.toList());
 
                 if(!dRooms.isEmpty() && dRooms.stream().anyMatch(room -> room.getCapacity() + dto.getWeight() > c.getCapacity())){
-                    errors.add(new FieldMessage("chair", "This chair has already taken for another group of people"));
+                    errors.add(new FieldMessage("chair", "Essa sala já está sendo utilizada por outro grupo de pessoas"));
                 }
             }
         }

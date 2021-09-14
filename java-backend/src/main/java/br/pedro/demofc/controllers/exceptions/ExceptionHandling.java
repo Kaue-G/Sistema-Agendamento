@@ -48,7 +48,7 @@ public class ExceptionHandling {
         StandardError error = new StandardError();
         error.setDate(LocalDate.now());
         error.setStatus(400);
-        error.setError("Invalid data format argument");
+        error.setError("Formato de data inválido");
         error.setMessage(e.getMessage());
         error.setPath(request.getRequestURI());
 

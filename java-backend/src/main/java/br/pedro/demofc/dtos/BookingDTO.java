@@ -24,7 +24,7 @@ public class BookingDTO {
     private String moment;
 
     @ApiModelProperty(required = true)
-    @Email(message = "Must be a email")
+    @Email(message = "Formato de email inválido")
     private String employee_id;
 
     private Integer begin;
