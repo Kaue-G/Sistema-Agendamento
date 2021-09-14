@@ -20,7 +20,7 @@ export default function Ticket({booking} : Props) {
           {booking.chair !== undefined ? <span>Sala</span> : ''}
         </div>
         <div className="ticket-right-info">
-          {booking.officeName.substring(9)}
+          {booking.officeName}
           {booking.chair !== undefined ? <span>{booking.chair}</span> : ''}
         </div>
         </div>
