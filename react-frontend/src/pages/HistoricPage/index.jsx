@@ -42,6 +42,19 @@ export default function HistoricPage() {
     </button>
     );
 
+  const [email, setEmail] = useState('');
+  const [booking, setBooking] = useState();
+
+  const handleOnChange = (e) => {
+    setEmail(e.target.value)
+  }
+
+  const getBookingInfo = () => {
+    doRequest({ url: `/offices/bookings`, params: { email: email } })
+      .then(r => setBooking(r.data))
+      .catch(() => toast.error('Nenhum usuário com esse email'))
+  }
+
   return (
     <DefaultPage>
       <div className="messageHP">

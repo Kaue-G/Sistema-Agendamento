@@ -62,7 +62,6 @@ export default function CancelPage(props) {
             type="text"
             placeholder="Insira o número do seu Ticket"
             name="" id="" onChange={onChange}
-            required
           />
           {button}
         </form>
