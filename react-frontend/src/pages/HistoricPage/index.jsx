@@ -25,6 +25,23 @@ export default function HistoricPage() {
     }
   }
 
+  const button = email == '' ? (
+    <button
+    disabled 
+    style= {{opacity: '50%'}}
+    >
+      buscar
+    </button>) 
+    : 
+    (<button 
+      type="button" 
+      onClick={onClick}
+      style = {{cursor: 'pointer'}}
+    >
+      buscar
+    </button>
+    );
+
   return (
     <DefaultPage>
       <div className="messageHP">
@@ -39,12 +56,7 @@ export default function HistoricPage() {
           name="email" 
           onChange = {onChange}
         />
-        <button 
-          type="button"
-          onClick = {onClick}
-        >
-          Buscar
-        </button>
+        {button}
       </div>
       {
         reserva == 0 ? '' : <ResultTable reserva = {reserva}/>

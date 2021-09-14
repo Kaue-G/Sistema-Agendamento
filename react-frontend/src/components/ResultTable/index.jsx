@@ -4,25 +4,25 @@ const ResultTable = (reservas) => {
     const renderReservas =  reservas.reserva == 0 ? '' : 
     (reservas.reserva.map ((a) => 
     <tr key = {a.id}>
-        <th>{a.id}</th>
-        <td>{a.begin === 8 && a.end === 18 ? 'Dia' : 'reuniao'}</td>
-        <td>{`${a.begin} - ${a.end}`}</td>
         <td>{a.moment}</td>
+        <td>{`${a.begin}h - ${a.end}h`}</td>
+        <td>{a.begin === 8 && a.end === 18 ? 'Dia' : 'reuniao'}</td>
         <td>{a.officeName}</td>
+        <td>{a.id}</td>
     </tr>));
 
     return <div className="result-container">
-         <table className="table table-hover table-sm">
-            <thead>
+         <table className="tabela">
+            <thead className = "cabecalho">
                 <tr>
-                    <th scope="col">N° do Ticket</th>
-                    <th scope="col">Tipo</th>
-                    <th scope="col">Horário</th>
-                    <th scope="col">Dia</th>
-                    <th scope="col">Unidade</th>
+                    <th>Dia</th>
+                    <th>Horário</th>
+                    <th>Tipo</th>
+                    <th>Unidade</th>
+                    <th>N° do Ticket</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody className = "corpo">
                 {renderReservas}
             </tbody>
         </table>

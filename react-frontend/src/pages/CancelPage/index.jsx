@@ -14,8 +14,7 @@ export default function CancelPage(props) {
 
   const button = idTicket == '' ? (
     <button 
-    type="button" 
-    onClick={onClick} 
+    disabled
     style= {{opacity: '50%'}}
     >
       cancelar ticket

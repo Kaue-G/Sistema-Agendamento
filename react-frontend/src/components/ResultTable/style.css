@@ -1,8 +1,21 @@
 .result-container{
+    width: 100%;
     background-color: white;
-    padding: 48px 26px 48px 18px;
-    margin-top: 40px;
-    margin-left: 80px;
-    margin-right: 80px;
+    padding: 50px 0 0 0;
+  
     border-radius: 8px;
+}
+
+.result-container table{
+    width: 100%;
+    text-align: justify;
+}
+
+.cabecalho {
+    height: 58px;
+}
+
+.corpo tr{
+    height: 30px;
+    font-weight: 400;
 }
