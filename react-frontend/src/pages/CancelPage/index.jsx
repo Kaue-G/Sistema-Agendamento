@@ -3,23 +3,22 @@ import doRequest from '../../services/api.js';
 import { toast } from 'react-toastify';
 
 import { useState } from 'react';
-import api from '../../services/api.js'
 import DefaultPage from '../../components/DefaultPage'
 import './style.css';
 // import { Button } from 'bootstrap';
 
 export default function CancelPage(props) {
-  const [modalVisible,setModalVisible] =  useState(false);
+  const [modalVisible,setModalVisible] =  useState(true);
 
   const [idTicket, setIdTicket] = useState([]);
 
-  const button = idTicket == 0 ? (
+  const button = idTicket == '' ? (
     <button 
     type="button" 
     onClick={onClick} 
     style= {{opacity: '50%'}}
     >
-    cancelar ticket
+      cancelar ticket
     </button>) 
     : 
     (<button 
@@ -42,8 +41,8 @@ export default function CancelPage(props) {
 
       }else{
         doRequest({url: `/offices/bookings/${idTicket}`, method: 'DELETE'})
-        .then(() => toast.success(`Ticket  ${idTicket} cancelado com sucesso`))
-        .catch(() => toast.error(`Ticket não encontrado`));
+        // .then(() => toast.success(`Ticket  ${idTicket} cancelado com sucesso`))
+        // .catch(() => toast.error(`Ticket não encontrado`));
 
         setModalVisible(false);
       }

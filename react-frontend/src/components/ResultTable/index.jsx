@@ -1,8 +1,18 @@
 import './style.css'
 
-const ResultTable = () => {
+const ResultTable = (reservas) => {
+    const renderReservas =  reservas.reserva == 0 ? '' : 
+    (reservas.reserva.map ((a) => 
+    <tr key = {a.id}>
+        <th>{a.id}</th>
+        <td>{a.begin === 8 && a.end === 18 ? 'Dia' : 'reuniao'}</td>
+        <td>{`${a.begin} - ${a.end}`}</td>
+        <td>{a.moment}</td>
+        <td>{a.officeName}</td>
+    </tr>));
+
     return <div className="result-container">
-        <table className="table table-hover table-sm">
+         <table className="table table-hover table-sm">
             <thead>
                 <tr>
                     <th scope="col">N° do Ticket</th>
@@ -13,55 +23,7 @@ const ResultTable = () => {
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <th scope="row">122938</th>
-                    <td>Dia inteiro</td>
-                    <td>08h-18h</td>
-                    <td>13/09/2021</td>
-                    <td>São Paulo</td>
-                </tr>
-                <tr>
-                    <th scope="row">122938</th>
-                    <td>Dia inteiro</td>
-                    <td>08h-18h</td>
-                    <td>13/09/2021</td>
-                    <td>São Paulo</td>
-                </tr>
-                <tr>
-                    <th scope="row">122938</th>
-                    <td>Dia inteiro</td>
-                    <td>08h-18h</td>
-                    <td>13/09/2021</td>
-                    <td>São Paulo</td>
-                </tr>
-                <tr>
-                    <th scope="row">122938</th>
-                    <td>Dia inteiro</td>
-                    <td>08h-18h</td>
-                    <td>13/09/2021</td>
-                    <td>São Paulo</td>
-                </tr>
-                <tr>
-                    <th scope="row">122938</th>
-                    <td>Dia inteiro</td>
-                    <td>08h-18h</td>
-                    <td>13/09/2021</td>
-                    <td>São Paulo</td>
-                </tr>
-                <tr>
-                    <th scope="row">122938</th>
-                    <td>Dia inteiro</td>
-                    <td>08h-18h</td>
-                    <td>13/09/2021</td>
-                    <td>São Paulo</td>
-                </tr>
-                <tr>
-                    <th scope="row">122938</th>
-                    <td>Dia inteiro</td>
-                    <td>08h-18h</td>
-                    <td>13/09/2021</td>
-                    <td>São Paulo</td>
-                </tr>
+                {renderReservas}
             </tbody>
         </table>
     </div>
