@@ -1,6 +1,7 @@
 .messageCP h1 {
     font-size: 2.4rem;
     font-weight: bold;
+    text-transform: capitalize;
 }
 
 .messageCP p {
@@ -29,10 +30,12 @@
     border-radius: 30px;
     padding: 10px;
     font-size: 1.25rem;
+    text-transform: capitalize;
     font-weight: bold;
     color: #FFFFFF;  
     background: #FF601C;
     border: 1px solid #FF601C;
+    transition: 1s;
 }
 
 .formCP button:focus{
@@ -85,7 +88,7 @@ tela grande : entre 1366 - 1920 */
         font-size: 1rem;
     }
 }
-@media (max-width: 768px) {
+@media (max-width: 600px) {
     .formCP {
         width: 100%;
         flex-direction: column;
