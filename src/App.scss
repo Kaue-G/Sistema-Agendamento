@@ -7,11 +7,24 @@
 }
 
 body {
-    background-color: #36357E;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: linear-gradient(to top, #36357E 0, #36357E 60%, #FFF 40%);
+    background-size: auto;
+    background-repeat: no-repeat;
 }
 
 ul {
     list-style-type: none;
     margin-bottom: 0;
     padding-left: 0;
+}
+
+.logo_image {
+    position: absolute;
+    z-index: 10;
+    top: 40px;
+    left: 40px;
 }

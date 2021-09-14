@@ -53,5 +53,6 @@ export type Error = {
     date: string,
     status: number,
     errors?: FieldError[]
+    message?: string
 }
 

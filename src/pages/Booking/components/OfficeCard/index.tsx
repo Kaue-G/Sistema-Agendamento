@@ -1,7 +1,7 @@
 import stringToDate from 'core/utils/DataFormat'
 import doRequest from 'core/utils/Requests'
 import {Office, OfficeState, RoomResponse } from 'core/utils/Types'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, {useEffect, useState } from 'react'
 import RoomIcon from './components'
 import {ReactComponent as Dot} from '../../assets/dot.svg'
 

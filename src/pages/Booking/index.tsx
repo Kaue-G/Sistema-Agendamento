@@ -2,6 +2,7 @@ import doRequest from 'core/utils/Requests'
 import { Office } from 'core/utils/Types'
 import { useEffect, useState } from 'react'
 import OfficeCard from './components/OfficeCard'
+import {ReactComponent as Calendar} from 'core/assets/calendar.svg'
 import './style.scss'
 
 const Booking = () => {
@@ -30,7 +31,7 @@ const Booking = () => {
                 </div>
             </div>
             <div className="content-booking">
-                {officeResponse !== undefined  && activeOffice !== 0 ? <OfficeCard office={officeResponse.find(o => o.id === activeOffice)}/> : ''}
+                {officeResponse !== undefined  && activeOffice !== 0 ? <OfficeCard office={officeResponse.find(o => o.id === activeOffice)}/> : <Calendar style={{marginTop: '41px'}}/>}
             </div>
         </div>      
     )
