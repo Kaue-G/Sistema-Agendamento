@@ -1,14 +1,12 @@
 import ModalBody from '../../components/ModalBody/index.jsx';
 import doRequest from '../../services/api.js';
-import { toast } from 'react-toastify';
 
 import { useState } from 'react';
 import DefaultPage from '../../components/DefaultPage'
 import './style.css';
-// import { Button } from 'bootstrap';
 
 export default function CancelPage(props) {
-  const [modalVisible,setModalVisible] =  useState(true);
+  const [modalVisible,setModalVisible] =  useState(0);
 
   const [idTicket, setIdTicket] = useState([]);
 
@@ -34,18 +32,16 @@ export default function CancelPage(props) {
   function onChange(ev) {
     setIdTicket(ev.target.value);
   }
-
-  function onClick() {
-      if(idTicket == ""){
-
-      }else{
-        doRequest({url: `/offices/bookings/${idTicket}`, method: 'DELETE'})
-        // .then(() => toast.success(`Ticket  ${idTicket} cancelado com sucesso`))
-        // .catch(() => toast.error(`Ticket não encontrado`));
-
-        setModalVisible(false);
-      }
+  function onClick() { 
+    setModalVisible(1);
   }
+
+  const requisicao = () => {
+    doRequest({url: `/offices/bookings/${idTicket}`, method: 'DELETE'})
+    // .then(() => toast.success(`Ticket  ${idTicket} cancelado com sucesso`))
+    // .catch(() => toast.error(`Ticket não encontrado`));  
+  
+  };
 
   return (
     <DefaultPage>
@@ -66,6 +62,14 @@ export default function CancelPage(props) {
           {button}
         </form>
       </div>
+      { modalVisible == 0 ? '' : 
+      <ModalBody 
+      onClose={() => setModalVisible(0)} 
+      onModalAction={ requisicao }
+      > 
+        <p>Tem certeza que deseja cancelar o ticket <strong>{idTicket}</strong></p>
+        <span><strong>Atenção!</strong> Depois de confirmada, essa ação não poderá ser desfeita.</span>
+      </ModalBody>}
     </DefaultPage>
 
   )

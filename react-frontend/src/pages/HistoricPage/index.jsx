@@ -10,20 +10,7 @@ import { set } from 'date-fns';
 export default function HistoricPage() {
   const [email, setEmail] = useState('');
   const [reserva, setReserva] = useState([]);
-
-  function onChange(ev) {
-    setEmail(ev.target.value);
-  }
-
-  function onClick(){
-    if(email == 0){
-
-    }else{
-      doRequest({url: '/offices/bookings', params: {email: email}})
-        .then(r => setReserva(r.data))
-        .catch(() => toast.error('Nenhum usuário com esse email'));
-    }
-  }
+  const [booking, setBooking] = useState();
 
   const button = email == '' ? (
     <button
@@ -42,8 +29,22 @@ export default function HistoricPage() {
     </button>
     );
 
-  const [email, setEmail] = useState('');
-  const [booking, setBooking] = useState();
+
+  function onChange(ev) {
+    setEmail(ev.target.value);
+  }
+
+  function onClick(){
+    if(email == 0){
+
+    }else{
+      doRequest({url: '/offices/bookings', params: {email: email}})
+        .then(r => setReserva(r.data))
+        .catch(() => toast.error('Nenhum usuário com esse email'));
+    }
+  }
+
+  
 
   const handleOnChange = (e) => {
     setEmail(e.target.value)

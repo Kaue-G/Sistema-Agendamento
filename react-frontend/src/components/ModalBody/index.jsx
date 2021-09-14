@@ -1,14 +1,19 @@
 import './style.css'
 
 const ModalBody = ({ children, onClose, onModalAction }) => {
-    return <div className="modal-container">
+   
+    console.log(children);
+    console.log(onClose);
+    console.log(onModalAction);
+   
+   return <div className="modal-container">
         <div className="main-modal-body">
             <div className="main-modal-content">
                 {children}
             </div>
             <div className="button-content">
-                <button className="btn btn-lg btn-light go-back" onClick={onClose}>Voltar</button>
-                <button className=" btn btn-primary btn-lg go-confirm" onClick={onModalAction}>Confirmar</button>
+                <button className="" onClick={onClose}>Voltar</button>
+                <button className="" onClick={onModalAction}>Confirmar</button>
             </div>
         </div>
     </div>
