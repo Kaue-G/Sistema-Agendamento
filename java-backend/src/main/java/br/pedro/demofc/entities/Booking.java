@@ -9,9 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "Booking", uniqueConstraints = {
-        @UniqueConstraint(name = "uniqueMomentAndEmployee", columnNames = {"MOMENT","EMPLOYEE_ID"})
-})
+@Table(name = "Booking", uniqueConstraints = {@UniqueConstraint(name = "uniqueMomentAndEmployee", columnNames = {"MOMENT","EMPLOYEE_ID"})})
 @GenericGenerator(name = "booking-gen", parameters = {@Parameter(name = "prefix", value = "FC")}, strategy = "br.pedro.demofc.services.IdGenerator")
 public class Booking {
 

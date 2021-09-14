@@ -49,7 +49,7 @@ public class ExceptionHandling {
         error.setDate(LocalDate.now());
         error.setStatus(400);
         error.setError("Formato de data inválido");
-        error.setMessage(e.getMessage());
+        error.setMessage("Data inválida ou nula");
         error.setPath(request.getRequestURI());
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);

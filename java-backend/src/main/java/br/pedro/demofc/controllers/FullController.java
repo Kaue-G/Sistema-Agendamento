@@ -14,8 +14,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
-import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
 import java.util.List;
 
 @RestController
@@ -78,10 +76,11 @@ public class FullController {
     @ApiResponses(value = {
             @ApiResponse(code = 400, message = "Erro durante o uso do parâmetro 'date'.")
     })
-    public ResponseEntity<OfficeStateDTO> findOfficeByState(@PathVariable Integer id,
-                                                            @RequestParam(value = "date") String date,
-                                                            @RequestParam(value = "begin", defaultValue = "${begin.service}") Integer begin,
-                                                            @RequestParam(value = "end", defaultValue = "${end.service}") Integer end){
+    public ResponseEntity<OfficeStateDTO> findOfficeByState(
+            @PathVariable Integer id,
+            @RequestParam(value = "date") String date,
+            @RequestParam(value = "begin", defaultValue = "${begin.service}") Integer begin,
+            @RequestParam(value = "end", defaultValue = "${end.service}") Integer end){
         OfficeStateDTO dtos = service.findOfficeStateByDate(id, date, begin, end);
         return ResponseEntity.ok(dtos);
     }

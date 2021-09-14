@@ -1,7 +1,6 @@
 package br.pedro.demofc.dtos;
 
 import br.pedro.demofc.entities.Room;
-import br.pedro.demofc.entities.Type;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
 

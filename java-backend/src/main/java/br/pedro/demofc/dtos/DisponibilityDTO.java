@@ -3,8 +3,6 @@ package br.pedro.demofc.dtos;
 import br.pedro.demofc.entities.Disponibility;
 import io.swagger.annotations.ApiModel;
 
-import java.time.LocalDate;
-
 @ApiModel(value = "Disponibility", description = "Entidade que representa uma disponibilidade de horário.")
 public class DisponibilityDTO {
 

@@ -1,24 +1,21 @@
 -- Escritórios
-INSERT INTO Office(address,capacity,name) VALUES ('Rua Bela Cintra, 986 - 2º andar, Consolação, São Paulo - SP',21,'São Paulo');
-INSERT INTO Office(address,capacity,name) VALUES ('Praça Dos Expedicionários, 192º andar, Gonzaga, Santos - SP',10,'Santos');
+INSERT INTO Office(address,capacity,name) VALUES ('Rua Bela Cintra, 986 - 2º andar, Consolação, São Paulo - SP',25,'São Paulo'); -- 10
+INSERT INTO Office(address,capacity,name) VALUES ('Praça Dos Expedicionários, 192º andar, Gonzaga, Santos - SP',25,'Santos'); -- 10
 
 -- Cadeiras
-INSERT INTO Room(capacity, name, office_id) VALUES (10,'Sala 1',1);
-INSERT INTO Room(capacity, name, office_id) VALUES (4,'Sala 2',1);
-
-INSERT INTO Room(capacity, name, office_id) VALUES (4,'Sala 35',2);
-INSERT INTO Room(capacity, name, office_id) VALUES (4,'Sala 34',2);
+INSERT INTO Room(id,capacity, name, office_id) VALUES (1,4,'Sala 1',1);
+INSERT INTO Room(id,capacity, name, office_id) VALUES (2,6,'Sala 2',1);
+INSERT INTO Room(id,capacity, name, office_id) VALUES (35,4,'Sala 35',2);
+INSERT INTO Room(id,capacity, name, office_id) VALUES (34,6,'Sala 34',2);
 
 -- Funcionários
-
-INSERT INTO Employee(cpf, business_unit, email) VALUES ('123','DEV','ana@gmail.com');
-INSERT INTO Employee(cpf, business_unit, email) VALUES ('456','DEV','carlos@gmail.com');
-INSERT INTO Employee(cpf, business_unit, email) VALUES ('789','SCRUM','miguel@gmail.com');
-INSERT INTO Employee(cpf, business_unit, email) VALUES ('222','UX','junior@gmail.com');
-INSERT INTO Employee(cpf, business_unit, email) VALUES ('333','UX','vanessa@gmail.com');
+INSERT INTO Employee(cpf, business_unit, email) VALUES ('111','DEV','ana@gmail.com');
+INSERT INTO Employee(cpf, business_unit, email) VALUES ('222','DEV','carlos@gmail.com');
+INSERT INTO Employee(cpf, business_unit, email) VALUES ('333','SCRUM','miguel@gmail.com');
+INSERT INTO Employee(cpf, business_unit, email) VALUES ('444','UX','junior@gmail.com');
+INSERT INTO Employee(cpf, business_unit, email) VALUES ('555','UX','vanessa@gmail.com');
 
 -- Horários livres (06/09/2021 - 11/09/2021)
-
 -- Segunda
 INSERT INTO Disponibility(date_pk, hour_pk, office_pk, is_available) VALUES ('2021-09-06',8,1,true);
 INSERT INTO Disponibility(date_pk, hour_pk, office_pk, is_available) VALUES ('2021-09-06',9,1,true);
@@ -110,13 +107,3 @@ INSERT INTO Disponibility(date_pk, hour_pk, office_pk, is_available) VALUES ('20
 INSERT INTO Disponibility(date_pk, hour_pk, office_pk, is_available) VALUES ('2021-09-08',16,2,true);
 INSERT INTO Disponibility(date_pk, hour_pk, office_pk, is_available) VALUES ('2021-09-08',17,2,true);
 INSERT INTO Disponibility(date_pk, hour_pk, office_pk, is_available) VALUES ('2021-09-08',18,2,true);
-
--- Booking - Terça feira
--- INSERT INTO Booking(chair_id, moment, begin, end_time, employee_id) VALUES (3,'2021-09-07', 8, 12, '123');
---
--- -- Disp X Booking
--- INSERT INTO TB_DISP_BOOKING(begin_id, moment_id, office_id, booking_id) VALUES (8,'2021-09-07',1,1);
--- INSERT INTO TB_DISP_BOOKING(begin_id, moment_id, office_id, booking_id) VALUES (9,'2021-09-07',1,1);
--- INSERT INTO TB_DISP_BOOKING(begin_id, moment_id, office_id, booking_id) VALUES (10,'2021-09-07',1,1);
--- INSERT INTO TB_DISP_BOOKING(begin_id, moment_id, office_id, booking_id) VALUES (11,'2021-09-07',1,1);
--- INSERT INTO TB_DISP_BOOKING(begin_id, moment_id, office_id, booking_id) VALUES (12,'2021-09-07',1,1);

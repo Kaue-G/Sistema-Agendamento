@@ -5,7 +5,6 @@ import br.pedro.demofc.dtos.*;
 import br.pedro.demofc.entities.*;
 import br.pedro.demofc.entities.pk.DisponibilityRoomPK;
 import br.pedro.demofc.repositories.*;
-import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -102,8 +101,7 @@ public class FullService {
 
         Page<Room> allChairs = roomRepository.findByOffice(pageable, id);
 
-        // RESTRINGIR ESSA BUSCA POR DATA ESCRITORIO E HORA
-        List<DisponibilityRoom> dRooms = drRepository.findAll();
+        List<DisponibilityRoom> dRooms = drRepository.findByEndAndBegin(LocalDate.parse(when),begin,end,id);
 
         return allChairs.map(chair -> {
             boolean isOccupied =  true;
@@ -179,7 +177,7 @@ public class FullService {
             Room c = roomRepository.findByIdAndOffice(dto.getChair(),id);
 
             if(dto.getWeight() > c.getCapacity()){
-                throw new ServiceViolationException("[422] The weight must me smaller than room capacity");
+                throw new ServiceViolationException("[422] A quantidade de pessoas deve ser inferior à capacidade da sala");
             }
 
             List<DisponibilityRoom> allRooms = drRepository.findByEndAndBegin(stringToDate(dto.getMoment()), booking.getBegin(), booking.getEnd(), id);
