@@ -256,5 +256,8 @@ button:focus{
 .modal-content-children .modal-email-input p{
     font-size: 16px;
 }
+.office-card {
+    margin-bottom: 4rem;
+}
 
 }

@@ -1,15 +1,16 @@
-import { useState } from 'react';
-import './style.css'
+import ModalBody from '../../components/ModalBody/index.jsx';
+import ResultTable from '../../components/ResultTable';
+import Background from '../../components/Background';
 import doRequest from '../../services/api.js';
 import { toast } from 'react-toastify';
-import Background from '../../components/Background';
-import ResultTable from '../../components/ResultTable';
+import { useState } from 'react';
 import { set } from 'date-fns';
+import './style.css'
 
 export default function HistoricPage() {
   const [email, setEmail] = useState('');
   const [reserva, setReserva] = useState([]);
-  const [booking, setBooking] = useState();
+  const [modalErro, setModalErro] = useState([]);
 
   const button = email == '' ? (
     <button disabled style={{ opacity: '50%' }}>buscar</button>) :
@@ -21,23 +22,28 @@ export default function HistoricPage() {
   }
 
   function onClick() {
-    if (email == 0) {
+    setReserva(0);
 
-    } else {
-      doRequest({ url: '/offices/bookings', params: { email: email } })
-        .then(r => setReserva(r.data))
-        .catch(() => toast.error('Nenhum usuário com esse email'));
-    }
-  }
-
-  const handleOnChange = (e) => {
-    setEmail(e.target.value)
-  }
-
-  const getBookingInfo = () => {
-    doRequest({ url: `/offices/bookings`, params: { email: email } })
-      .then(r => setBooking(r.data))
-      .catch(() => toast.error('Nenhum usuário com esse email'))
+    doRequest({ url: '/offices/bookings', params: { email: email } })
+      .then(r => r.data == 0 ? setModalErro(
+        <ModalBody 
+        onClose={() => setModalErro([])}
+        btnConfirmVisible = {0}  
+        > 
+          <p>Não foram encontrados agendamentos para esse email <strong>{email}</strong>.</p>
+          <span><strong>*Atenção!</strong> Verifique o email ou realize um agendamento.</span>
+        </ModalBody>
+      ) : setReserva(r.data)
+      )
+      .catch(erro => setModalErro(
+        <ModalBody 
+        onClose={() => setModalErro([])}
+        btnConfirmVisible = {0}  
+        > 
+          <p>Não foram encontrados agendamentos para esse email <strong>{email}</strong>.</p>
+          <span><strong>*Atenção!</strong> Verifique o email ou realize um agendamento.</span>
+        </ModalBody>
+      ));
   }
 
   return (
@@ -59,6 +65,7 @@ export default function HistoricPage() {
       {
         reserva == 0 ? '' : <ResultTable reserva={reserva} />
       }
+      {modalErro}
     </Background>
   )
 }

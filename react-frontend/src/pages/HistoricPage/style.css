@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin: 25px 5vw;
+    margin: .5vw 5vw;
 }
 
 .messageHP h1{
@@ -18,8 +18,8 @@
 }
 
 .inputHP {
-  display: flex;
-  margin: 25px 5vw;
+    display: flex;
+    margin: 25px 5vw;
 }
 
 .inputHP input{
@@ -30,6 +30,7 @@
   margin-right: 32px;
   border: 1px solid #C4C4C4;
   font-size: 1rem;
+  transition: 1s;
 }
 
 .inputHP button{
@@ -88,13 +89,27 @@
     }
 }
 @media (max-width: 840px) {
+    .messageHP h1{
+        font-size: 2.4rem;
+    }
+     
+    .messageHP p {
+         font-size: 1.4rem;
+    }
     .inputHP {
-        width: 100%;
         flex-direction: column;
+        margin-left: 0;
     }
     .inputHP input {
-        font-size: .7rem;
+        width: 70vw;
+        text-align: center;
+        font-size: 1.5rem;
         margin-bottom: 10px;
     }
+    .inputHP button{
+        width: 70vw;
+        font-size: 2rem;
+      }
+      
 }
 

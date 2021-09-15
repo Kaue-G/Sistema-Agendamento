@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin: 25px 5vw;
+    margin: .5vw 5vw;
 }
 
 .messageCP h1 {
@@ -25,11 +25,12 @@
 .formCP input {
     width: 292px;
     height: 62px;
-    border-radius: 30px;
     padding: 10px;
     margin-right: 32px;
+    border-radius: 30px;
     border: 1px solid #C4C4C4;
     font-size: 1rem;
+    transition: 1s;
 }
 
 .formCP button {
@@ -97,13 +98,25 @@ tela grande : entre 1366 - 1920 */
         font-size: 1rem;
     }
 }
-@media (max-width: 840px) {
+@media (max-width: 660px) {
     .formCP {
-        width: 100%;
+        margin-left: 0;
         flex-direction: column;
     }
+    .messageCP h1 {
+        font-size: 2.4rem;
+    }
+    .messageCP p {
+        font-size: 1.4rem;
+    }
     .formCP input {
-        font-size: .8rem;
+        width: 70vw;
+        text-align: center;
+        font-size: 1.5rem;
         margin-bottom: 10px;
+    }
+    .formCP button{
+        width: 70vw;
+        font-size: 2rem;
     }
 }

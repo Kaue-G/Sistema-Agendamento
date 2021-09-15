@@ -1,6 +1,6 @@
 import './style.css'
 
-const ModalBody = ({ children, onClose, onModalAction }) => {
+const ModalBody = ({ children, onClose, onModalAction , btnConfirmVisible = 1}) => {
     return <div className="modal-background">
         <div className="modal-area">
             <div className="modal-content">
@@ -8,7 +8,14 @@ const ModalBody = ({ children, onClose, onModalAction }) => {
             </div>
             <div className="button-content">
                 <button className="go-back" onClick={onClose}>Voltar</button>
-                <button className="go-confirm" onClick={onModalAction}>Confirmar</button>
+                {btnConfirmVisible == 0 ? [] : (
+                    <button 
+                    className="go-confirm" 
+                    onClick={onModalAction}
+                    >
+                        Confirmar
+                    </button>
+                )}
             </div>
         </div>
     </div>
