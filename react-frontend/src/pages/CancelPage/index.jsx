@@ -1,24 +1,37 @@
-import './style.css';
-import api from '../../services/api.js'
-import DefaultPage from '../../components/DefaultPage'
+import ModalBody from '../../components/ModalBody/index.jsx';
+import doRequest from '../../services/api.js';
 import { useState } from 'react';
+import Background from '../../components/Background';
+import './style.css';
 
 export default function CancelPage(props) {
+  const [modalVisible, setModalVisible] = useState(true);
+
   const [idTicket, setIdTicket] = useState([]);
+
+  const button = idTicket == '' ? (
+    <button disabled style={{ opacity: '50%' }}>cancelar ticket</button>)
+    :
+    (<button type="button" onClick={onClick} style={{ cursor: 'pointer' }}>cancelar ticket</button>);
 
   function onChange(ev) {
     setIdTicket(ev.target.value);
   }
 
   function onClick() {
-    api.delete(`/offices/bookings/${idTicket}`)
-    // .then(
+    if (idTicket == "") {
 
-    // });
+    } else {
+      doRequest({ url: `/offices/bookings/${idTicket}`, method: 'DELETE' })
+      // .then(() => toast.success(`Ticket  ${idTicket} cancelado com sucesso`))
+      // .catch(() => toast.error(`Ticket não encontrado`));
+
+      setModalVisible(false);
+    }
   }
 
   return (
-    <DefaultPage>
+    <Background>
       <div className="messageCP">
         <h1>Cancelar Ticket</h1>
         <p>Para cancelar uma reserva já realizada,
@@ -28,17 +41,15 @@ export default function CancelPage(props) {
       </div>
       <div>
         <form className="formCP" action="">
-          <input type="number"
+          <input
+            type="text"
             placeholder="Insira o número do seu Ticket"
-            name="" id="" required onChange={onChange}
+            name="" id="" onChange={onChange}
           />
-          <button type="button" onClick={onClick} disabled>
-            Cancelar Ticket
-          </button>
+          {button}
         </form>
       </div>
-    </DefaultPage>
-
+    </Background>
   )
 }
 

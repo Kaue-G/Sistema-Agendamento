@@ -1,12 +1,12 @@
 import './style.css';
-import DefaultPage from '../../components/DefaultPage';
 import { Link } from 'react-router-dom';
+import HomeBack from '../../components/HomeBack';
 
 
 function HomePage() {
 
   return (
-    <DefaultPage>
+    <HomeBack>
       <div className="box-top">
         <div className="message-home">
           <h1>Olá consultor!</h1>
@@ -27,27 +27,27 @@ function HomePage() {
         <div className="links">
           <Link to='/booking' className="to">
             <div className="link">
-              <img src="/images/book.svg" alt="icone-calendario" />
+              <img src="/images/bookP.svg" alt="icone-calendario" />
               Realize seus(s) agendamentos
             </div>
           </Link>
 
           <Link to='/historic' className="to">
             <div className="link">
-              <img src="/images/clock.svg" alt="icone-relogio" />
+              <img src="/images/clockP.svg" alt="icone-relogio" />
               Veja o histórico de reservas
             </div>
           </Link>
 
           <Link to='/cancel' className="to">
             <div className="link" >
-              <img src="/images/cancel.svg" alt="icone-cancelamento" />
+              <img src="/images/cancelP.svg" alt="icone-cancelamento" />
               <p> Cancele um agendamento já realizado</p>
             </div>
           </Link>
         </div>
       </div>
-    </DefaultPage>
+    </HomeBack>
   )
 }
 

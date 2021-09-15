@@ -1,6 +1,6 @@
 .box-top {
    display: flex;  
-   margin: 2.5rem;
+     margin: 25px 5vw;
 }
 
 .box-top .message-home h1 {
@@ -22,10 +22,10 @@
 .box-top .image {
   display: flex;
   max-width: 376px;
-  min-width: 282px;
+  min-width: 180px;
   max-height: 282px;
-  min-height: 211px;
-  margin-right: 1.25rem;
+  min-height: 150px;
+  margin-right: 1.4vw;
   margin-top: 6rem;
   width: 40%;
 }
@@ -63,13 +63,13 @@
 
 
 /***************************MEDIA QUERIES***************************/
-@media(max-width:1440px) {
+@media screen and (max-width:1440px) {
 .box-top .message-home .without-aside {
   display: none;
 }
 }
 
-@media(max-width:1024px) {
+@media screen and (max-width:1024px) {
 .box-top .message-home {
   margin-bottom: 4rem;
   }
@@ -78,13 +78,13 @@
   }
 }
 
-@media(max-width:940px) {
+@media screen and (max-width:940px) {
 .box-top .message-home {
   margin-bottom: 2.5rem;
   }
 }
 
-@media(max-width:835px) {
+@media screen and (max-width:835px) {
 .box-top .message-home {
   margin-bottom: 2rem;
   font-size: 22px;
@@ -95,27 +95,23 @@
   }
 }
 
-@media(max-width:768px) {
+@media screen and (max-width:768px) {
 .box-top{
   margin: .8rem;
 }
 }
 
-@media(max-width:710px) {
+@media screen and (max-width:710px) {
 .box-top .image {
-  margin-right: 0;
   margin-top: 3.5rem;
-  width: 20%;
+  width: 15%;
 }
 .box-top .message-home {
   font-size: 18px;
 }
 }
 
-@media(max-width:660px) {
-.aside-comp {
-  display: none;
-}
+@media screen and (max-width:660px) {
 .box-top .message-home .with-aside {
   display: none;
 }
@@ -138,7 +134,7 @@
 }
 }
 
-@media(max-width:380px) {
+@media screen and (max-width:380px) {
 .box-bottom .link img{
   height: 35px;
 }

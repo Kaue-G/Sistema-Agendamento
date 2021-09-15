@@ -1,43 +1,71 @@
-.content-booking{
-    margin-left: 80px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    margin-bottom: 50px;
-    margin-right: 80px;
-    flex-wrap: wrap;
-    flex: 1;
-    min-height: 450px;
+.booking-page{
+    width: 100%;
 }
 
-.header-booking{
-    margin-left: 80px;
-    margin-bottom: 11px;
-    margin-right: 80px;
+.booking-page .header-booking{
+    margin: 80px 5vw;
     font-size: 22px;
     line-height: 27px;
     color: rgba(0, 0, 0, 0.8);
 }
 
-.office-pagination{
+.booking-page .content-booking{
+    margin: 80px 3vw 0;
     display: flex;
-    flex-direction: row;
+    flex-wrap: wrap;
+    flex: 1;
+    min-height: 450px;
+}
+
+.booking-page .office-pagination{
+    display: flex;
     align-items: center;
     justify-content: center;
     margin-top: 60px;
 }
 
-.office-pagination-element{
+.booking-page .office-pagination-element{
     font-weight: bold;
     font-size: 30px;
     line-height: 37px;
     color: #acacacbd;
-    margin-right: 80px;
+    margin-right: 6vw;
     cursor: pointer;
 }
 
-.office-pagination-element .active {
-        cursor: default;
-        color: #000;
-        border-bottom: 3px solid #FF601C;
+.booking-page .office-pagination-element.active {
+    cursor: default;
+    color: #000;
+    border-bottom: 3px solid #FF601C;
+}
+
+
+/***************************MEDIA QUERIES***************************/
+@media screen and (max-width:830px) {
+.booking-page .office-pagination-element{
+    font-size: 22px;
+}
+}
+
+@media screen and (max-width:660px) {
+.booking-page .office-pagination-element{
+    font-size: 20px;
+}
+.booking-page .header-booking{
+    font-size: 20px;
+    text-align: justify;
+}
+}
+
+@media screen and (max-width:425px) {
+.booking-page .office-pagination-element{
+    font-size: 20px;
+}
+.booking-page .office-pagination-element .desc{
+    display: none;
+}
+
+.booking-page .header-booking{
+    font-size: 14px;
+}
 }

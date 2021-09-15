@@ -5,6 +5,7 @@ import TicketPage from './pages/TicketPage';
 import BookingPage from './pages/BookingPage';
 import CancelPage from './pages/CancelPage';
 import HistoricPage from './pages/HistoricPage';
+import ErrorPage from './pages/ErrorPage';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route exact path='/bookings/confirmation' component={TicketPage} />
         <Route exact path='/historic' component={HistoricPage} />
         <Route exact path='/cancel' component={CancelPage} />
+        <Route exact path='/bookings/error' component={ErrorPage} />
       </Switch>
     </BrowserRouter>
   );

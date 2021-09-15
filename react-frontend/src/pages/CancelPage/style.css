@@ -1,16 +1,25 @@
+.messageCP{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 25px 5vw;
+}
+
 .messageCP h1 {
     font-size: 2.4rem;
     font-weight: bold;
+    margin-top: 100px;
 }
 
 .messageCP p {
-    font-size: 1.5rem;    
+    font-size: 1.5rem;
+    line-height: 30px;    
     margin: 32px 0;
-    width: 80%;
 }
 
 .formCP {
     display: flex;
+    margin: 25px 5vw;
 }
 
 .formCP input {
@@ -29,12 +38,15 @@
     border-radius: 30px;
     padding: 10px;
     font-size: 1.25rem;
+    text-transform: capitalize;
     font-weight: bold;
     color: #FFFFFF;  
     background: #FF601C;
     border: 1px solid #FF601C;
+    transition: 1s;
 }
 
+.formCP input:focus,
 .formCP button:focus{
   outline: none;
 }
@@ -85,7 +97,7 @@ tela grande : entre 1366 - 1920 */
         font-size: 1rem;
     }
 }
-@media (max-width: 768px) {
+@media (max-width: 840px) {
     .formCP {
         width: 100%;
         flex-direction: column;

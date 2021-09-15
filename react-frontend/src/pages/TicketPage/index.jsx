@@ -15,9 +15,9 @@ function TicketPage() {
         </div>
         <div className="msg">
           <h1>CONFIRMADO!</h1>
-        </div>
-        <div className="image-space">
-          <img src="/images/space.svg" alt="foguete" />
+          <div className="image-space">
+            <img src="/images/space.svg" alt="foguete" />
+          </div>
         </div>
       </div>
 
@@ -26,32 +26,24 @@ function TicketPage() {
       </div>
 
       <div className="middle">
-        <div className="left">
-          <img src="/images/mascara.svg" alt="use-mascara" />
-        </div>
-
         <div className="ticket">
-          <Ticket booking={location.state} />
-        </div>
-
-        <div className="right">
-          <div className="r1">
-            <img src="/images/proteja.svg" alt="se-proteja" />
-          </div>
-          <div className="r2">
-            <img src="/images/lave.svg" alt="lave-mãos" />
-          </div>
+          {location.state && <Ticket booking={location.state} />}
         </div>
       </div>
 
       <div className="bottom">
+
         <p className="text">Salve, anote ou copie este número, pois ele é seu passe de entrada para
           o escritório, certo? Porém, se não conseguir agora, tudo bem também, mandamos
           para o seu email.
         </p>
-        <p className="link"><Link to="/">Voltar para a tela inicial</Link></p>
+        <div className="bottom-info">
+          <div className="bottom-image">
+            <img src="/images/mascara.svg" alt="use-mascara" />
+          </div>
+          <p className="link"><Link to="/">Voltar para a tela inicial</Link></p>
+        </div>
       </div>
-
     </div>
   )
 }

@@ -1,7 +1,8 @@
 import './style.css';
-import Aside from './Aside';
+import AsideDesktop from '../Aside/AsideDesktop';
+import AsideMobile from '../Aside/AsideMobile';
 
-export default function DefaultPage(props) {
+export default function Background(props) {
   return (
     <div className="page">
       <div className="images">
@@ -9,9 +10,10 @@ export default function DefaultPage(props) {
         <img className="pontilhado" src="/images/pontilhado.svg" alt="pontilhado" />
       </div>
       <div className="container-page">
-        <Aside />
+        <AsideDesktop />
         <div className="white-page">
           {props.children}
+          <AsideMobile />
         </div>
       </div>
     </div>

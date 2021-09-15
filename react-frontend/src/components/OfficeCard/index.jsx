@@ -5,7 +5,7 @@ import { ReactComponent as Dot } from './assets/dot.svg';
 import React, { useEffect, useState } from 'react';
 import ModalBody from '../ModalBody';
 import { useHistory } from 'react-router'
-
+import './style.css';
 
 const OfficeCard = ({ office }) => {
   const [officeState, setOfficeState] = useState()
@@ -24,10 +24,10 @@ const OfficeCard = ({ office }) => {
   })
 
   const [bookingReunion, setBookingReunion] = useState({
-    begin: 0,
+    begin: 8,
     chair: 0,
     employee_id: '',
-    end: 0,
+    end: 18,
     moment: '',
     type: 0,
     weight: 2
@@ -98,9 +98,10 @@ const OfficeCard = ({ office }) => {
   }, [reunionArgs, office])
 
   return (
-    <div className="office-card-container">
+    <div className="office-card">
       <span>*&nbsp;Lotação máxima restrita: <b>{office?.restrictedCapacity}</b> pessoas</span>
       <div className="office-information">
+
         <div className="work-day">
           <span>Estações de trabalho</span>
           <p className="bold-p">Escolha uma data</p>
@@ -116,11 +117,11 @@ const OfficeCard = ({ office }) => {
             &nbsp;Lugares disponíveis: {officeState && <b>{officeState.restrictedCapacity - officeState.totalEmployees}</b>}
           </p>
           <button
-            className={`btn btn-primary btn-lg ${officeState !== undefined && officeState.totalEmployees >= officeState?.restrictedCapacity ? 'disabled' : ''}`}
+            className={`${officeState !== undefined && officeState.totalEmployees >= officeState?.restrictedCapacity ? 'disabled' : ''}`}
             onClick={() => setModalVisibleDay(true)}
-          >Agendar</button>
-
+          >Agendar Estação</button>
         </div>
+
         <div className="work-reunion">
           <span>Salas de reunião</span>
           <p className="bold-p">Escolha uma data</p>
@@ -135,8 +136,8 @@ const OfficeCard = ({ office }) => {
               <p><b>Hora inicial</b></p>
               <select className="form-select" name="begin" value={reunionArgs.begin} onChange={onMultipleSelect}>
                 <option style={{ display: 'none' }}></option>
-                <option value='8'>8h</option>
-                <option value='9'>9h</option>
+                <option value='8'>08h</option>
+                <option value='9'>09h</option>
                 <option value='10'>10h</option>
                 <option value='11'>11h</option>
                 <option value='12'>12h</option>
@@ -153,8 +154,8 @@ const OfficeCard = ({ office }) => {
                 <p><b>Hora final</b></p>
                 <select className="form-select" name="end" value={reunionArgs.end} onChange={onMultipleSelect}>
                   <option style={{ display: 'none' }}></option>
-                  <option value='8'>8h</option>
-                  <option value='9'>9h</option>
+                  <option value='8'>08h</option>
+                  <option value='9'>09h</option>
                   <option value='10'>10h</option>
                   <option value='11'>11h</option>
                   <option value='12'>12h</option>
@@ -185,41 +186,45 @@ const OfficeCard = ({ office }) => {
           </div>
 
           <button
-            className={`btn btn-secondary btn-lg ${reunionState !== undefined && (reunionState.totalRooms < 1 || reunionState?.totalEmployees >= reunionState?.restrictedCapacity) ? 'disabled' : ''}`}
+            className={`${reunionState !== undefined && (reunionState.totalRooms < 1 || reunionState?.totalEmployees >= reunionState?.restrictedCapacity) ? 'disabled' : ''}`}
             onClick={() => setModalVisibleReunion(true)}
           >Agendar sala</button>
         </div>
       </div>
+
+
       {modalVisibleDay &&
         <ModalBody onClose={() => setModalVisibleDay(false)} onModalAction={handleOnSubmitDay}>
-          <div className="main-modal-children">
-            <span>Você selecionou:</span>
+          <div className="modal-content-children">
+            <p>Você selecionou:</p>
             <div className="modal-reunion-info">
-              <span>Dia: {bookingDay.moment}</span>
-              <span>Unidade: {office?.name}</span>
+              <p>Dia: <strong>{bookingDay.moment}</strong></p>
+              <p>Unidade: <strong>{office?.name}</strong></p>
             </div>
             <div className="modal-email-input">
               <p>Agora só falta colocar o seu e-mail para confirmarmos o seu agendamento!</p>
-              <span>E-mail</span>
-              <input type="text" onChange={e => setEmail(e.target.value)} value={email} />
+              <label for="email">E-mail</label>
+              <input type="text" id="email" onChange={e => setEmail(e.target.value)} value={email} />
             </div>
           </div>
         </ModalBody>
       }
       {modalVisibleReunion &&
         <ModalBody onClose={() => setModalVisibleReunion(false)} onModalAction={handleOnSubmitReunion}>
-          <div className="main-modal-children">
-            <span>Você selecionou:</span>
+          <div className="modal-content-children">
+            <p>Você selecionou:</p>
             <div className="modal-reunion-info">
-              <span>Dia: {bookingReunion.moment}, {bookingReunion.weight} Lugares</span>
-              <span>Unidade: {office?.name}</span>
-              <span>Sala: {bookingReunion.chair}</span>
-              <span>Horário: {bookingReunion.begin}h - {bookingReunion.end}h</span>
+              <p>Dia: <strong>{bookingReunion.moment}</strong> - <strong>{bookingReunion.weight}</strong> Lugares</p>
+              <p>Unidade: <strong>{office?.name}</strong></p>
+              <div className="info">
+                <p>Sala: <strong>{bookingReunion.chair}</strong></p>
+                <p>Horário: <strong>{bookingReunion.begin}h - {bookingReunion.end}h</strong></p>
+              </div>
             </div>
             <div className="modal-email-input">
               <p>Agora só falta colocar o seu e-mail para confirmarmos o seu agendamento!</p>
-              <span>E-mail</span>
-              <input type="text" onChange={e => setEmail(e.target.value)} value={email} />
+              <label for="email">E-mail</label>
+              <input type="text" id="email" onChange={e => setEmail(e.target.value)} value={email} />
             </div>
           </div>
         </ModalBody>

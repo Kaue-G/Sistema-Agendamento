@@ -1,8 +1,9 @@
 import './style.css';
-import DefaultPage from '../../components/DefaultPage';
+import Background from '../../components/Background';
 import doRequest from '../../services/api';
 import { useEffect, useState } from 'react';
 import OfficeCard from '../../components/OfficeCard';
+import { ReactComponent as Calendar } from './assets/calendar.svg';
 
 export default function Booking() {
   const [officeResponse, setOfficeResponse] = useState([])
@@ -16,8 +17,8 @@ export default function Booking() {
 
   return (
 
-    <DefaultPage>
-      <div className="booking-container">
+    <Background>
+      <div className="booking-page">
         <div className="header-booking">
           <p>Verifique a disponibilidade de estações de trabalho e salas de reunião por unidade, dia e horário.</p>
           <div className="office-pagination">
@@ -26,16 +27,19 @@ export default function Booking() {
                 className={`office-pagination-element ${activeOffice === o.id ? 'active' : ''}`}
                 key={o.id}
                 id={`${o.id}`}
-                onClick={office => setActiveOffice(Number(office.currentTarget.id))}
-              >{o.name}</div>
+                onClick={office => setActiveOffice(Number(office.currentTarget.id))}>
+                {o.name === 'Santos' ?
+                  <div><span className='desc'>Filial - </span>{o.name}</div> :
+                  <div><span className='desc'>Matriz - </span>{o.name}</div>}
+              </div>
             ))}
           </div>
         </div>
         <div className="content-booking">
-          {officeResponse !== undefined && activeOffice !== 0 ? <OfficeCard office={officeResponse.find(o => o.id === activeOffice)} /> : ''}
+          {officeResponse !== undefined && activeOffice !== 0 ? <OfficeCard office={officeResponse.find(o => o.id === activeOffice)} /> : <Calendar style={{ marginTop: '41px', marginLeft: '26vw' }} />}
         </div>
       </div>
-    </DefaultPage>
+    </Background>
   )
 }
 

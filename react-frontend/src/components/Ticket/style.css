@@ -6,10 +6,7 @@
   display: grid;
   grid-template-columns: 1fr 0.8fr;
   row-gap: 16px;
-  padding-left: 40px;
-  padding-right: 40px;
-  padding-top: 32px;
-  padding-bottom: 16px;
+  padding: 32px 40px 16px;
   box-shadow: 0px 16px 40px rgba(0, 0, 0, 0.5);
 }
 
@@ -45,7 +42,7 @@
     color: #FFF;
   }
 
-  .ticket-left path{
+  .ticket-left path[fill]{
     fill: #FFF;
   }
 
@@ -83,4 +80,16 @@
   font-size: 20px;
   line-height: 24px;
   color: #FFF;
+}
+
+
+/***************************MEDIA QUERIES***************************/
+
+@media(max-width:650px) {
+.ticket-box {
+   padding: 32px 20px 16px;
+   width: 450px;
+}
+
+
 }

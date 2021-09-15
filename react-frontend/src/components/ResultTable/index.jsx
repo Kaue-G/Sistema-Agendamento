@@ -1,27 +1,29 @@
 import './style.css'
 
-const ResultTable = ({ bookings }) => {
+const ResultTable = (reservas) => {
+    const renderReservas = reservas.reserva == 0 ? '' :
+        (reservas.reserva.map((a) =>
+            <tr key={a.id}>
+                <td>{a.moment}</td>
+                <td>{`${a.begin}h - ${a.end}h`}</td>
+                <td>{a.begin === 8 && a.end === 18 ? 'Dia' : 'Reunião'}</td>
+                <td>{a.officeName}</td>
+                <td>{a.id}</td>
+            </tr>));
+
     return <div className="result-container">
-        <table className="table table-hover table-sm table-borderless">
-            <thead>
+        <table className="tabela">
+            <thead className="cabecalho">
                 <tr>
-                    <th scope="col">N° do Ticket</th>
-                    <th scope="col">Tipo de agendamento</th>
-                    <th scope="col">Horário</th>
-                    <th scope="col">Data</th>
-                    <th scope="col">Unidade</th>
+                    <th>Dia</th>
+                    <th>Horário</th>
+                    <th>Tipo</th>
+                    <th>Unidade</th>
+                    <th>N° do Ticket</th>
                 </tr>
             </thead>
-            <tbody>
-                {bookings.map(b => (
-                    <tr key={b.id}>
-                        <th scope="row">{b.id}</th>
-                        <td>{b.begin === 8 && b.end === 18 ? 'Dia inteiro' : 'Reunião'}</td>
-                        <td>{`${b.begin}h - ${b.end}h`}</td>
-                        <td>{b.moment}</td>
-                        <td>{b.officeName}</td>
-                    </tr>
-                ))}
+            <tbody className="corpo">
+                {renderReservas}
             </tbody>
         </table>
     </div>
