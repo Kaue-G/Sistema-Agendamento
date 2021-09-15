@@ -50,8 +50,11 @@
 @media (max-width: 350px) {
   .cabecalho th {
     font-size: 12px;
+    text-align: center;
+    flex-wrap: wrap;
 }
  .corpo td {
     font-size: 10px;
+    text-align: center;
 }
 }

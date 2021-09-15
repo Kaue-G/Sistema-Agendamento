@@ -17,10 +17,13 @@ const ErrorPage = () => {
 
   return (
     <div className="main-error-container">
+      <div className="image-error">
+        <img src="/images/logo.svg" alt="logo" />
+      </div>
       <div className="error-information">
         {error !== undefined ?
           <>
-            <h1>{error.status}</h1>
+            <h1>Erro: {error.status}</h1>
             <p>{error.message}</p>
             <div className="main-error-information">
               {error.errors && error.errors.map(x => (

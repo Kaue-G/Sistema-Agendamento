@@ -36,7 +36,7 @@ export default function Booking() {
           </div>
         </div>
         <div className="content-booking">
-          {officeResponse !== undefined && activeOffice !== 0 ? <OfficeCard office={officeResponse.find(o => o.id === activeOffice)} /> : <Calendar style={{ marginTop: '41px', marginLeft: '26vw' }} />}
+          {officeResponse !== undefined && activeOffice !== 0 ? <OfficeCard office={officeResponse.find(o => o.id === activeOffice)} /> : <Calendar className="calendar-image" />}
         </div>
       </div>
     </Background>

@@ -12,6 +12,7 @@
 .booking-page .content-booking{
     margin: 80px 3vw 0;
     display: flex;
+    justify-content: center;
     flex-wrap: wrap;
     flex: 1;
     min-height: 450px;
@@ -39,11 +40,18 @@
     border-bottom: 3px solid #FF601C;
 }
 
+.booking-page .calendar-image{
+    width: 100%;
+}
+
 
 /***************************MEDIA QUERIES***************************/
 @media screen and (max-width:830px) {
 .booking-page .office-pagination-element{
     font-size: 22px;
+}
+.booking-page .calendar-image{
+    width: 80%;
 }
 }
 
@@ -67,5 +75,8 @@
 
 .booking-page .header-booking{
     font-size: 14px;
+}
+.booking-page .calendar-image{
+    margin-top: -150px;
 }
 }
