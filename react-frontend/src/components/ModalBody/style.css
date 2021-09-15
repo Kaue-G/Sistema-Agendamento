@@ -70,6 +70,19 @@
   .modal-area .button-content button {
     margin: 10px;
   }
-
+}
+ 
+@media (max-width: 400px) {
+  .modal-area {
+    width: 280px;
+    height: auto;
+    padding: 10px;
+  }
+  .modal-area .button-content button {
+    margin: 0;
+    width: 232px;
+    height: 40px;
+    margin: 10px;
+  }
 }
  

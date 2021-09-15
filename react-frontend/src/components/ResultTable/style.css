@@ -4,7 +4,7 @@
     margin: 50px 3vw 0;
     border-radius: 8px;
     padding: 10px; 
-    /* width: 80%; */
+    width: 95%;
 }
 
 .result-container table{
@@ -52,8 +52,11 @@
 @media (max-width: 350px) {
   .cabecalho th {
     font-size: 12px;
+    text-align: center;
+    flex-wrap: wrap;
 }
  .corpo td {
     font-size: 10px;
+    text-align: center;
 }
 }
