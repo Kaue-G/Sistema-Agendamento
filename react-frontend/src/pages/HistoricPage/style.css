@@ -1,0 +1,115 @@
+.messageHP{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: .5vw 5vw;
+}
+
+.messageHP h1{
+   font-size: 2.4rem;
+   font-weight: bold;
+   margin-top: 100px;
+ }
+
+.messageHP p {
+    font-size: 1.5rem;  
+    line-height: 30px;   
+    margin: 32px 0;
+}
+
+.inputHP {
+    display: flex;
+    margin: 25px 5vw;
+}
+
+.inputHP input{
+  width: 292px;
+  height: 62px;
+  border-radius: 30px;
+  padding: 10px;
+  margin-right: 32px;
+  border: 1px solid #C4C4C4;
+  font-size: 1rem;
+  transition: 1s;
+}
+
+.inputHP button{
+  width: 232px;
+  height: 63px;
+  border-radius: 30px;
+  padding: 10px;
+  font-size: 1.25rem;
+  font-weight: bold;
+  text-transform: capitalize;
+  color: #FFFFFF;  
+  background: #FF601C;
+  border: 1px solid #FF601C;
+  transition: 1s;
+}
+
+.inputHP button:focus,
+.inputHP input:focus{
+  outline: none;
+  border: 0;
+}
+
+
+/***************************MEDIA QUERIES***************************/
+
+@media (max-width: 1600px) {
+    .messageHP h1 {
+        font-size: 2rem;
+    }
+    
+    .messageHP p {
+        font-size: 1.2rem;
+    }
+       
+   .inputHP button {
+        font-size: 1.2rem;
+    }
+}
+@media (max-width: 1366px) {
+    .messageHP h1 {
+        font-size: 1.8rem;
+    }
+
+}
+@media (max-width: 1024px) {
+    .messageHP h1 {
+        font-size: 1.5rem;
+    }
+    
+    .messageHP p {
+        font-size: 1rem;
+    }
+    
+    .inputHP button  {
+        font-size: 1rem;
+    }
+}
+@media (max-width: 840px) {
+    .messageHP h1{
+        font-size: 2.4rem;
+    }
+     
+    .messageHP p {
+         font-size: 1.4rem;
+    }
+    .inputHP {
+        flex-direction: column;
+        margin-left: 0;
+    }
+    .inputHP input {
+        width: 70vw;
+        text-align: center;
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+    }
+    .inputHP button{
+        width: 70vw;
+        font-size: 2rem;
+      }
+      
+}
+
