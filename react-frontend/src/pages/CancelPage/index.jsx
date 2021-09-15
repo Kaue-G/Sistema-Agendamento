@@ -30,10 +30,17 @@ export default function CancelPage(props) {
     }
   }
 
+  const requisicao = () => {
+    doRequest({ url: `/offices/bookings/${idTicket}`, method: 'DELETE' })
+    // .then(() => toast.success(`Ticket  ${idTicket} cancelado com sucesso`))
+    // .catch(() => toast.error(`Ticket não encontrado`));  
+
+  };
+
   return (
     <Background>
       <div className="messageCP">
-        <h1>Cancelar Ticket</h1>
+        <h1>cancelar ticket</h1>
         <p>Para cancelar uma reserva já realizada,
           por favor insira o número do ticket correspondente
           à esse agendamento no espaço abaixo.
