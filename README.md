@@ -5,7 +5,8 @@ Desafio proposto no Hackathon do Programa de Formação da empresa FCamara.
 #### Problemática
 
 Com a pandemia da Covid-19 o trabalho remoto foi necessário.
-Porém com a vacinação em andamento, planeja-se fazer a reabertura dos escritórios seguindo a legislação vigente quanto ao números de pessoas máximas, evitando aglomeração além dos protocolos de segurança.
+Porém com a vacinação em andamento, planeja-se fazer a reabertura dos escritórios 
+seguindo a legislação vigente quanto ao números de pessoas máximas, evitando aglomeração além dos protocolos de segurança.
 
 O objetivo do sistema de agendamento é permitir ao colaborador da empresa, o agendamento prévio do dia de trabalho ou de uma reunião em um dos escritórios.
 
