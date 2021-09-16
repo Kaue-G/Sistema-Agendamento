@@ -1,35 +1,32 @@
-# SISTEMA DE AGENDAMENTO
+# 📙 AGENDA LARANJA
+Um sistema de agendamento proposto no Hackathon do Programa de Formação da empresa FCamara.
 
-Desafio proposto no Hackathon do Programa de Formação da empresa FCamara.
+## ⚙️ Problemática
 
-#### Problemática
+Com a pandemia da Covid-19 o trabalho remoto foi necessário. Porém com a vacinação em andamento, planeja-se fazer a reabertura dos escritórios seguindo a legislação vigente quanto ao números de pessoas máximas, evitando aglomeração além dos protocolos de segurança.
 
-Com a pandemia da Covid-19 o trabalho remoto foi necessário.
-Porém com a vacinação em andamento, planeja-se fazer a reabertura dos escritórios seguindo a legislação vigente quanto ao números de pessoas máximas, evitando aglomeração além dos protocolos de segurança.
+O objetivo do sistema de agendamento - **Agenda Laranja** - é permitir ao colaborador da empresa, o agendamento prévio do dia de trabalho ou de uma reunião em um dos escritórios.
 
-O objetivo do sistema de agendamento é permitir ao colaborador da empresa, o agendamento prévio do dia de trabalho ou de uma reunião em um dos escritórios.
-
-### Regras de negócio
+#### Regras de negócio
 
 Há dois tipos de agendamentos: 
-* Por dia
+* **Por dia**
 > Representa um dia inteiro de trabalho, tal que o sistema se inscreve em todos os horários disponíveis do dia e atribui ao agendamento o peso 1.
-* Por Hora
+* **Por Hora**
 > Representa o agendamento de uma reunião. Nesse caso, é importante informar a sala, início e término da estadia no escritório. Caso o peso do agendamento não seja informado, o sistema entenderá como 1.
 
-### Fluxo do usuário
+#### Fluxo do usuário
 
 - Acessa o sistema
 - Escolhe o escritório (São Paulo ou Santos)
 - Verifica a disponibilidade
 - Faz o agendamento
-- Recebe o ticket com número da reserva.
+- Recebe o ticket com número da reserva
 - Pode consultar o histórico de agendamento por email
 - Pode cancelar a reserva com o número do Ticket
 
 
-###  REST API - BACKEND
-
+## 🔧 REST API - BACKEND
 Uma API de gerenciamento de lotação desenvolvida durante o Hackathon do grupo FCamara.
 
 ### Funcionamento
@@ -39,7 +36,7 @@ O sistema funciona através de um escritório que disponibiliza horários para r
 
 > Na imagem acima há o comportamento de 5 agendamentos. Dentre eles, o AG5 e o AG1 escolheram a sala S1.  Portando, o peso dos agendamentos se somam para verificar a lotação na faixa de horários selecionada.
 
-> Dependendo do intervalo de horários selecionado, a informação é diferente.
+**Dependendo do intervalo de horários selecionado durante uma consulta, a informação é diferente.**
 
 Com isso dito, o ato de agendamento pode ser validado em vários critérios. Dentre eles:
 * Uma pessoa só consegue fazer um agendamento por dia.
@@ -66,9 +63,9 @@ Com isso dito, o ato de agendamento pode ser validado em vários critérios. Den
 * **/offices/bookings**
 > Retorna as reservas de um usuário dado o email
 
-### Instalação
+## 🧰 Instalação
 
-## BACKEND
+### BACKEND
 É possível rodar a aplicação para testes utilizando Docker. Mas caso essa não seja uma opção, o jar está disponibilizado. 
 >Run com *jar*, utilizando o banco H2 e consumindo a seed de testes
 
@@ -78,8 +75,7 @@ $ java -jar ./build/DEMO-FC-0.0.1-SNAPSHOT.jar
 ```
 >Montando imagem Docker
 
-Baixe o projeto e acesse a pasta **java-backend**
-No terminal, utilize o comando para montar a imagem Docker
+Baixe o projeto e acesse a pasta **java-backend**. No terminal, utilize o comando para montar a imagem Docker
 ```
 $ docker build -t fcam-squad12:v1 .
 ```
@@ -89,7 +85,7 @@ $ docker run -p 8081:8081 --name squad12-fcam fcam-squad12:v1
 ```
 Rodar container utilizando um banco de dados postgress
 ```
-$ docker run -p 8081:8081 --name squad12-fcam -e PROFILE=dev -e DB_URL= -e DB_USERNAME= -e DB_PASSWORD= fcam-squad12:v1
+$ docker run -p 8081:8081 --name squad12-fcam -e PROFILE=dev -e DB_URL={URL} -e DB_USERNAME={USER} -e DB_PASSWORD={PASSWORD} fcam-squad12:v1
 ```
 Variáveis de ambiente
 1. **-e PROFILE**
@@ -117,7 +113,7 @@ Excluir imagem
 ```
 $ docker rmi fcam-squad12:v1
 ```
-## FRONTEND
+### FRONTEND
 
 Clonar o projeto
 
@@ -136,7 +132,7 @@ Executar a aplicação localmente
 $ npm start
 ```
 
-### Utilitários
+## 🧰 Utilitários
 Corpo de requisição (POST) simplificado para agendamento de um dia inteiro
 ~~~json
 {
@@ -160,9 +156,8 @@ Corpo de requisição (POST) simplificado para agendamento de uma sala e um dete
 ## Tecnologias
 
 - React
-- Postgres
-- Java
-- Ecossistema Spring
+- Postgress
+- Java / Ecossistema Spring
 
 ## Projeto
 
@@ -170,7 +165,8 @@ Corpo de requisição (POST) simplificado para agendamento de uma sala e um dete
 
 [![](https://img.shields.io/badge/FCBooking-FRONTEND-FF601C?logo=vercel&labelColor=FF601C&color=gray&style=for-the-badge)](https://sistema-agendamento.vercel.app/)
 
-🚀[Postman](https://github.com/Lourene-MCSchueler/Sistema-Agendamento/blob/main/java-backend/build/FC-Postman.json), [Docs](https://github.com/Lourene-MCSchueler/Sistema-Agendamento/tree/main/java-backend/build)
+🚀[Postman](https://github.com/Lourene-MCSchueler/Sistema-Agendamento/blob/main/java-backend/build/FC-Postman.json), [Docs](https://github.com/Lourene-MCSchueler/Sistema-Agendamento/tree/main/java-backend/build), [Protótipo FRONT](https://mystifying-murdock-d70c53.netlify.app), [Protótipo FIGMA](https://www.figma.com/file/PUTEWaFa6ayS83Y1gOgvA5/Hackathon)
+
 
 ## Membros
 
