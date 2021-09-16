@@ -24,7 +24,8 @@
 
 .modal-area .modal-content {
     width: 550px;
-    height: 400px;
+    height: auto;
+    width: 100%;
 }
 
 .modal-area .button-content {
@@ -61,28 +62,18 @@
 
 /***************************MEDIA QUERIES***************************/
 
-@media (max-width: 640px) {
-  .modal-area .button-content {
-     flex-direction: column;
-     margin: 10px;
-     align-items: center;
-  }
-  .modal-area .button-content button {
-    margin: 10px;
-  }
-}
- 
 @media (max-width: 400px) {
   .modal-area {
-    width: 280px;
+    width: 300px;
     height: auto;
     padding: 10px;
   }
   .modal-area .button-content button {
     margin: 0;
-    width: 232px;
+    width: 250px;
     height: 40px;
     margin: 10px;
   }
+  
 }
  

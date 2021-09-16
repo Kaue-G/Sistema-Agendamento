@@ -116,10 +116,10 @@ const OfficeCard = ({ office }) => {
             <Dot color={`${officeState !== undefined && officeState?.totalEmployees >= officeState?.restrictedCapacity ? 'red' : 'green'}`} />
             &nbsp;Lugares disponíveis: {officeState && <b>{officeState.restrictedCapacity - officeState.totalEmployees}</b>}
           </p>
+
           <button
-            className={`${officeState !== undefined && officeState.totalEmployees >= officeState?.restrictedCapacity ? 'disabled' : ''}`}
-            onClick={() => setModalVisibleDay(true)}
-          >Agendar Estação</button>
+            className={`${officeState !== undefined && (officeState.totalEmployees >= officeState?.restrictedCapacity) ? 'disabled' : ''}`}
+            onClick={() => setModalVisibleDay(true)}>Agendar Estação</button>
         </div>
 
         <div className="work-reunion">
@@ -191,6 +191,7 @@ const OfficeCard = ({ office }) => {
           >Agendar sala</button>
         </div>
       </div>
+
 
 
       {modalVisibleDay &&

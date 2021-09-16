@@ -6,13 +6,13 @@
 }
 
 .messageCP h1 {
-    font-size: 2.4rem;
+    font-size: 36px;
     font-weight: bold;
     margin-top: 100px;
 }
 
 .messageCP p {
-    font-size: 1.5rem;
+    font-size: 24px;
     line-height: 30px;    
     margin: 32px 0;
 }
@@ -29,7 +29,7 @@
     margin-right: 32px;
     border-radius: 30px;
     border: 1px solid #C4C4C4;
-    font-size: 1rem;
+    font-size: 20px;
     transition: 1s;
 }
 
@@ -38,7 +38,7 @@
     height: 63px;
     border-radius: 30px;
     padding: 10px;
-    font-size: 1.25rem;
+    font-size: 20px;
     text-transform: capitalize;
     font-weight: bold;
     color: #FFFFFF;  
@@ -51,72 +51,55 @@
 .formCP button:focus{
   outline: none;
 }
-/* celular :a baixo de 768 
-tela pequena : entre 768 - 1024
-tela media : entre 1366 - 768
-tela grande : entre 1366 - 1920 */
 
-@media (max-width: 1600px) {
-    .messageCP h1 {
-        font-size: 2rem;
-    }
-    
-    .messageCP p {
-        font-size: 1.2rem;
-    }
-    
-    .formCP input {
-        font-size: .9rem;
-    }
-    
-    .formCP button {
-        font-size: 1.2rem;
-    }
+.modal {
+ display: flex;
+ flex-wrap: wrap;
 }
-@media (max-width: 1366px) {
-    .messageCP h1 {
-        font-size: 1.8rem;
+
+/***************************MEDIA QUERIES***************************/
+@media (max-width: 841px) {
+    .formCP {
+        flex-direction: column;
     }
     .formCP input {
         font-size: .8rem;
-    }
-}
-@media (max-width: 1024px) {
-    .messageCP h1 {
-        font-size: 1.5rem;
-    }
-    
-    .messageCP p {
-        font-size: 1rem;
-    }
-    
-    .formCP input {
-        font-size: .6rem;
-    }
-    
-    .formCP button  {
-        font-size: 1rem;
-    }
-}
-@media (max-width: 660px) {
-    .formCP {
-        margin-left: 0;
-        flex-direction: column;
-    }
-    .messageCP h1 {
-        font-size: 2.4rem;
-    }
-    .messageCP p {
-        font-size: 1.4rem;
-    }
-    .formCP input {
-        width: 70vw;
-        text-align: center;
-        font-size: 1.5rem;
         margin-bottom: 10px;
     }
-    .formCP button{
-        width: 70vw;
-        font-size: 2rem;
+    .formCP button {
+        margin-bottom: 100px;
+        width: 292px;
+    }
+ }
+
+@media (max-width: 450px) {
+    .modal-content p {
+        font-size: 18px;
+        padding-bottom: 10px;
+    }
+    .modal-content span {
+        font-size: 14px;
+        margin-bottom: 30px;
+    }
+       
+    .formCP button {
+        margin-bottom: 100px;
+        margin-right: 8px;
+        width: 260px;
+    }
+     
+    .formCP input {
+        width: 260px;
+        margin-right: 8px;
+    }
+
+    .messageCP h1 {
+        font-size: 30px;
+        margin-top: 50px;
+    }
+
+    .messageCP p {
+        font-size: 16px;
+        text-align: justify;
     }
 }

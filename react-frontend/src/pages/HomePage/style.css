@@ -1,6 +1,6 @@
 .box-top {
    display: flex;  
-     margin: 25px 5vw;
+   margin: 25px 5vw;
 }
 
 .box-top .message-home h1 {
@@ -37,7 +37,7 @@
 .box-bottom .links {
   display: flex;
   flex-direction: column; 
-  margin: 2.5rem;
+  margin: 25px 5vw;
 }
 
 .box-bottom .links .to {
@@ -130,7 +130,7 @@
 }
 .box-bottom .link {
   margin-bottom: 1.2rem;
-  font-size: 14px;
+  font-size: 16px;
 }
 }
 
@@ -139,7 +139,15 @@
   height: 35px;
 }
 .box-bottom .link {
-  font-size: 12px;
+  font-weight: bold;
+  font-size: 14px;
+}
+.box-top .message-home h1 {
+  font-size: 30px;
+  margin-top: 50px;
+}
+.box-top .message-home {
+  font-size: 16px;
 }
 }
 

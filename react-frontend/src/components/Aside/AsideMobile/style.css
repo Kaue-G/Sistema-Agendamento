@@ -1,8 +1,3 @@
-.aside-mob {
-  position: fixed;
-  bottom: 0;
-}
-
 .aside-mob nav {
   display: flex;
   align-items: center;

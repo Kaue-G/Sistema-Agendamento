@@ -270,7 +270,6 @@ button:focus{
 @media(max-width:350px) {
 .modal-content-children p{
     font-size: 16px;
-    margin-top: 20px;
 }
 .modal-content-children .modal-reunion-info{
     font-size: 24px;
@@ -283,9 +282,18 @@ button:focus{
     line-height: 16px;
     padding: 0;
     width: 60%;
-
 }
 .modal-content-children .modal-email-input label{
     font-size: 12px;
+}
+.office-card span {
+    font-size: 10px;
+}
+.work-day span,
+.work-reunion span {
+    font-size: 16px;
+}
+.work-day button {
+    margin-top: 40px;
 }
 }

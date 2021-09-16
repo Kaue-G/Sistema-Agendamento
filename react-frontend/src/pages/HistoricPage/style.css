@@ -6,13 +6,13 @@
 }
 
 .messageHP h1{
-   font-size: 2.4rem;
+   font-size: 36px;
    font-weight: bold;
    margin-top: 100px;
  }
 
 .messageHP p {
-    font-size: 1.5rem;  
+    font-size: 24px;  
     line-height: 30px;   
     margin: 32px 0;
 }
@@ -25,11 +25,11 @@
 .inputHP input{
   width: 292px;
   height: 62px;
-  border-radius: 30px;
   padding: 10px;
   margin-right: 32px;
+  border-radius: 30px;
   border: 1px solid #C4C4C4;
-  font-size: 1rem;
+  font-size: 20px;
   transition: 1s;
 }
 
@@ -38,7 +38,7 @@
   height: 63px;
   border-radius: 30px;
   padding: 10px;
-  font-size: 1.25rem;
+  font-size: 20px;
   font-weight: bold;
   text-transform: capitalize;
   color: #FFFFFF;  
@@ -56,60 +56,49 @@
 
 /***************************MEDIA QUERIES***************************/
 
-@media (max-width: 1600px) {
-    .messageHP h1 {
-        font-size: 2rem;
-    }
-    
-    .messageHP p {
-        font-size: 1.2rem;
-    }
-       
-   .inputHP button {
-        font-size: 1.2rem;
-    }
-}
-@media (max-width: 1366px) {
-    .messageHP h1 {
-        font-size: 1.8rem;
-    }
-
-}
-@media (max-width: 1024px) {
-    .messageHP h1 {
-        font-size: 1.5rem;
-    }
-    
-    .messageHP p {
-        font-size: 1rem;
-    }
-    
-    .inputHP button  {
-        font-size: 1rem;
-    }
-}
-@media (max-width: 840px) {
-    .messageHP h1{
-        font-size: 2.4rem;
-    }
-     
-    .messageHP p {
-         font-size: 1.4rem;
-    }
+@media (max-width: 841px) {
     .inputHP {
         flex-direction: column;
-        margin-left: 0;
     }
     .inputHP input {
-        width: 70vw;
-        text-align: center;
-        font-size: 1.5rem;
+        font-size: 0.8rem;
         margin-bottom: 10px;
     }
     .inputHP button{
-        width: 70vw;
-        font-size: 2rem;
-      }
-      
+        width: 292px;
+        margin-bottom: 100px;
+      }      
 }
 
+
+@media (max-width: 450px) {
+    .modal-content p {
+        font-size: 18px;
+        padding-bottom: 10px;
+    }
+    .modal-content span {
+        font-size: 14px;
+        margin-bottom: 30px;
+    }
+       
+    .inputHP button {
+        margin-bottom: 100px;
+        margin-right: 8px;
+        width: 260px;
+    }
+     
+    .inputHP input {
+        width: 260px;
+        margin-right: 8px;
+    }
+
+    .messageHP h1 {
+        font-size: 30px;
+        margin-top: 50px;
+    }
+
+    .messageHP p {
+        font-size: 16px;
+        text-align: justify;
+    }
+}

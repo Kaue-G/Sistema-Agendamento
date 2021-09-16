@@ -144,7 +144,8 @@
   font-size: 30px;
  }
 .ticket-page .text p{
-  font-size: 18px;
+  font-size: 16px;
+  text-align: justify;
 }
 .ticket-page .bottom p{
   font-size: 18px;
@@ -156,3 +157,4 @@
   width: 70%;
 }
 }
+
