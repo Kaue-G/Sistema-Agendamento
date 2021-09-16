@@ -67,6 +67,8 @@ Com isso dito, o ato de agendamento pode ser validado em vários critérios. Den
 > Retorna as reservas de um usuário dado o email
 
 ### Instalação
+
+## BACKEND
 É possível rodar a aplicação para testes utilizando Docker. Mas caso essa não seja uma opção, o jar está disponibilizado. 
 >Run com *jar*, utilizando o banco H2 e consumindo a seed de testes
 
@@ -115,6 +117,24 @@ Excluir imagem
 ```
 $ docker rmi fcam-squad12:v1
 ```
+## FRONTEND
+
+Clonar o projeto
+
+```
+git clone https://github.com/Lourene-MCSchueler/Sistema-Agendamento/tree/main/react-frontend
+```
+
+Instalar os pacotes com npm
+
+```
+$ npm install 
+```
+Executar a aplicação localmente
+
+```
+$ npm start
+```
 
 ### Utilitários
 Corpo de requisição (POST) simplificado para agendamento de um dia inteiro
@@ -142,25 +162,6 @@ Corpo de requisição (POST) simplificado para agendamento de uma sala e um dete
 
 🚀[Postman](https://github.com/Lourene-MCSchueler/Sistema-Agendamento/blob/main/java-backend/build/FC-Postman.json), [Docs](https://github.com/Lourene-MCSchueler/Sistema-Agendamento/tree/main/java-backend/build)
 
-
-## Ambiente de desenvolvimento FRONTEND
-
-Clonar o projeto
-
-```
-git clone https://github.com/Lourene-MCSchueler/Sistema-Agendamento/tree/main/react-frontend
-```
-
-Instalar os pacotes com npm
-
-```
-$ npm install 
-```
-Executar a aplicação localmente
-
-```
-$ npm start
-```
 
 ## Tecnologias
 
