@@ -65,10 +65,8 @@
 .pageH {
   padding: 0;
 }
-}
-
-@media(max-width:351px) {
-  .pageH .container-page {
+ .pageH .container-page {
   border: none;
 }
 }
+
