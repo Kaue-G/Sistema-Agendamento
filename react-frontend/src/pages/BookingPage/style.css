@@ -13,9 +13,10 @@
     margin: 80px 3vw 0;
     display: flex;
     justify-content: center;
+    align-items: center;
     flex-wrap: wrap;
     flex: 1;
-    min-height: 450px;
+    height: auto;
 }
 
 .booking-page .office-pagination{
@@ -40,8 +41,9 @@
     border-bottom: 3px solid #FF601C;
 }
 
-.booking-page .calendar-image{
+.booking-page .content-booking .calendar-image{
     width: 100%;
+    height: 400px;
 }
 
 
@@ -50,7 +52,7 @@
 .booking-page .office-pagination-element{
     font-size: 22px;
 }
-.booking-page .calendar-image{
+.booking-page .content-booking .calendar-image{
     width: 80%;
 }
 }
@@ -77,6 +79,9 @@
     font-size: 14px;
 }
 .booking-page .calendar-image{
-    margin-top: -150px;
+    margin-top: -80px;
+}
+.booking-page .content-booking {
+      margin: 20px 3vw 0;
 }
 }
