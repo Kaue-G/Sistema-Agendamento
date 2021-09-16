@@ -1,6 +1,7 @@
 .box-top {
    display: flex;  
    margin: 25px 5vw;
+   height: 100%;
 }
 
 .box-top .message-home h1 {
