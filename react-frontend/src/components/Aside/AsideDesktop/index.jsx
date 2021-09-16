@@ -11,10 +11,10 @@ function AsideDesktop() {
     <div className="aside-desk">
       <nav>
         <ul>
-          <li><NavLink exact to='/' activeClassName="active"><HomeImage /></NavLink></li>
-          <li><NavLink to='/booking' activeClassName="active"><BookImage /></NavLink></li>
-          <li><NavLink to='/historic' activeClassName="active"><ClockImage /></NavLink></li>
-          <li><NavLink to='/cancel' activeClassName="active"><CancelImage /></NavLink></li>
+          <li><NavLink exact to='/' activeClassName="active" className="to"><HomeImage />Início</NavLink></li>
+          <li><NavLink to='/booking' activeClassName="active" className="to"><BookImage />Agendar</NavLink></li>
+          <li><NavLink to='/historic' activeClassName="active" className="to"><ClockImage />Histórico</NavLink></li>
+          <li><NavLink to='/cancel' activeClassName="active" className="to"><CancelImage />Cancelar</NavLink></li>
         </ul>
       </nav>
     </div>
