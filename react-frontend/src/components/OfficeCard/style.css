@@ -89,7 +89,7 @@
     background: #FF601C;
     border: 1px solid #FF601C;
     cursor: pointer;
-    
+    transition: 1s;
 }
 .work-reunion button {
     color: #FFF;
@@ -101,6 +101,7 @@
     background: #36357E;
     border: 1px solid #36357E;
     cursor: pointer;
+    transition: 1s;
 }
 
 button, 

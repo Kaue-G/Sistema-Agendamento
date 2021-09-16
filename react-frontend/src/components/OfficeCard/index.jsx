@@ -52,12 +52,11 @@ const OfficeCard = ({ office }) => {
   }
 
   const getId = (id) => {
-    const chair = roomContent?.content.find(r => r.id === id)
-    if (chair?.available) {
+    const chair = roomContent.content.find(r => r.id === id)
+    if (chair.available) {
       setBookingReunion(data => ({ ...data, chair: chair.id }))
     }
   }
-
   const handleOnSubmitDay = () => {
     const payload = {
       ...bookingDay,
@@ -97,6 +96,19 @@ const OfficeCard = ({ office }) => {
 
   }, [reunionArgs, office])
 
+  const butaoOfficeCard = officeState === undefined || (officeState.totalEmployees >= officeState.restrictedCapacity) ? 
+  (<button style={{ cursor: 'auto', opacity: '50%' }} disabled >Agendar Estação</button>) 
+  : 
+  (<button onClick={() => setModalVisibleDay(true)}>Agendar Estação</button>);
+  
+  const butaoWorkReunion = reunionState === undefined || bookingReunion.chair === 0 || (reunionState.totalRooms < 1 || reunionState?.totalEmployees >= reunionState?.restrictedCapacity) ? 
+  (<button style={{ cursor: 'auto', opacity: '50%' }} disabled >Agendar Sala</button>) 
+  : 
+  (<button
+    onClick={() => setModalVisibleReunion(true)}
+  >Agendar Sala</button>
+  );
+
   return (
     <div className="office-card">
       <span>*&nbsp;Lotação máxima restrita: <b>{office?.restrictedCapacity}</b> pessoas</span>
@@ -116,10 +128,7 @@ const OfficeCard = ({ office }) => {
             <Dot color={`${officeState !== undefined && officeState?.totalEmployees >= officeState?.restrictedCapacity ? 'red' : 'green'}`} />
             &nbsp;Lugares disponíveis: {officeState && <b>{officeState.restrictedCapacity - officeState.totalEmployees}</b>}
           </p>
-
-          <button
-            className={`${officeState !== undefined && (officeState.totalEmployees >= officeState?.restrictedCapacity) ? 'disabled' : ''}`}
-            onClick={() => setModalVisibleDay(true)}>Agendar Estação</button>
+          {butaoOfficeCard}          
         </div>
 
         <div className="work-reunion">
@@ -184,11 +193,7 @@ const OfficeCard = ({ office }) => {
             ))}
 
           </div>
-
-          <button
-            className={`${reunionState !== undefined && (reunionState.totalRooms < 1 || reunionState?.totalEmployees >= reunionState?.restrictedCapacity) ? 'disabled' : ''}`}
-            onClick={() => setModalVisibleReunion(true)}
-          >Agendar sala</button>
+          {butaoWorkReunion}
         </div>
       </div>
 
