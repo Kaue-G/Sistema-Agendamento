@@ -7,7 +7,7 @@
 // export default api;
 
 import axios from 'axios';
-const BASE_URL = 'http://fcam-booking.herokuapp.com';
+const BASE_URL = 'https://fcam-booking.herokuapp.com';
 
 
 const doRequest = ({ method = 'GET', url, data, params }) => {
