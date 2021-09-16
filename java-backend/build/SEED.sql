@@ -75,7 +75,14 @@ CREATE TABLE Disponibility_Room(
 INSERT INTO Office(address,capacity,name) VALUES ('Rua Bela Cintra, 986 - 2º andar, Consolação, São Paulo - SP',25,'São Paulo');
 INSERT INTO Office(address,capacity,name) VALUES ('Praça Dos Expedicionários, 192º andar, Gonzaga, Santos - SP',25,'Santos');
 
-SELECT * FROM Office;
+-- Definir ID dos escritórios para 3 e 4
+UPDATE Office
+SET id = 3
+WHERE name LIKE 'São Paulo';
+
+UPDATE Office
+SET id = 4
+WHERE name LIKE 'Santos';
 
 -- Cadeiras
 INSERT INTO Room(id,capacity, name, office_id) VALUES (1,4,'Sala 1',3);
@@ -158,7 +165,7 @@ INSERT INTO Disponibility(date_pk, hour_pk, office_pk, is_available) VALUES ('20
 INSERT INTO Disponibility(date_pk, hour_pk, office_pk, is_available) VALUES ('2021-09-17',17,3,true);
 INSERT INTO Disponibility(date_pk, hour_pk, office_pk, is_available) VALUES ('2021-09-17',18,3,true);
 
--- Segunda do Escritório 2
+-- Segunda - Office 2
 INSERT INTO Disponibility(date_pk, hour_pk, office_pk, is_available) VALUES ('2021-09-13',8,4,true);
 INSERT INTO Disponibility(date_pk, hour_pk, office_pk, is_available) VALUES ('2021-09-13',9,4,true);
 INSERT INTO Disponibility(date_pk, hour_pk, office_pk, is_available) VALUES ('2021-09-13',10,4,true);

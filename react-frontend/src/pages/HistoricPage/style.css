@@ -103,3 +103,9 @@
         text-align: justify;
     }
 }
+
+@media (max-width: 452px) {
+     .inputHP button {
+        margin-bottom: 30px;
+     }
+}
