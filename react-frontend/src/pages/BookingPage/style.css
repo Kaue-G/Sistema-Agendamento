@@ -1,5 +1,6 @@
 .booking-page{
     width: 100%;
+    height: 100%;
 }
 
 .booking-page .header-booking{
@@ -78,8 +79,10 @@
 .booking-page .header-booking{
     font-size: 14px;
 }
-.booking-page .calendar-image{
+.booking-page .content-booking .calendar-image{
     margin-top: -80px;
+    height: 200px;
+    margin-bottom: 20px;
 }
 .booking-page .content-booking {
       margin: 20px 3vw 0;
