@@ -20,7 +20,7 @@
 
 .inputHP {
     display: flex;
-    margin: 25px 5vw;
+    margin: 10px 5vw;
 }
 
 .inputHP input{
@@ -67,12 +67,12 @@
     }
     .inputHP button{
         width: 292px;
-        margin-bottom: 100px;
+        margin-bottom: 20px;
       }      
 }
 
 
-@media (max-width: 450px) {
+@media (max-width: 452px) {
     .modal-content p {
         font-size: 18px;
         padding-bottom: 10px;
@@ -83,7 +83,7 @@
     }
        
     .inputHP button {
-        margin-bottom: 100px;
+        margin-bottom: 70px;
         margin-right: 8px;
         width: 260px;
     }
@@ -102,4 +102,10 @@
         font-size: 16px;
         text-align: justify;
     }
+}
+
+@media (max-width: 452px) {
+     .inputHP button {
+        margin-bottom: 30px;
+     }
 }

@@ -66,3 +66,9 @@
   padding: 0;
 }
 }
+
+@media(max-width:351px) {
+  .pageH .container-page {
+  border: none;
+}
+}
