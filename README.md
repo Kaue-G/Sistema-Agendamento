@@ -156,12 +156,6 @@ Corpo de requisição (POST) simplificado para agendamento de uma sala e um dete
   "type": 0
 }
 ~~~
-> A API está disponível no Heroku
-
-[![](https://img.shields.io/badge/FCBooking-SNAPSHOT-9370DB?logo=heroku&labelColor=9370DB&color=gray&style=for-the-badge)](http://fcam-booking.herokuapp.com/swagger-ui.html#/)
-
-🚀[Postman](https://github.com/Lourene-MCSchueler/Sistema-Agendamento/blob/main/java-backend/build/FC-Postman.json), [Docs](https://github.com/Lourene-MCSchueler/Sistema-Agendamento/tree/main/java-backend/build)
-
 
 ## Tecnologias
 
@@ -172,7 +166,11 @@ Corpo de requisição (POST) simplificado para agendamento de uma sala e um dete
 
 ## Projeto
 
-[Clique neste link](http://xxxx/)
+[![](https://img.shields.io/badge/FCBooking-BACKEND-9370DB?logo=heroku&labelColor=9370DB&color=gray&style=for-the-badge)](http://fcam-booking.herokuapp.com/swagger-ui.html#/)
+
+[![](https://img.shields.io/badge/FCBooking-FRONTEND-FF601C?logo=vercel&labelColor=FF601C&color=gray&style=for-the-badge)](https://sistema-agendamento.vercel.app/)
+
+🚀[Postman](https://github.com/Lourene-MCSchueler/Sistema-Agendamento/blob/main/java-backend/build/FC-Postman.json), [Docs](https://github.com/Lourene-MCSchueler/Sistema-Agendamento/tree/main/java-backend/build)
 
 ## Membros
 
